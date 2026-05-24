@@ -5,7 +5,7 @@ Use this file when testing **Bankr** (chat / X / DMs) with **TMP skills** instal
 **Install:**
 
 ```text
-install TMP skills at https://github.com/anondevv69/bankr-tmp-skills
+install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 ```
 
 **Site:** https://www.tokenmarketplace.shop · **Use cases tab** on site has examples + grant claiming playbook.

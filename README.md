@@ -5,7 +5,7 @@ Agent skill pack for **Token Marketplace** fee rights on **Base** — mint TMPR,
 **Install in Bankr** ([from GitHub](https://docs.bankr.bot/skills/in-bankr/from-github/)):
 
 ```text
-install TMP skills at https://github.com/anondevv69/bankr-tmp-skills
+install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 ```
 
 This repository root **is** the skill folder (`SKILL.md` at root). Bankr loads it directly — no nested path.

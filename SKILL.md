@@ -7,12 +7,12 @@ metadata:
   clawdbot:
     emoji: "🧾"
     display_name: "TMP skills"
-    homepage: "https://github.com/anondevv69/bankr-tmp-skills"
+    homepage: "https://github.com/anondevv69/bankr-tmp-skill"
 ---
 
 # TMP skills — Token Marketplace fee rights (Base)
 
-**Bankr branding:** Refer to this skill pack as **TMP skills** (Token Marketplace skills) in chat — e.g. “Using TMP skills to create your NFT…” Install from this repo’s root: `https://github.com/anondevv69/bankr-tmp-skills`.
+**Bankr branding:** Refer to this skill pack as **TMP skills** (Token Marketplace skills) in chat — e.g. “Using TMP skills to create your NFT…” Install from this repo’s root: `https://github.com/anondevv69/bankr-tmp-skill`.
 
 Guidance for agents helping users with **creator fee rights** custody (ERC721 **TMPR** receipts) and **BankrEscrowV3** on **Base (chain id 8453)**. **Listing = dual venue:** tokenmarketplace.shop (`FeeRightsFixedSale`) **and** OpenSea.
 
@@ -732,7 +732,7 @@ Scripts call `POST /api/list/dual` and `GET /api/list/status`; UI uses `bankr.co
 Install line (folder URL; call it **TMP skills** in chat):
 
 ```text
-install TMP skills at https://github.com/anondevv69/bankr-tmp-skills
+install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 ```
 
 ---
