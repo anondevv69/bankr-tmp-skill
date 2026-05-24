@@ -23,6 +23,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **For sale** / **listed** | Site and/or OpenSea ask | `GET /api/list/status` + OpenSea |
 | **Get fee rights back** / **redeem** | Burn TMPR, fees to wallet | `redeemRights(tokenId)` |
 | **Bundle & Rebirth** / **merge into $TICKER** / **burn 3 NFTs and launch** | Combine N fee receipts → WETH to **user** → dead-wallet old streams → new Bankr token + initial buy | `FeeRightsBundleEscrow` + `/api/bundle/*` + `token-launches/deploy` |
+| **1/1000 share** / **buy cheapest share** / **buy 1 unit** | One ERC-1155 unit from a **listed offer** on the share order book | `HybridShareMarketplace.buy` — **`share-market-buy.md`** |
 | **Fee rights** | LP / trading fee stream (not launch ERC-20) | Fee manager / locker / Zora payout |
 | **Launch token** | Deployed ERC-20 (t7, …) | Token contract address |
 
@@ -34,6 +35,8 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 - **“Loan my rights for 2 weeks for 0.1 ETH”** → **paid time loan**. **“Give 0x… 15% for 30 days”** → **timed fee share**.
 - **“Assign wallet 20%”** without “forever” or “buy” → **timed fee share**; with “buy/fund” → **partial sale**.
 - **Dual listing** = site (`/api/list/dual`) + OpenSea — default for **sell 100%**.
+- **1/1000 share buy** = pick a **listed unit offer** (cheapest first) — **not** buying the whole TMPR on fixed sale; **not** chipping into a partial-sale pool.
+- **“Version 1”** on share market = usually **cheapest offer, quantity 1** — not a serial # inside the NFT.
 - **Bundle & Rebirth** = burn **fee-receipt NFTs** + collect fees to **user wallet** + launch **new** Bankr token — **not** merging ERC-20s; **not** platform holding coins or paying the buy.
 
 **Full option matrix:** **`all-escrow-options.md`**. **Bundle (anti-stuck playbook):** **`bundle-rebirth-playbook.md`** · custody/APIs: **`bundle-rebirth.md`**.
@@ -63,6 +66,10 @@ User message
     ├─ "sell … for X ETH" / "list for X" / "sell 100%"
     │     → If no TMPR: CREATE NFT → **dual list** (`POST /api/list/dual` + OpenSea)
     │     → If TMPR in wallet: dual list only
+    │
+    ├─ "buy cheapest share" / "buy 1/1000" / "buy 1 share of $t7" / "buy version 1"
+    │     → **Share market buy** — share-market-buy.md — HybridShareMarketplace
+    │     → NOT FeeRightsFixedSale; NOT partial sale contribute
     │
     ├─ "partial" / "keep 70%" / "sell 30% of fees" / "sell 5% for 0.05 eth"
     │     → **Partial sale** — GroupBuyEscrowV2 — see all-escrow-options.md

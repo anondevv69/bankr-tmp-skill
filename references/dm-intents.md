@@ -57,7 +57,9 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path H — Get fee rights back:** **`redeemRights(tokenId)`** — cancel listings first if needed.
 
-**Path I — Tweet / @bankr social:** Route intent only; link **tokenmarketplace.shop**; require wallet + TMPR; **no** auto-list from tweet alone.
+**Path I — Buy 1/1000 share (hybrid share market):** Resolve ticker → hybrid **tokenId** → scan **`HybridShareMarketplace`** `0x30cB…` → sort **cheapest first** → `buy(listingId, quantity)` with **`msg.value = quantity × pricePerUnitWei`**. See **`share-market-buy.md`**. **Not** fixed sale; **not** partial `contribute`.
+
+**Path J — Tweet / @bankr social:** Route intent only; link **tokenmarketplace.shop**; require wallet + TMPR; **no** auto-list from tweet alone.
 
 User should send something like:
 

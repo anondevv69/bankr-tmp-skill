@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth. Read flows-reference.md for every product (agent steps + human language side-by-side).
+description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (cheapest offer), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth. Read flows-reference.md for every product (agent steps + human language side-by-side).
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 37
+version: 38
 metadata:
   clawdbot:
     emoji: "🧾"
@@ -36,7 +36,7 @@ When the user says **list**, **sell rights**, **sell for X ETH**, or **create NF
 
 ## START HERE — primary references
 
-**Every product (agent steps + human language side-by-side):** **`references/flows-reference.md`** — the master reference for all 10 flows. Each flow shows exactly what the agent does silently AND what users say AND how the agent replies in plain English. Read this before any other reference.
+**Every product (agent steps + human language side-by-side):** **`references/flows-reference.md`** — the master reference for all flows (mint, sell, **buy 1/1000 share**, partial, group buy, …). Each flow shows exactly what the agent does silently AND what users say AND how the agent replies in plain English. Read this before any other reference.
 
 **Normal talk only:** **`references/normal-talk-only.md`** — never expose poolId, bps, wei, escrow addresses, `approve GroupBuyEscrow`, or contract names to users. Resolve silently; reply in plain English always.
 
@@ -48,7 +48,7 @@ When the user says **list**, **sell rights**, **sell for X ETH**, or **create NF
 
 **Plain language intent routing:** **`references/user-language.md`** — maps spoken phrases to flows. **`references/all-escrow-options.md`** — full decision table + all mainnet addresses.
 
-**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), `redeem-rights-playbook.md` (redeem failures), `partial-sale-resolve-token.md` (token resolution for partial sales), **`bundle-rebirth-playbook.md`** (Bundle & Rebirth — **read first; stops agents getting stuck on mint/bundle**), **`mint-pending-deposit.md`** (stuck `prepareDeposit` / `needs_transfer`), `bundle-rebirth.md` (custody + APIs), `dm-intents.md` (DM templates), `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares — “cheapest”, “buy 1”, offer rank**), `redeem-rights-playbook.md` (redeem failures), `partial-sale-resolve-token.md` (token resolution for partial sales), **`bundle-rebirth-playbook.md`** (Bundle & Rebirth — **read first; stops agents getting stuck on mint/bundle**), **`mint-pending-deposit.md`** (stuck `prepareDeposit` / `needs_transfer`), `bundle-rebirth.md` (custody + APIs), `dm-intents.md` (DM templates), `bankr-agent-test-prompts.md` (QA).
 
 ---
 
@@ -86,6 +86,7 @@ When user says **bundle**, **rebirth**, **merge into $TICKER**, **burn N NFTs an
 | **What NFTs do I have?** | TMPR balance + `positionOf` per tokenId |
 | **What can I convert to NFT?** | Launches API + `getShares` > 0, not escrowed, no receipt yet |
 | **Bundle & Rebirth** / **merge into $TICKER** | `/api/bundle/prepare` → claim → disband (`feesTo` = user) → Bankr deploy → initial buy — see § Bundle & Rebirth |
+| **Buy a 1/1000 share** / **cheapest share** / **buy 1 unit of $t7** | **`HybridShareMarketplace.buy`** on hybrid stack — see **`references/share-market-buy.md`** |
 
 Full intent router, portfolio steps, and **which option** table: **`references/user-language.md`** + **`references/all-escrow-options.md`**.
 
@@ -114,6 +115,8 @@ Users speak in **tickers, token names, and ETH prices** — not fee managers or 
 | “**sell 5%** of $t7 for **0.05 eth**” / “keep 95% sell 5%” | **Partial sale** — **not** dual list, **not** grant | `sellerKeepsBps=9500`, `priceWei` for 5% slice, **GroupBuyEscrowV2** |
 | “sell 5% of **0x7942…** / **test1** for **0.005 eth**” | **Partial sale** + resolve token | See **`partial-sale-resolve-token.md`** — scan TMPR first; **ERC-20 balance ≠ fee rights** |
 | “@bankr sell 5% of this token for X” (tweet/DM) | Same as partial sale | Ask token/TMPR + wallet; link **tokenmarketplace.shop**; **cannot** list without signatures |
+| “**Buy the cheapest** 1/1000 share of **$t7**” / “buy **1** share at best price” | **Share market buy** — **not** fixed sale, **not** partial pool | Sort offers by price → `buy(listingId, qty)` — **`share-market-buy.md`** |
+| “Buy **version 2**” / “**second cheapest** offer” | **Offer rank #2** (after sort) | Same — pick `offers[1]` if it exists |
 | “I'll seed 0.1 ETH, raise 0.1 from 10 people” | **Crowdsource** | `msg.value=0.1`, `targetRaise=0.1` — fee % = ETH / (seed+raised) |
 | “Convert my fee rights for t7 to an NFT” | Same as Create NFT | Never treat a random `0x…` as fee manager |
 | “return **0xCD6634…** to my wallet” / “fees for 0xcd6634…” | **TMPR collection trap** — **not** token-fees | See **`tmpr-collection-address-trap.md`** — ask tokenId or ticker |
@@ -180,6 +183,9 @@ These are **example production addresses** from this project’s Base deploy; **
 | **FeeRightsTimedGrantEscrow** (employee grant, timed %) | `0xb56973cD7Bcb1AD127dFfE112daAE3960a65CC41` |
 | **ClankerEscrowV4** | `0x3546A98C09fc5a3E162d510DB331C4dcEdB6EADa` |
 | **ZoraEscrowV1** (mint TMPR for Zora) | `0x7A7540B048a8CC96837E83604B32559CCe911D9F` |
+| **Hybrid TMPR** (1/1000 ERC-1155 units) | `0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7` |
+| **HybridShareMarketplace** (buy/sell units) | `0x30cB920CdD2ABD7611442A945F0dcC2db24FCa12` |
+| **GroupBuyEscrowV6** (split into 1000 units) | `0x56bd948671955D0Ed82a88f136779cB76f551e0C` |
 | **Bankr Doppler fee manager** (allowlisted on production escrow) | `0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544` — verify with `allowedFeeManager` on escrow |
 
 Other addresses (**poolId**, **token0/token1**, **launched ERC20**) are **per launch** — resolve from Bankr APIs or on-chain reads. Wrong `poolId` / token order ⇒ `prepareDeposit` reverts or wrong pool.

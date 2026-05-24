@@ -263,6 +263,29 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 
 ---
 
+## FLOW 11 — Buy a 1/1000 share (cheapest offer)
+
+**When:** User split fee rights into **1000 units** (hybrid / Group buy V6) and sellers listed units on the **share market**.
+
+### User says
+> "Buy the cheapest 1/1000 share of $t7"  
+> "Buy 1 share at the best price"  
+> "Get me version 1" / "second cheapest offer, buy 2"
+
+### Agent does (silent)
+1. Resolve **$t7** → hybrid TMPR **tokenId** (`0xD8e0639…` collection).
+2. Read active listings on **`HybridShareMarketplace`** `0x30cB…`; filter `tokenId`; sort by **lowest ETH per unit**.
+3. Pick offer: default **rank #1**; "version 2" / "second cheapest" → rank #2; explicit **listing id** if given.
+4. Set **quantity** (default **1**); respect remaining qty + **maxPerWallet**.
+5. `buy(listingId, quantity)` — **exact** ETH = qty × price each — Base.
+
+### Agent replies
+> "Bought **1 share** (1 of 1000) of **$t7** fee rights for **0.002 ETH** from the cheapest listing. [link to share market]"
+
+**Full spec:** **`share-market-buy.md`**
+
+---
+
 ## Human ↔ Agent quick reference
 
 | What you say | What it means | Bankr does |
@@ -277,6 +300,7 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 | "Get my fees back" / "return rights" | Reclaim | Redeem TMPR |
 | "Combine 3 tokens and launch a new one" | Bundle & Rebirth | Bundle → WETH → deploy |
 | "What do I have?" | Portfolio | Scan launches + TMPR |
+| "Buy cheapest 1/1000 share of $t7" | Share market | HybridShareMarketplace.buy |
 
 ---
 

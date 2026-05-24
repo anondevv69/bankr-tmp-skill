@@ -27,8 +27,12 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skills
 | ZoraEscrowV1 | `0x7A7540B048a8CC96837E83604B32559CCe911D9F` | Verified on BaseScan; TMPR authorized (Safe tx `0x058a6947…`) |
 | Bankr fee manager | `0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544` | |
 | **FeeRightsBundleEscrow** | `0x429Af4F73d9a254607890930848Be2E9f50dBb3F` | Bundle & Rebirth (2026-05-18) |
+| **Hybrid TMPR** (1/1000 units) | `0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7` | ERC-1155 + receipt |
+| **HybridShareMarketplace** | `0x30cB920CdD2ABD7611442A945F0dcC2db24FCa12` | Buy listed units |
+| **GroupBuyEscrowV6** | `0x56bd948671955D0Ed82a88f136779cB76f551e0C` | Split → 1000 shares |
 
 **Env on site (Vercel):** `VITE_GROUP_BUY_ESCROW_V2_ADDRESS=0x869D11606B94de1206669C55f8628749bCBBFfD4`  
+**Hybrid env:** `VITE_TMPR_HYBRID_ADDRESS`, `VITE_HYBRID_SHARE_MARKETPLACE_ADDRESS`, `VITE_GROUP_BUY_ESCROW_V6_ADDRESS`  
 **Env for bundle APIs (Vercel server):** `BUNDLE_ESCROW_ADDRESS=0x429Af4F73d9a254607890930848Be2E9f50dBb3F`
 
 ---
@@ -91,6 +95,9 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skills
 | 9 | “10 wallets pool 0.5 ETH to buy my fees” | **Group buy** — `createListing`, no seed | Crowdsource if no seed |
 | 10 | “return 0xcd6634… to my wallet fees” | **TMPR collection** → ask tokenId / ticker; **redeem** | token-fees on 0xCD66… |
 | 11 | “Burn these 3 NFTs and merge into **$TEST** — use fees for initial buy” | **Bundle & Rebirth** — full chain; `feesTo` = user wallet | “We hold your tokens”; platform pays buy; stop after bundle only |
+| 12 | “**Buy the cheapest** 1/1000 share of **$t7**” / “buy **1** share at best price” | **Share market** — sort offers → `HybridShareMarketplace.buy` | Fixed sale `buy`; partial `contribute`; ask user for listingId hex |
+
+**Read:** `share-market-buy.md`
 
 ---
 
@@ -110,6 +117,23 @@ Agent should:
 8. Reply in plain English — **never** “we hold your tokens” or “platform wallet bought in.”
 
 **Wrong:** “Token Marketplace merged your 3 coins.” **Right:** “Combined fee rights, sent WETH to your wallet, turned off old fee streams, launched $TEST, first buy from your fees.”
+
+---
+
+## Share market buy — agent checklist
+
+**User:** “Buy the cheapest 1/1000 share of $t7” / “buy 1 share at the best price”
+
+Agent should:
+
+1. Route to **share market buy** — read **`share-market-buy.md`**.
+2. Resolve **$t7** → hybrid TMPR **tokenId** (collection `0xD8e0639…`).
+3. Scan **`HybridShareMarketplace`** `0x30cB…` — sort by **lowest price per unit**.
+4. Default: **cheapest offer**, **quantity 1** — “version 2” = second-cheapest offer.
+5. `buy(listingId, quantity)` with **`msg.value = quantity × pricePerUnitWei`** on Base.
+6. Reply in plain English + link `https://www.tokenmarketplace.shop/listing/shares/t/{tokenId}`.
+
+**Wrong:** `FeeRightsFixedSale.buy` (whole NFT). **Wrong:** partial sale `contribute`. **Wrong:** ask user to paste marketplace contract address.
 
 ---
 
