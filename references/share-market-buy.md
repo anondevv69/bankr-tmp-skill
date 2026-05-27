@@ -17,6 +17,8 @@ Users who **split** fee rights into **1,000 tradeable units** (hybrid TMPR / Gro
 | **“Second cheapest”** / **“version 2”** / **“offer 2”** | **Rank #2** after sorting by price (see below) | Use sorted offers `[1]` (0-based index 1) |
 | **“Buy version 1”** (ambiguous) | Usually **cheapest offer + 1 unit** | Default: rank #1, qty **1**; if no listings, say so |
 | **“Buy a piece of t7 fees”** / **“buy 0.1% of t7”** | **1/1000 share** market (if listings exist) | Same as cheapest / qty from context |
+| **“Buy 1 share with password `xxx`”** / **“claim 1 with password xxx”** | **Password-gated share buy** (not mint) | See **§ Password-protected listings** below |
+| **“Mint me 1 with password xxx”** (ambiguous) | Usually **buy 1 unit** from a gated offer | Clarify: they mean **buy a listed share**, not mint TMPR |
 
 **“Version N”** here means **Nth cheapest listed offer** on the site order book (same sort as the UI: **cheapest first**). It is **not** a serial number inside the NFT — all units for one sale share one ERC-1155 **tokenId**.
 
@@ -61,11 +63,12 @@ Legacy **ERC-721-only** TMPR `0xCD6634…` uses **fixed sale / dual list** — *
 
 ### 2 — Load open offers
 
-On **`HybridShareMarketplace`** (`0x30cB…`):
+On **`HybridShareMarketplace`** (`0x90230B…`):
 
 1. `nextListingId()` → scan active `getListing(id)` for recent ids (site scans newest ~250 ids).
 2. Keep rows where `active == true`, `collection == 0xD8e0639…`, `tokenId` matches step 1.
-3. **Sort** (same as site `sortShareOffers`):
+3. For each candidate, read **`accessKeyHash(listingId)`** — non-zero means password-gated (see § Password-protected listings).
+4. **Sort** (same as site `sortShareOffers`):
    - Primary: **`pricePerUnitWei` ascending** (cheapest first).
    - Tie-break: lower **`listingId`** first.
 
@@ -88,11 +91,15 @@ On **`HybridShareMarketplace`** (`0x30cB…`):
 
 ### 4 — Execute buy (Bankr wallet)
 
+**Public listing** (`accessKeyHash == 0`):
+
 ```text
 HybridShareMarketplace.buy(listingId, quantity)
 msg.value = quantity * pricePerUnitWei   # exact — WrongPayment if off
 chain: Base (8453)
 ```
+
+**Password-protected listing** (`accessKeyHash != 0`) — **do not** use the 2-arg `buy` alone; it reverts `AuthorizationRequired`. Use § Password-protected listings.
 
 1. Simulate / `eth_call` with buyer account first.
 2. User signs via **`bankr.tx.prepare`** / confirm.
@@ -102,6 +109,115 @@ chain: Base (8453)
 “Bought **1 share** of **$t7** fee rights for **0.002 ETH** from the cheapest listing. You now hold **1 of 1000** units — claim your fee slice when the pool distributes.”
 
 Link: `https://www.tokenmarketplace.shop/listing/shares/t/{tokenId}`
+
+---
+
+## Password-protected listings (live — May 2026)
+
+Sellers can list shares at **0 ETH** (or any price) with an optional **password**. Buyers must:
+
+1. Know the password (share privately — **never** broadcast passwords in public tweets).
+2. Obtain a short-lived **access ticket** from the site API (signed by `authorizationSigner` on the marketplace deploy).
+3. Call the **4-arg** `buy` with that signature.
+
+**Not** a full-page website gate — buyers enter the password on the **order book row** on tokenmarketplace.shop (or you run the same API + tx steps).
+
+### Detect protection
+
+```text
+accessKeyHash = HybridShareMarketplace.accessKeyHash(listingId)
+# 0x000…000 => public
+# any other bytes32 => password required
+```
+
+### Buy with password (agent algorithm)
+
+Prerequisites: user’s **buyer wallet** (Bankr or EOA), password from user (**DM** preferred), chosen `listingId` + `quantity`.
+
+1. Complete steps **1–3** above (resolve token, pick offer, clamp quantity).
+2. Confirm `accessKeyHash(listingId) != 0`.
+3. **Authorize** (server — no wallet signature):
+
+```http
+POST https://www.tokenmarketplace.shop/api/listings/access-authorize
+Content-Type: application/json
+
+{
+  "kind": "share",
+  "listingId": "<decimal>",
+  "buyer": "0x…",
+  "password": "<user-supplied>",
+  "quantity": "<decimal string, e.g. \"1\">"
+}
+```
+
+**Success (200):**
+
+```json
+{ "ok": true, "authDeadline": "…", "signature": "0x…" }
+```
+
+**Failures:** `401` wrong password · `400` listing public / inactive / bad quantity.
+
+4. **Buy** (wallet signature):
+
+```text
+HybridShareMarketplace.buy(listingId, quantity, authDeadline, signature)
+msg.value = quantity * pricePerUnitWei   # 0 for free listings
+chain: Base (8453)
+```
+
+5. Ticket expires in ~**10 minutes** (`authDeadline`). If expired, repeat step 3.
+
+**User says:** “Buy 1 share of $CTO with password `secret`” / “get me one unit, password is secret”
+
+**Agent does:**
+
+- Map **$CTO** → `tokenId` → cheapest **protected** offer (or ask which offer if several).
+- Run authorize + 4-arg `buy` as above.
+- Reply: “Bought **1 share** of **$CTO** from a password-protected listing (0 ETH). [order book link]”
+
+**Do not:**
+
+- Call 2-arg `buy` on a protected listing.
+- Post the password in a public reply.
+- Claim a tweet alone executes the buy (wallet signatures still required).
+
+### List shares with password (seller)
+
+There is **no** `POST /api/list/dual` for ERC-1155 share listings today. Sellers use **tokenmarketplace.shop** (vault → List shares) or you build calldata:
+
+```text
+list(collection, tokenId, quantity, pricePerUnitWei, maxPerWallet, accessKeyHash)
+# accessKeyHash = keccak256(encodePacked(password, marketplace, collection, tokenId, seller, pricePerUnitWei, maxPerWallet))
+# Use 6-arg overload — selector 0xea46bcdc… (not 0xb8bf029b… public 5-arg list)
+```
+
+**Fixed sale (whole TMPR)** password list: `POST /api/list/dual` with optional `"password"` in body — see `listing-channels.md`.
+
+### Protected-buy errors
+
+| Revert / API | Tell user |
+|--------------|-----------|
+| `AuthorizationRequired` | Listing is password-gated — get ticket from API first |
+| `InvalidAuthorization` / `401` wrong password | Password incorrect or listing terms changed — re-list may have new hash |
+| `AuthorizationExpired` | Request a fresh ticket and submit `buy` again |
+| Wallet shows **5** `list` params when seller wanted password | Reject — public list; seller must relist with 6-arg `list` |
+
+### QA prompts (password buy)
+
+```text
+Buy 1 share of $CTO with password mysecret
+```
+
+```text
+Buy the cheapest password-protected share of $t7 — password is in my DM
+```
+
+**Pass:** `accessKeyHash` check → `access-authorize` → 4-arg `buy` with correct `msg.value`.  
+**Fail:** 2-arg `buy` on protected listing · password in public tweet · routes to mint TMPR.
+
+---
 
 ### 5 — No listings
 
@@ -122,6 +238,7 @@ If **zero** active offers for that `tokenId`:
 | `SellerCannotBuyOwnListing` | Pick another offer (not your own) |
 | `ListingInactive` / sold out | Refresh order book; try next-cheapest |
 | `WrongQuantity` | Ask for fewer shares than remain on that offer |
+| `AuthorizationRequired` | Password listing — call **`access-authorize`** before `buy` |
 
 ---
 

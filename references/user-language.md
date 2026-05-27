@@ -24,6 +24,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Get fee rights back** / **redeem** | Burn TMPR, fees to wallet | `redeemRights(tokenId)` |
 | **Bundle & Rebirth** / **merge into $TICKER** / **burn 3 NFTs and launch** | Combine N fee receipts → WETH to **user** → dead-wallet old streams → new Bankr token + initial buy | `FeeRightsBundleEscrow` + `/api/bundle/*` + `token-launches/deploy` |
 | **1/1000 share** / **buy cheapest share** / **buy 1 unit** | One ERC-1155 unit from a **listed offer** on the share order book | `HybridShareMarketplace.buy` — **`share-market-buy.md`** |
+| **Buy share with password** / **mint me 1 with password xxx** (usually) | Gated share buy — API ticket + 4-arg `buy` | **`share-market-buy.md` § Password-protected listings** |
 | **Reply drop** / **first 100 replies get 1%** / **first 1000 replies get 1/1000** | Planned hybrid fee-right campaign; winners get TMPR units that later share fee claims | **Planning only** — **`reply-drop.md`** |
 | **Fee rights** | LP / trading fee stream (not launch ERC-20) | Fee manager / locker / Zora payout |
 | **Launch token** | Deployed ERC-20 (t7, …) | Token contract address |
@@ -69,8 +70,12 @@ User message
     │     → If TMPR in wallet: dual list only
     │
     ├─ "buy cheapest share" / "buy 1/1000" / "buy 1 share of $t7" / "buy version 1"
-    │     → **Share market buy** — share-market-buy.md — HybridShareMarketplace
+    │     → **Share market buy** — share-market-buy.md — HybridShareMarketplace `0x90230B…`
     │     → NOT FeeRightsFixedSale; NOT partial sale contribute
+    │
+    ├─ "buy … with password" / "password is xxx" / "mint me 1 with password" (buy intent)
+    │     → **Gated share buy** — access-authorize + 4-arg buy — share-market-buy.md
+    │     → Password in DM only; wallet must sign; NOT auto from public tweet
     │
     ├─ "partial" / "keep 70%" / "sell 30% of fees" / "sell 5% for 0.05 eth"
     │     → **Partial sale** — GroupBuyEscrowV2 — see all-escrow-options.md
@@ -96,8 +101,8 @@ User message
     │     → Never say platform holds tokens or pays initial buy
     │
     ├─ "first 100 replies get 1%" / "first 1000 get 1/1000" / "password protect the claim page"
-    │     → **Reply drop** — planning/spec only — read reply-drop.md
-    │     → Explain fee-right units, not token supply; do not pretend current contracts can execute free/password claims
+    │     → **Reply drop** — automated winner claim **not live** — read reply-drop.md
+    │     → Distinguish from **password-gated marketplace buy** (live) — share-market-buy.md
     │
     ├─ "create nft for <ticker>" / "convert … to nft" / "create nft … token contract 0x…"
     │     → Resolve launch token (ticker → address via API)

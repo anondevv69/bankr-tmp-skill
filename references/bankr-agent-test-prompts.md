@@ -128,12 +128,21 @@ Agent should:
 
 1. Route to **share market buy** — read **`share-market-buy.md`**.
 2. Resolve **$t7** → hybrid TMPR **tokenId** (collection `0xD8e0639…`).
-3. Scan **`HybridShareMarketplace`** `0x30cB…` — sort by **lowest price per unit**.
+3. Scan **`HybridShareMarketplace`** `0x90230B…` — sort by **lowest price per unit**; read **`accessKeyHash`** per offer.
 4. Default: **cheapest offer**, **quantity 1** — “version 2” = second-cheapest offer.
-5. `buy(listingId, quantity)` with **`msg.value = quantity × pricePerUnitWei`** on Base.
-6. Reply in plain English + link `https://www.tokenmarketplace.shop/listing/shares/t/{tokenId}`.
+5. **Public** offer: `buy(listingId, quantity)` with **`msg.value = quantity × pricePerUnitWei`** on Base.
+6. **Password** offer: `POST https://www.tokenmarketplace.shop/api/listings/access-authorize` → `buy(listingId, quantity, authDeadline, signature)` — see **`share-market-buy.md` § Password-protected listings**.
+7. Reply in plain English + link `https://www.tokenmarketplace.shop/listing/shares/t/{tokenId}`.
 
-**Wrong:** `FeeRightsFixedSale.buy` (whole NFT). **Wrong:** partial sale `contribute`. **Wrong:** ask user to paste marketplace contract address.
+**Wrong:** `FeeRightsFixedSale.buy` (whole NFT). **Wrong:** partial sale `contribute`. **Wrong:** 2-arg `buy` on protected listing. **Wrong:** ask user to paste marketplace contract address.
+
+**Password QA:**
+
+```text
+Buy 1 share of $CTO with password mysecret
+```
+
+**Pass:** `access-authorize` + 4-arg `buy`. **Fail:** public `buy` only · password only in tweet with no wallet.
 
 ---
 

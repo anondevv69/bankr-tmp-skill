@@ -1,6 +1,6 @@
 ---
 name: bankr-fee-rights
-description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (cheapest offer), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
+description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (public or password-gated via access-authorize), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
 version: 39
 metadata:
@@ -78,8 +78,9 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 |------|--------|
 | **This is fee rights, not token supply** | Always explain it as a share of future **claimable fees**, not ownership of the ERC-20 supply. |
 | **Translate to units** | Hybrid TMPR uses `1000` units total. `1` unit = `0.1%`; `10` units = `1%`. |
-| **Do not fake live support** | Current zero-price sale / password-protected claim flow is **not live** on the existing contracts. |
-| **What to do today** | Explain the concept, capture campaign params, and route to product/spec planning instead of pretending to execute it. |
+| **Automated reply → claim** | **Not live** — winner selection and wallet linking still need backend. |
+| **Password-gated marketplace buy** | **Live** on share + fixed sale (`0x9023…` / `0xe2A1…`) — see **`share-market-buy.md` § Password-protected listings**; this is **not** the same as auto-claiming from a tweet. |
+| **What to do today** | For reply drops: explain units + capture params. For “buy with password”: execute **`access-authorize`** + gated `buy` if user provides password + wallet. |
 | **Read first** | `references/reply-drop.md` |
 
 ---
@@ -101,6 +102,8 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | **What can I convert to NFT?** | Launches API + `getShares` > 0, not escrowed, no receipt yet |
 | **Bundle & Rebirth** / **merge into $TICKER** | `/api/bundle/prepare` → claim → disband (`feesTo` = user) → Bankr deploy → initial buy — see § Bundle & Rebirth |
 | **Buy a 1/1000 share** / **cheapest share** / **buy 1 unit of $t7** | **`HybridShareMarketplace.buy`** on hybrid stack — see **`references/share-market-buy.md`** |
+| **Buy N shares with password `…`** / **password-protected share** | Read `accessKeyHash` → **`POST …/api/listings/access-authorize`** → **`buy(listingId, qty, authDeadline, signature)`** — **`share-market-buy.md` § Password-protected listings** |
+| **List shares with password** / **free gated share listing** | Seller: site **List shares** (6-arg `list`) or fixed-sale **`POST /api/list/dual`** with `"password"` for whole TMPR — **`share-market-buy.md`** |
 | **Reply drop** / **first 100 replies** / **first 1000 replies get 1/1000** | **Planned** hybrid fee-right campaign — explain as units, capture params, do **not** claim live execution |
 
 Full intent router, portfolio steps, and **which option** table: **`references/user-language.md`** + **`references/all-escrow-options.md`**.
@@ -131,6 +134,7 @@ Users speak in **tickers, token names, and ETH prices** — not fee managers or 
 | “sell 5% of **0x7942…** / **test1** for **0.005 eth**” | **Partial sale** + resolve token | See **`partial-sale-resolve-token.md`** — scan TMPR first; **ERC-20 balance ≠ fee rights** |
 | “@bankr sell 5% of this token for X” (tweet/DM) | Same as partial sale | Ask token/TMPR + wallet; link **tokenmarketplace.shop**; **cannot** list without signatures |
 | “**Buy the cheapest** 1/1000 share of **$t7**” / “buy **1** share at best price” | **Share market buy** — **not** fixed sale, **not** partial pool | Sort offers by price → `buy(listingId, qty)` — **`share-market-buy.md`** |
+| “**Buy 1** share of **$CTO** with password **`xxx`**” / “mint me 1 with password xxx” | **Gated share buy** (usually **buy**, not mint) | `access-authorize` + 4-arg `buy` — **`share-market-buy.md` § Password-protected listings** |
 | “Buy **version 2**” / “**second cheapest** offer” | **Offer rank #2** (after sort) | Same — pick `offers[1]` if it exists |
 | “I'll seed 0.1 ETH, raise 0.1 from 10 people” | **Crowdsource** | `msg.value=0.1`, `targetRaise=0.1` — fee % = ETH / (seed+raised) |
 | “Convert my fee rights for t7 to an NFT” | Same as Create NFT | Never treat a random `0x…` as fee manager |

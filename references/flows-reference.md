@@ -274,15 +274,18 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 
 ### Agent does (silent)
 1. Resolve **$t7** → hybrid TMPR **tokenId** (`0xD8e0639…` collection).
-2. Read active listings on **`HybridShareMarketplace`** `0x30cB…`; filter `tokenId`; sort by **lowest ETH per unit**.
+2. Read active listings on **`HybridShareMarketplace`** `0x90230B…`; filter `tokenId`; read **`accessKeyHash`** per offer; sort by **lowest ETH per unit**.
 3. Pick offer: default **rank #1**; "version 2" / "second cheapest" → rank #2; explicit **listing id** if given.
 4. Set **quantity** (default **1**); respect remaining qty + **maxPerWallet**.
-5. `buy(listingId, quantity)` — **exact** ETH = qty × price each — Base.
+5. If **public**: `buy(listingId, quantity)` — **exact** ETH = qty × price each.
+6. If **password-gated**: user supplies password (DM) → **`POST /api/listings/access-authorize`** → `buy(listingId, quantity, authDeadline, signature)` — Base.
 
 ### Agent replies
 > "Bought **1 share** (1 of 1000) of **$t7** fee rights for **0.002 ETH** from the cheapest listing. [link to share market]"
 
-**Full spec:** **`share-market-buy.md`**
+> (password listing) "Bought **1 share** of **$CTO** from a password-protected listing (0 ETH). [link]"
+
+**Full spec:** **`share-market-buy.md`** (including **§ Password-protected listings**)
 
 ---
 
@@ -300,12 +303,12 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 2. Translate percentages into **hybrid units** on a `1000`-unit scale.
 3. Capture campaign params: winner cap, units per winner, reply rule, wallet-linking rule, expiry, leftovers.
 4. Call out current blockers:
-   - free / zero-price claims are **not live** on current sale contracts
-   - password-only protection is **not** enough; real gating needs allowlist, signed claims, or Merkle proofs
-5. Route to design / implementation planning — do **not** pretend to execute the campaign live yet.
+   - **automated reply → wallet → claim** is **not** live yet
+   - **password-gated share/fixed listings** **are** live for manual/API buys (`share-market-buy.md`) — different from reply-winner automation
+5. For reply drops: route to design / capture params. For “buy 1 with password”: execute gated buy if wallet + password provided.
 
 ### Agent replies
-> "That would give winners a share of **future claimable fees**, not the token supply itself. On the hybrid TMPR model there are **1000 total units**, so I should map your campaign into units first. For example, **1% = 10 units**. This part is a planned protected-claim flow rather than a live one-click action today."
+> "That would give winners a share of **future claimable fees**, not the token supply itself. On the hybrid TMPR model there are **1000 total units**, so I should map your campaign into units first. For example, **1% = 10 units**. Full reply-drop automation isn’t live yet — but I can help you **list** or **buy** password-gated shares on the marketplace today if you connect a wallet."
 
 **Read first:** **`reply-drop.md`**
 
@@ -326,6 +329,7 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 | "Combine 3 tokens and launch a new one" | Bundle & Rebirth | Bundle → WETH → deploy |
 | "What do I have?" | Portfolio | Scan launches + TMPR |
 | "Buy cheapest 1/1000 share of $t7" | Share market | HybridShareMarketplace.buy |
+| "Buy 1 share with password xxx" | Gated share buy | access-authorize + buy(…, signature) |
 | "First 100 replies get 1%" | Reply drop | Explain unit math + gather campaign params |
 
 ---
