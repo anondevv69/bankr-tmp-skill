@@ -286,6 +286,31 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 
 ---
 
+## FLOW 12 — Reply drop / reply split (planned)
+
+**When:** User wants reply-driven fee-right distribution, like **first 100 replies get 1% each** or **first 1000 get 1/1000**.
+
+### User says
+> "Deploy X. First 100 replies get 1% each."
+> "Make the first 1000 replies get 1/1000 fee-right NFTs."
+> "Set up a password-protected free claim page for the first replies."
+
+### Agent does (silent)
+1. Explain this as a **fee-right campaign**, not ERC-20 supply ownership.
+2. Translate percentages into **hybrid units** on a `1000`-unit scale.
+3. Capture campaign params: winner cap, units per winner, reply rule, wallet-linking rule, expiry, leftovers.
+4. Call out current blockers:
+   - free / zero-price claims are **not live** on current sale contracts
+   - password-only protection is **not** enough; real gating needs allowlist, signed claims, or Merkle proofs
+5. Route to design / implementation planning — do **not** pretend to execute the campaign live yet.
+
+### Agent replies
+> "That would give winners a share of **future claimable fees**, not the token supply itself. On the hybrid TMPR model there are **1000 total units**, so I should map your campaign into units first. For example, **1% = 10 units**. This part is a planned protected-claim flow rather than a live one-click action today."
+
+**Read first:** **`reply-drop.md`**
+
+---
+
 ## Human ↔ Agent quick reference
 
 | What you say | What it means | Bankr does |
@@ -301,6 +326,7 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 | "Combine 3 tokens and launch a new one" | Bundle & Rebirth | Bundle → WETH → deploy |
 | "What do I have?" | Portfolio | Scan launches + TMPR |
 | "Buy cheapest 1/1000 share of $t7" | Share market | HybridShareMarketplace.buy |
+| "First 100 replies get 1%" | Reply drop | Explain unit math + gather campaign params |
 
 ---
 

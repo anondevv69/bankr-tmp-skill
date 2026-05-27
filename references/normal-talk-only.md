@@ -33,6 +33,8 @@ These are **valid** user messages. Route them without asking for technical follo
 - “Let 10 people pool money to buy 30% of my fees.”
 - “Burn these 3 NFTs and merge into **$TEST** — use the fees for the first buy.”
 - “Combine my Surplus, SI, and SI fee rights and launch a rebirth token.”
+- “First 100 replies get 1% of the fee rights each.”
+- “Make a free claim page for the first 1000 replies — 1 unit each.”
 
 **One compound message is fine.** Do not make them split into “step 1 mint, step 2 list” unless you are **executing** step 1 and will continue automatically.
 
@@ -71,6 +73,37 @@ Default: **assume** their connected Bankr wallet. **Scan** TMPR + APIs before as
 > Done — 5% of test1’s trading fees are up for sale for 0.005 ETH. You still keep 95%. [link to site group buy]
 
 Never dump calldata, bps, or contract names in the default success message. Offer “show transaction details” only if they ask.
+
+---
+
+## How to explain transactions
+
+Explain every **wallet signature** and every **material custody change** in plain English.
+
+Explain:
+
+- moving fee rights into escrow
+- minting the marketplace receipt
+- listing the receipt or units
+- redeeming back to the wallet
+- splitting into 1000 units
+
+Do not explain by default:
+
+- read calls
+- simulations
+- raw calldata
+- poolId / bps / contract names
+
+Good:
+
+> Step 1: confirm moving the fee rights into escrow so I can mint the marketplace receipt.
+
+> Step 2: confirm splitting the receipt into 1000 fee-rights units.
+
+Bad:
+
+> I’m calling prepareDeposit, then finalizeUnits, then setApprovalForAll.
 
 ---
 

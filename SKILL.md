@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (cheapest offer), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth. Read flows-reference.md for every product (agent steps + human language side-by-side).
+description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (cheapest offer), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 38
+version: 39
 metadata:
   clawdbot:
     emoji: "🧾"
@@ -48,7 +48,7 @@ When the user says **list**, **sell rights**, **sell for X ETH**, or **create NF
 
 **Plain language intent routing:** **`references/user-language.md`** — maps spoken phrases to flows. **`references/all-escrow-options.md`** — full decision table + all mainnet addresses.
 
-**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares — “cheapest”, “buy 1”, offer rank**), `redeem-rights-playbook.md` (redeem failures), `partial-sale-resolve-token.md` (token resolution for partial sales), **`bundle-rebirth-playbook.md`** (Bundle & Rebirth — **read first; stops agents getting stuck on mint/bundle**), **`mint-pending-deposit.md`** (stuck `prepareDeposit` / `needs_transfer`), `bundle-rebirth.md` (custody + APIs), `dm-intents.md` (DM templates), `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares — “cheapest”, “buy 1”, offer rank**), `reply-drop.md` (**planned reply-drop / reply-split campaign rules**), `redeem-rights-playbook.md` (redeem failures), `partial-sale-resolve-token.md` (token resolution for partial sales), **`bundle-rebirth-playbook.md`** (Bundle & Rebirth — **read first; stops agents getting stuck on mint/bundle**), **`mint-pending-deposit.md`** (stuck `prepareDeposit` / `needs_transfer`), `bundle-rebirth.md` (custody + APIs), `dm-intents.md` (DM templates), `bankr-agent-test-prompts.md` (QA).
 
 ---
 
@@ -70,6 +70,20 @@ When user says **bundle**, **rebirth**, **merge into $TICKER**, **burn N NFTs an
 
 ---
 
+## Reply Drop / Reply Split (planned hybrid campaign)
+
+When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **free claim page**, or **password protect the page**:
+
+| Rule | Detail |
+|------|--------|
+| **This is fee rights, not token supply** | Always explain it as a share of future **claimable fees**, not ownership of the ERC-20 supply. |
+| **Translate to units** | Hybrid TMPR uses `1000` units total. `1` unit = `0.1%`; `10` units = `1%`. |
+| **Do not fake live support** | Current zero-price sale / password-protected claim flow is **not live** on the existing contracts. |
+| **What to do today** | Explain the concept, capture campaign params, and route to product/spec planning instead of pretending to execute it. |
+| **Read first** | `references/reply-drop.md` |
+
+---
+
 ## User vocabulary (website-aligned)
 
 | UI / user phrase | Agent action |
@@ -87,6 +101,7 @@ When user says **bundle**, **rebirth**, **merge into $TICKER**, **burn N NFTs an
 | **What can I convert to NFT?** | Launches API + `getShares` > 0, not escrowed, no receipt yet |
 | **Bundle & Rebirth** / **merge into $TICKER** | `/api/bundle/prepare` → claim → disband (`feesTo` = user) → Bankr deploy → initial buy — see § Bundle & Rebirth |
 | **Buy a 1/1000 share** / **cheapest share** / **buy 1 unit of $t7** | **`HybridShareMarketplace.buy`** on hybrid stack — see **`references/share-market-buy.md`** |
+| **Reply drop** / **first 100 replies** / **first 1000 replies get 1/1000** | **Planned** hybrid fee-right campaign — explain as units, capture params, do **not** claim live execution |
 
 Full intent router, portfolio steps, and **which option** table: **`references/user-language.md`** + **`references/all-escrow-options.md`**.
 
@@ -120,6 +135,7 @@ Users speak in **tickers, token names, and ETH prices** — not fee managers or 
 | “I'll seed 0.1 ETH, raise 0.1 from 10 people” | **Crowdsource** | `msg.value=0.1`, `targetRaise=0.1` — fee % = ETH / (seed+raised) |
 | “Convert my fee rights for t7 to an NFT” | Same as Create NFT | Never treat a random `0x…` as fee manager |
 | “return **0xCD6634…** to my wallet” / “fees for 0xcd6634…” | **TMPR collection trap** — **not** token-fees | See **`tmpr-collection-address-trap.md`** — ask tokenId or ticker |
+| “First **100 replies** get **1% each**” / “first **1000 replies** get **1/1000**” | **Reply drop** request | Translate to units, explain it is a **planned** fee-right campaign, and gather campaign params via **`reply-drop.md`** |
 
 ### Silent resolution checklist (run before first tx)
 
@@ -718,6 +734,7 @@ Scripts call `POST /api/list/dual` and `GET /api/list/status`; UI uses `bankr.co
 7. **Clanker/Zora** group flows: need redeployed venue escrows; if not deployed, say so and offer Bankr TMPR or sell 100%.
 8. **Testing Bankr:** run prompts in **`references/bankr-agent-test-prompts.md`** and log where the agent stops.
 9. **After every state-changing tx:** run **Verification & Reporting** — `get_token_launch_info` + Doppler + Bankr launch links + explicit `feeRecipient` check.
+10. **User-facing tx narration:** explain each wallet signature and each material custody change in plain English; skip raw calldata, read calls, and low-level contract jargon unless the user explicitly asks.
 
 ---
 

@@ -24,6 +24,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Get fee rights back** / **redeem** | Burn TMPR, fees to wallet | `redeemRights(tokenId)` |
 | **Bundle & Rebirth** / **merge into $TICKER** / **burn 3 NFTs and launch** | Combine N fee receipts → WETH to **user** → dead-wallet old streams → new Bankr token + initial buy | `FeeRightsBundleEscrow` + `/api/bundle/*` + `token-launches/deploy` |
 | **1/1000 share** / **buy cheapest share** / **buy 1 unit** | One ERC-1155 unit from a **listed offer** on the share order book | `HybridShareMarketplace.buy` — **`share-market-buy.md`** |
+| **Reply drop** / **first 100 replies get 1%** / **first 1000 replies get 1/1000** | Planned hybrid fee-right campaign; winners get TMPR units that later share fee claims | **Planning only** — **`reply-drop.md`** |
 | **Fee rights** | LP / trading fee stream (not launch ERC-20) | Fee manager / locker / Zora payout |
 | **Launch token** | Deployed ERC-20 (t7, …) | Token contract address |
 
@@ -93,6 +94,10 @@ User message
     ├─ "bundle" / "rebirth" / "merge into" / "burn N NFTs and launch" / "combine tokens and deploy"
     │     → **Bundle & Rebirth** — bundle-rebirth-playbook.md — TMPR scan → mint if needed → prepare → claim → disband (feesTo=user) → deploy → buy
     │     → Never say platform holds tokens or pays initial buy
+    │
+    ├─ "first 100 replies get 1%" / "first 1000 get 1/1000" / "password protect the claim page"
+    │     → **Reply drop** — planning/spec only — read reply-drop.md
+    │     → Explain fee-right units, not token supply; do not pretend current contracts can execute free/password claims
     │
     ├─ "create nft for <ticker>" / "convert … to nft" / "create nft … token contract 0x…"
     │     → Resolve launch token (ticker → address via API)
@@ -209,6 +214,8 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 | Then list it for 0.0069 eth | **OpenSea** via opensea-marketplace — not site marketplace |
 | Create NFT for t7 and list for 0.0069 eth | Mint (3 txs) → **OpenSea** list via opensea-marketplace + verification |
 | Convert fee rights for `0x…` / list for X ETH | If `0x…` is not a launch token, resolve **ticker** → token `0x9021…`; fee manager **`0xBDF938…`** — never block on wrong pasted address |
+| First 100 replies get 1% each | Explain this as `10` units each on a `1000`-unit hybrid split; gather campaign params; mark as **planned**, not live execute |
+| First 1000 replies get 1/1000 each | Explain this as `1` unit per winner; gather claim / wallet-linking rules; mark as **planned**, not live execute |
 | Sell my KITT rights for 0.01 ETH | If NFT exists → **Sell rights**; else Create NFT first |
 | List TMPR #19 for 0.005 ETH | **Sell rights** with tokenId from receipt |
 | Get this back to my wallet / convert NFT to rights | **Disambiguate** table → **redeemRights** or cancel then redeem |
