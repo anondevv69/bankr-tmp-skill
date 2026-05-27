@@ -35,7 +35,7 @@ Users who **split** fee rights into **1,000 tradeable units** (hybrid TMPR / Gro
 | Role | Address |
 |------|---------|
 | **Hybrid TMPR** (ERC-1155 units + ERC-721 receipt) | `0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7` |
-| **HybridShareMarketplace** | `0x30cB920CdD2ABD7611442A945F0dcC2db24FCa12` |
+| **HybridShareMarketplace** | `0x90230B59D01c6e0306236eF7afc8105908c4DB0B` |
 | **GroupBuyEscrowV6** (split → 1000 units) | `0x56bd948671955D0Ed82a88f136779cB76f551e0C` |
 
 Legacy **ERC-721-only** TMPR `0xCD6634…` uses **fixed sale / dual list** — **no** 1/1000 share order book unless the position was migrated to hybrid (rare). If user holds **only** legacy TMPR, explain they need a **split sale** (V6 finalize) first, or buy **100%** via fixed sale.

@@ -43,7 +43,7 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path A — Create NFT only:** mint TMPR; no sale. (UI: **Create NFT**.)
 
-**Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps + OpenSea skills. Contract: `FeeRightsFixedSale` `0xeb8a…dCB4`.
+**Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps + OpenSea skills. Contract: `FeeRightsFixedSale` `0xe2A1…aA66`.
 
 **Path C — Partial sale (custom keep %):** TMPR → approve **`GroupBuyEscrowV2`** `0x869D11606B94de1206669C55f8628749bCBBFfD4` → `createPartialListing(..., sellerKeepsBps, venueType, rightsEscrow)` → buyers `contribute` → `finalize`. **Do not** use `POST /api/list/dual` (that is sell 100% only).
 

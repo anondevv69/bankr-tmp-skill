@@ -251,7 +251,7 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 |------|---------|
 | BankrEscrowV3 | `0x6238698212D91845cD1c004DE85951055bB5b292` |
 | TMPR (CFR) | `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e` |
-| FeeRightsFixedSale (agents: do not list) | `0xeb8aC71B8B19f86d08B7802193952938a70bdCB4` — operators only |
+| FeeRightsFixedSale (agents: do not list) | `0xe2A13499292D43254026DAf0C4F75988242BaA66` — operators only |
 | ClankerEscrowV4 | `0x3546A98C09fc5a3E162d510DB331C4dcEdB6EADa` |
 | GroupBuyEscrow | `0x6F00715124d79114E03A94676bEa3BE697F77def` |
 | FeeRightsLoanEscrow | `0x9F167C8dce30ca1e6F46bC2491d6434e30568790` |

@@ -20,7 +20,7 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 | BankrEscrowV3 | `0x6238698212D91845cD1c004DE85951055bB5b292` | |
 | **GroupBuyEscrowV2** | `0x869D11606B94de1206669C55f8628749bCBBFfD4` | **Use for partial / group / crowdsource** |
 | GroupBuyEscrow v1 | `0x6F00715124d79114E03A94676bEa3BE697F77def` | Bankr-only finalize; legacy |
-| FeeRightsFixedSale | `0xeb8aC71B8B19f86d08B7802193952938a70bdCB4` | Sell 100% |
+| FeeRightsFixedSale | `0xe2A13499292D43254026DAf0C4F75988242BaA66` | Sell 100% |
 | FeeRightsTimedGrantEscrow (Bankr grants) | `0xb56973cD7Bcb1AD127dFfE112daAE3960a65CC41` | Old deploy = Bankr-only ABI |
 | FeeRightsLoanEscrow | `0x9F167C8dce30ca1e6F46bC2491d6434e30568790` | |
 | ClankerEscrowV4 | `0x3546A98C09fc5a3E162d510DB331C4dcEdB6EADa` | Redeploy needed for `routeFeesTo` on mainnet |
@@ -28,7 +28,7 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 | Bankr fee manager | `0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544` | |
 | **FeeRightsBundleEscrow** | `0x429Af4F73d9a254607890930848Be2E9f50dBb3F` | Bundle & Rebirth (2026-05-18) |
 | **Hybrid TMPR** (1/1000 units) | `0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7` | ERC-1155 + receipt |
-| **HybridShareMarketplace** | `0x30cB920CdD2ABD7611442A945F0dcC2db24FCa12` | Buy listed units |
+| **HybridShareMarketplace** | `0x90230B59D01c6e0306236eF7afc8105908c4DB0B` | Buy listed units |
 | **GroupBuyEscrowV6** | `0x56bd948671955D0Ed82a88f136779cB76f551e0C` | Split → 1000 shares |
 
 **Env on site (Vercel):** `VITE_GROUP_BUY_ESCROW_V2_ADDRESS=0x869D11606B94de1206669C55f8628749bCBBFfD4`  

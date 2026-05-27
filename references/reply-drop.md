@@ -46,13 +46,16 @@ Do not say:
 
 ## Current blockers
 
-1. **Zero-price sale is not live** on current fixed-sale/share-market contracts.
-   - `FeeRightsFixedSale.list(..., priceWei)` rejects `priceWei == 0`
-   - `HybridShareMarketplace.list(..., pricePerUnitWei)` rejects `pricePerUnitWei == 0`
-2. **Password-only pages are not secure enough** by themselves.
-   - Real gating should use an allowlist, signed claim, or Merkle proof
-3. **Reply → wallet linking** still needs product/backend support
+1. **Reply → wallet linking** still needs product/backend support
    - Replying on X is not enough by itself; winners must connect/sign with a wallet
+2. **Reply-drop winner selection** is not automated yet
+   - Agent can plan campaigns; backend must ingest replies and issue allocations
+
+## Live on production marketplace (May 2026)
+
+- **Zero-price listings** — `0` ETH on fixed sale and share market (`0xe2A1…` / `0x9023…`)
+- **Password-gated buys** — seller sets password at list; buyer unlocks via site API + on-chain signature (`authorizationSigner` on deploy)
+- **Not wallet-allowlisted** — anyone with the password can buy (use `maxPerWallet` on share listings to limit sweep size)
 
 ## Recommended architecture
 

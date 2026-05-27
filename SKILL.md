@@ -192,7 +192,7 @@ These are **example production addresses** from this project’s Base deploy; **
 | **BankrEscrowV3** | `0x6238698212D91845cD1c004DE85951055bB5b292` *(Token Marketplace bundle — verify)* |
 | **TMPR receipt (`CFR`)** | `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e` *(from `escrow.receipt()` — verify)* |
 | **Legacy (do not use)** | Escrow `0x7BD14E540Ac55E229587Bf3Cd0Fc815A7afcf461` → BFRR `0x02441aDdC542A3a3283c4468780eB876F9ADA8BA` |
-| **FeeRightsFixedSale** (site) | `0xeb8aC71B8B19f86d08B7802193952938a70bdCB4` — list via **`POST /api/list/dual`** |
+| **FeeRightsFixedSale** (site) | `0xe2A13499292D43254026DAf0C4F75988242BaA66` — list via **`POST /api/list/dual`** |
 | **GroupBuyEscrowV2** (group / partial / crowdsource) | `0x869D11606B94de1206669C55f8628749bCBBFfD4` — `venueType` + `rightsEscrow` on `create*` |
 | GroupBuyEscrow v1 (legacy) | `0x6F00715124d79114E03A94676bEa3BE697F77def` — Bankr-only finalize |
 | **FeeRightsLoanEscrow** (bag worker, 100% loan) | `0x9F167C8dce30ca1e6F46bC2491d6434e30568790` |
@@ -200,7 +200,7 @@ These are **example production addresses** from this project’s Base deploy; **
 | **ClankerEscrowV4** | `0x3546A98C09fc5a3E162d510DB331C4dcEdB6EADa` |
 | **ZoraEscrowV1** (mint TMPR for Zora) | `0x7A7540B048a8CC96837E83604B32559CCe911D9F` |
 | **Hybrid TMPR** (1/1000 ERC-1155 units) | `0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7` |
-| **HybridShareMarketplace** (buy/sell units) | `0x30cB920CdD2ABD7611442A945F0dcC2db24FCa12` |
+| **HybridShareMarketplace** (buy/sell units) | `0x90230B59D01c6e0306236eF7afc8105908c4DB0B` |
 | **GroupBuyEscrowV6** (split into 1000 units) | `0x56bd948671955D0Ed82a88f136779cB76f551e0C` |
 | **Bankr Doppler fee manager** (allowlisted on production escrow) | `0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544` — verify with `allowedFeeManager` on escrow |
 
@@ -346,7 +346,7 @@ on **BankrEscrowV3** (`0x6238…b292`). One tx per new manager contract; all sel
 | Wrong advice | Why it’s wrong |
 |--------------|----------------|
 | Approve **WETH** to **`0xFb28…`** for **`prepareDeposit`** | **`prepareDeposit`** is **`value: 0`**; it does not spend user WETH. |
-| Call **`0xFb28…` the “marketplace”** | **Listings** are **`FeeRightsFixedSale`** (`0xeb8a…` production). **`0x6238…` / `0xFb28…`** is **escrow** (`BankrEscrowV3`). |
+| Call **`0xFb28…` the “marketplace”** | **Listings** are **`FeeRightsFixedSale`** (`0xe2A1…` production). **`0x6238…` / `0xFb28…`** is **escrow** (`BankrEscrowV3`). |
 | User says **“list”** without naming a venue | **Dual list** via `POST /api/list/dual` + OpenSea skills |
 | **`list(tokenId, price)`** two-arg call | Must be **`list(TMPR, tokenId, priceWei)`** — three args |
 | “Move beneficiary to escrow **before** prepare so shares exist” | **Inverted order** — see section above. |
@@ -501,7 +501,7 @@ GET https://www.tokenmarketplace.shop/api/list/status?tokenId=<uint256>
 
 ## Site marketplace (`FeeRightsFixedSale`)
 
-**Agents:** use **`POST /api/list/dual`** — returns `approve` + `list` calldata for `0xeb8aC71B8B19f86d08B7802193952938a70bdCB4`. Execute via **`prepare:transaction`**, not raw `/wallet/submit`.
+**Agents:** use **`POST /api/list/dual`** — returns `approve` + `list` calldata for `0xe2A13499292D43254026DAf0C4F75988242BaA66`. Execute via **`prepare:transaction`**, not raw `/wallet/submit`.
 
 **On-chain:** `list(TMPR, tokenId, priceWei)` — NFT in marketplace custody until `buy` or `cancel`. Pair with OpenSea listing for dual visibility.
 

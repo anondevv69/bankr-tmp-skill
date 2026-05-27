@@ -51,7 +51,7 @@ These sound similar but use **different contracts** and rules.
 | BankrEscrowV3 | `0x6238698212D91845cD1c004DE85951055bB5b292` |
 | ClankerEscrowV4 | `0x3546A98C09fc5a3E162d510DB331C4dcEdB6EADa` |
 | ClankerEscrowV1 (v3.x) | `0x5Cf158b5915E5b0764Ca87760b0e46beF7A527E3` |
-| FeeRightsFixedSale | `0xeb8aC71B8B19f86d08B7802193952938a70bdCB4` |
+| FeeRightsFixedSale | `0xe2A13499292D43254026DAf0C4F75988242BaA66` |
 | GroupBuyEscrow (v1, legacy) | `0x6F00715124d79114E03A94676bEa3BE697F77def` |
 | **GroupBuyEscrowV2** (partial / group / crowdsource) | `0x869D11606B94de1206669C55f8628749bCBBFfD4` |
 | FeeRightsLoanEscrow | `0x9F167C8dce30ca1e6F46bC2491d6434e30568790` |
@@ -78,7 +78,7 @@ These sound similar but use **different contracts** and rules.
 
 ## Action 2 — Sell 100% (fixed price)
 
-**Contract:** `FeeRightsFixedSale` `0xeb8a…dCB4`
+**Contract:** `FeeRightsFixedSale` `0xe2A1…aA66`
 
 **Agent default:** `POST https://www.tokenmarketplace.shop/api/list/dual` → execute `site.steps` → OpenSea skills.
 

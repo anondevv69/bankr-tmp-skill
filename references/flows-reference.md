@@ -31,7 +31,7 @@ Every product on Token Marketplace. Two columns per flow: **what the agent does 
 ### Agent does (internal, silent)
 1. Confirm TMPR exists (or run Flow 1 first).
 2. `POST https://www.tokenmarketplace.shop/api/list/dual` `{ tokenId, priceEth, seller }`.
-3. Execute returned `site.steps[]` (approve + list on `FeeRightsFixedSale 0xeb8a…`).
+3. Execute returned `site.steps[]` (approve + list on `FeeRightsFixedSale 0xe2A1…`).
 4. OpenSea skills → Seaport listing on Base.
 5. Verify: `GET /api/list/status?tokenId=` → active on both.
 
