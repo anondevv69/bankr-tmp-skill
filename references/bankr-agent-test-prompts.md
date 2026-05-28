@@ -170,7 +170,7 @@ Run these prompts specifically to verify the agent handles password-protected sh
 
 | # | Prompt | Expected outcome | Hard fail |
 |---|--------|------------------|-----------|
-| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v48**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter (e.g. v30) ≠ 48 | Claims v46 or older; blank bullets; `references/` × 3 without .md; says Doppler manual step is default for list |
+| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v49**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter (e.g. v30) ≠ 49 | Claims v47 or older; blank bullets; `references/` × 3 without .md; says Doppler manual step is default for list |
 
 See **`skill-install-verification.md`**.
 
@@ -189,6 +189,8 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R4 | "Did it work? <successful tx hash>" | Agent reads receipt, confirms ownership/listing state, answers definitively | Says "I didn't submit tx" when hash proves success |
 | R5 | "Retry buy after successful fill" | Agent explains listing now inactive because prior success filled it | Generic unknown revert with no state check |
 | R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
+| R7 | "@bankrbot list my t7 fee rights for 0.01 ETH on marketplace" (public tweet) | `GET /api/mint/status` → execute `nextStep` (incl. `bankr-build-transfer` if `needs_transfer`) → `finalizeDeposit` → `POST /api/list/dual` → site listing URL | "Create NFT first" without `phase`; "go to Doppler"; "I hit my step limit"; OpenSea-only with no site list; guidance-only with no status call |
+| R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |
 
 **Minimum telemetry per state-changing run (internal):**
 - intent, selected listing/tokenId, auth path used, tx hash(es), receipt status, post-state check result.

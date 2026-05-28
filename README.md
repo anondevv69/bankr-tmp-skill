@@ -52,7 +52,7 @@ bankr-tmp-skill/
 
 ## Version
 
-Main skill: **48** (`VERSION` at repo root). Bundle rebirth companion: **1**.
+Main skill: **49** (`VERSION` at repo root). Bundle rebirth companion: **1**.
 
 ## Related
 

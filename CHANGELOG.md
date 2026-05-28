@@ -2,7 +2,15 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 48 (current)
+## 49 (current)
+
+- **P0 listing autopilot:** `user-language.md` — dual list via `POST /api/list/dual` (removed OpenSea-only / “agents do not list on site” contradictions).
+- **`dm-intents.md` Path J:** tweet sell-100% = same autopilot as DM when wallet + tx tools available.
+- **`runtime-contract.md` §7b:** step-limit / interrupted-run rules; resume with `continue … list`.
+- **`bankr-agent-test-prompts.md`:** R7 (tweet list), R8 (resume), I1 expects v49.
+- **`SKILL.md`:** Twitter short-turn + “never break into smaller steps” for listings.
+
+## 48
 
 - **Removed `tmp-solana-cto/`** — Solana does not work on Bankr; CTO / Pump / batch claim → website + Solana wallet only.
 - Main skill notes Solana is out of scope; companion skills = **tmp-bundle-rebirth** + OpenSea only.

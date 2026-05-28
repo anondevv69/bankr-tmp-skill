@@ -125,6 +125,27 @@ Only after these checks can agent return a failure.
 
 ---
 
+## 7b) Step limit and interrupted runs
+
+Applies to **tweet**, **DM**, and **Ask Bankr** when the user asked to **sell/list 100% for X ETH** (or equivalent).
+
+**Forbidden replies:**
+- “I hit my step limit” / “try breaking it into smaller steps”
+- “Your fee rights haven’t been converted to an NFT yet” **without** `GET /api/mint/status` → `phase`
+- “Go update fee recipient on Doppler” when `phase` is `needs_transfer` or `needs_finalize` (use **`POST /api/bankr-build-transfer`** + **`finalizeDeposit`** per `nextStep`)
+
+**When the turn ends before listing is live:**
+1. Report **`phase`** from mint/status (e.g. `needs_transfer`, `needs_finalize`, `ready`).
+2. State **who signs next** (`signerMustBe`) and **what API/tx** is next (`bankr-build-transfer`, `finalizeDeposit`, `list/dual`).
+3. If one more tx was in progress, include BaseScan hash when mined.
+4. **Continue in the same thread** (DM or tweet reply): user says “continue t7 list 0.01” → resume from current `phase`, do not restart with a Create NFT tutorial.
+
+**Tweet / X:** Same autopilot as DM for clear sell-100% intent. Guidance-only is allowed only after a **real** blocker (no wallet, no signing capability, API error with no retry path) — not because the channel is public.
+
+**Priority:** If user said **“on the marketplace”** only, finish **Token Marketplace** (`list/dual` + site steps) before treating OpenSea as required for success.
+
+---
+
 ## 8) User response minimums
 
 Every completed flow response must include:

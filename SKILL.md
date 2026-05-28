@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v48 Base fee rights. LIST AUTOPILOT files at repo ROOT (not references/ folder): sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = GET mint/status, all nextSteps, POST list/dual, OpenSea. Never Doppler dashboard handoff."
+description: "TMP skills v49 Base fee rights. LIST AUTOPILOT at repo ROOT: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = mint/status, bankr-build-transfer, list/dual, OpenSea. Tweet sell-100% = same as DM. Never Doppler handoff."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 48
-tmp_skill_version: "48"
+version: 49
+tmp_skill_version: "49"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 48
+TMP skills version 49
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **48** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **49** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 ---
 
@@ -66,11 +66,15 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 | 6 | **[OpenSea skills](https://github.com/BankrBot/skills/tree/main/opensea)** — Seaport listing on Base |
 | 7 | Verify: `GET /api/list/status?tokenId=` — site + OpenSea; reply with BaseScan + listing URLs only after mined |
 
+**Twitter / short-turn rule:** never reply “I hit my step limit.” For tweet/DM execution, call `mint/status` first, execute the current `nextStep` if available, and if constrained report the exact `phase` + next signer/tx. If the user only says **“on the marketplace”**, complete Token Marketplace first; OpenSea can be a follow-up instead of blocking the marketplace listing.
+
 **Do not** hand-build `approve`/`list` calldata. **Do not** say **“prepared for sale”** or **“listing failed — not in escrow”** after mint step 1 only. **Do not** tell user to set Doppler beneficiary to `0x6238…` **before** `prepareDeposit` (ordering bug — see sell-list-autopilot).
 
 **Simulation failed** = fix wallet / feeManager / phase from mint/status and **retry** — not “go fix Doppler manually”.
 
 **Never say (t7 list regression):** “minting’s stuck… update fee recipient on Doppler… tell me finalize t7 listing” — see **`t7-list-failure-regression.md`** (Rayblancoeth May 2026).
+
+**Never say:** “try breaking it into smaller steps” for a listing request. The skill’s `mint/status` state machine is the smaller-step plan.
 
 **Primary UX:** DMs / Ask Bankr / [Bankr Apps](https://docs.bankr.bot/apps/overview) (`apps/token-marketplace/` in repo) — see [QR Coin skill pattern](https://github.com/BankrBot/skills/blob/main/qrcoin/SKILL.md).
 
@@ -91,7 +95,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
-**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v48**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v49**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 

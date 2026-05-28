@@ -19,6 +19,23 @@ This is **Flow 2** (sell 100%, dual list). **Not** share-market buy. **Not** par
 
 See **`t7-list-failure-regression.md`** for real Bankr bot mistakes to avoid.
 
+### Twitter / short-turn fallback (prevents step-limit replies)
+
+If running inside a tweet, DM, or any environment that may hit a step limit:
+
+1. Still call **`GET /api/mint/status` first**. Never guess “not converted into an NFT yet.”
+2. Execute the current **`nextStep`** if tools/signatures are available.
+3. If the turn limit blocks completion, reply with the **exact `phase`**, the **exact next transaction/signing wallet**, and the marketplace link/state. Do **not** say “I hit my step limit.”
+4. If the user only said **“on the marketplace”**, prioritize **Token Marketplace listing first**. OpenSea is a follow-up, not a reason to fail the marketplace listing.
+
+Bad fallback:
+
+> “I hit my step limit. Your fee rights haven’t been converted into an NFT yet.”
+
+Good fallback:
+
+> “I checked t7 status: `needs_transfer`. Next signature is from your Bankr wallet to move fees to escrow, then I can finalize the TMPR and list it on Token Marketplace at 0.01 ETH.”
+
 ---
 
 ## Mandatory first step: `GET /api/mint/status`

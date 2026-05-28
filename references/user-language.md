@@ -51,7 +51,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 User message
     │
     ├─ "what do I have for sale" / "listed" / "on the market"
-    │     → Portfolio: FOR SALE (OpenSea; site only if user already used site UI)
+    │     → Portfolio: FOR SALE — **`GET /api/list/status`** (site) + OpenSea (dual-listed or either venue)
     │
     ├─ "what NFTs" / "TMPR" / "receipts in my wallet"
     │     → Portfolio: NFTS IN WALLET (unlisted + listed separately)
@@ -109,7 +109,7 @@ User message
     │     → feeManager 0xBDF938… + escrow 0x6238… (defaults — user does not say these)
     │
     ├─ compound: "create nft … and list for X eth" (one or two messages)
-    │     → Mint (3 txs) + **OpenSea** list (see § Compound requests below)
+    │     → **`sell-list-autopilot.md`**: mint/status → mint if needed → **dual list** (site + OpenSea)
     │
     └─ OpenSea link or tokenId only
           → Resolve tokenId → positionOf → state table → offer correct action
@@ -124,8 +124,8 @@ When user wants to **get fee rights back** or **stop being an NFT holder**:
 1. **`ownerOf(tokenId)`** on TMPR — who holds the NFT?
 2. **`positionOf(tokenId)`** — `feeManager`, `poolId`, `token0`, `token1`, factory
 3. **`isEscrowed(poolId)`** on `BankrEscrowV3` (or Clanker `isEscrowed(key)`) — still in escrow?
-4. **OpenSea** — active Seaport listing? (agents default venue)
-5. **Site** `FeeRightsFixedSale` — only if user already listed there via UI (not agent-initiated)
+4. **Site** — `GET /api/list/status?tokenId=` (agent-initiated via **`POST /api/list/dual`**)
+5. **OpenSea** — active Seaport listing? (dual-list default for sell 100%)
 
 | State | What user wants | Action (orchestrate full tx sequence) |
 |-------|-----------------|--------------------------------------|
@@ -151,16 +151,16 @@ Use the user’s **wallet address** (`0x…`, 42 chars). Chain: **Base 8453**.
 
 ### A) “What tokens do I have **for sale** right now?”
 
-1. **OpenSea (TMPR):** collection `tokenmarketplace` — user's active Seaport orders; optional read proxy `GET https://tokenmarketplace.shop/api/opensea-listings` (read-only, not for agent listing).
-2. **Site** (optional read): only if user may have listed via website UI before — do **not** suggest new site listings.
-3. Summarize: *“You have N listings on OpenSea: $TICKER at X ETH…”*
+1. **Site:** `GET https://www.tokenmarketplace.shop/api/list/status?tokenId=` per TMPR the user holds (or scan profile API if available).
+2. **OpenSea (TMPR):** collection `tokenmarketplace` — active Seaport orders; optional `GET …/api/opensea-listings` (read-only).
+3. Summarize both venues: *“Listed on Token Marketplace at X ETH … also on OpenSea …”* or either alone.
 
 ### B) “Which tokens do I have as **NFTs** currently?”
 
 1. NFT balance on TMPR `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e` (and aliases if needed) — Alchemy `getNFTsForOwner` or app scan pattern.
 2. For each tokenId: **`positionOf`** → show **name/symbol** from token0/token1 ERC-20 `symbol()`.
 3. Split:
-   - **In wallet, not listed** → “NFT in wallet — can list on OpenSea or Get fee rights back”
+   - **In wallet, not listed** → “NFT in wallet — can list on Token Marketplace (+ OpenSea) or Get fee rights back”
    - **Listed on OpenSea** → under FOR SALE
 
 ### C) “Which tokens can I **list** or **convert to NFT**?”
@@ -175,11 +175,11 @@ Use the user’s **wallet address** (`0x…`, 42 chars). Chain: **Base 8453**.
 
 | Starting state | Steps to orchestrate |
 |----------------|----------------------|
-| No TMPR yet | **Create NFT** (3 txs) → **OpenSea** list via opensea-marketplace |
-| TMPR in wallet | **OpenSea** list only — hand off to OpenSea skills |
-| Already listed on OpenSea | OpenSea UI to cancel/update, or cancel + re-list |
+| No TMPR yet | **`sell-list-autopilot.md`**: `mint/status` → mint txs → **`POST /api/list/dual`** → site `steps[]` → OpenSea skills |
+| TMPR in wallet | **`POST /api/list/dual`** → execute site steps → OpenSea |
+| Already listed | `GET /api/list/status`; cancel/update on site and/or OpenSea before re-list |
 
-Convert user ETH → wei for Seaport; confirm listing live on OpenSea before saying "listed".
+Confirm **site listing active** via list/status before saying "listed"; OpenSea can follow in same conversation.
 
 ---
 
@@ -190,20 +190,20 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 | How the user says it | You resolve | On-chain sequence |
 |----------------------|-------------|-------------------|
 | “Create NFT for **t7**” | `get_token_launch_info` / `token-fees` → `0x9021…3ba3` | prepare → beneficiary → finalize |
-| “Then **list it** for **0.0069** eth” | Same token from thread; price in ETH | **OpenSea** listing after mint |
-| “Create NFT for **t7** and list for **0.0069** eth” | Same as both rows | Mint (3 txs) + **OpenSea** list |
+| “Then **list it** for **0.0069** eth” | Same token from thread; price in ETH | **`sell-list-autopilot.md`** → dual list after mint if needed |
+| “Create NFT for **t7** and list for **0.0069** eth” | Same as both rows | Full autopilot: mint/status → mint → **`POST /api/list/dual`** → site + OpenSea |
 | “Create NFT for my **test** token — `0x9021…`” | `0x9021…` = **launch token** only | Same; do **not** use that address as fee manager |
-| “List **t7** for .0069” (no NFT yet) | t7 → create NFT first, then OpenSea | mint + OpenSea |
-| “List **t7** for .0069” (TMPR already in wallet) | Skip mint | OpenSea list only |
+| “List **t7** for .0069” (no NFT yet) | t7 → **`mint/status`** → mint if needed → dual list | Never skip mint/status |
+| “List **t7** for .0069” (TMPR already in wallet) | `phase === ready` → dual list only | Skip mint txs |
 
 **Defaults you apply (Bankr Doppler on Token Marketplace — do not ask the user):**
 
 - **feeManager:** `0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544`
 - **escrow:** `0x6238698212D91845cD1c004DE85951055bB5b292`
 - **TMPR collection:** `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e`
-- **listing venue:** **OpenSea** collection `tokenmarketplace` — **not** tokenmarketplace.shop until API exists
+- **listing venue:** **dual** — `POST https://www.tokenmarketplace.shop/api/list/dual` (site `FeeRightsFixedSale`) **+** OpenSea collection `tokenmarketplace`
 
-**Reply style:** Confirm in plain English (“I’ll mint your TMPR, then list it for 0.0069 ETH **on OpenSea**”) — then mint txs + **OpenSea skills** handoff. Never mention site marketplace listing.
+**Reply style:** Confirm in plain English (“I’ll finish escrow if needed, list on **Token Marketplace** at 0.0069 ETH, then OpenSea”). If user only said **“on the marketplace”**, complete **site** listing first; OpenSea is not a blocker.
 
 ---
 
@@ -216,8 +216,9 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 | What can I turn into an NFT? | Run portfolio **C** |
 | Create an NFT for my $t5 token | **Create NFT** full flow (3+ txs), gate on receipts |
 | Create NFT for t7 | Resolve t7 → `0x9021…`; feeManager `0xBDF938…`; prepare → transfer → finalize |
-| Then list it for 0.0069 eth | **OpenSea** via opensea-marketplace — not site marketplace |
-| Create NFT for t7 and list for 0.0069 eth | Mint (3 txs) → **OpenSea** list via opensea-marketplace + verification |
+| Then list it for 0.0069 eth | **`sell-list-autopilot.md`** → dual list + verification |
+| Create NFT for t7 and list for 0.0069 eth | Full autopilot: mint/status → mint → dual list → verify list/status |
+| @bankrbot list my t7 for 0.01 ETH on marketplace | Same as sell 100% (tweet = DM) — **`mint/status`** first; never “not converted to NFT” without `phase` |
 | Convert fee rights for `0x…` / list for X ETH | If `0x…` is not a launch token, resolve **ticker** → token `0x9021…`; fee manager **`0xBDF938…`** — never block on wrong pasted address |
 | First 100 replies get 1% each | Explain this as `10` units each on a `1000`-unit hybrid split; gather campaign params; mark as **planned**, not live execute |
 | First 1000 replies get 1/1000 each | Explain this as `1` unit per winner; gather claim / wallet-linking rules; mark as **planned**, not live execute |
@@ -242,7 +243,7 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 
 1. **Resolve** wallet, token/NFT id, and goal using the router above.
 2. **Read** state on-chain before proposing txs.
-3. **Queue** mint txs in order: never invert prepare vs beneficiary. **Listing** = OpenSea handoff after mint — not site `approve`/`list`.
+3. **Queue** mint txs in order: never invert prepare vs beneficiary. **Listing** = **`POST /api/list/dual`** + execute returned site steps — not hand-built calldata.
 4. Use Bankr **`confirmTransaction`** / mini-app when available; otherwise structured “Send transaction to … calling …” blocks.
 5. **Report** after each mined tx: BaseScan link + what changed (shares, owner, listing active).
 6. **Verification & Reporting** (every state-changing tx): **`get_token_launch_info`**, confirm **`feeRecipient`**, show **Doppler** + **Bankr launch** URLs — see main **`SKILL.md`** § Verification & Reporting.
@@ -256,7 +257,7 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 |------|---------|
 | BankrEscrowV3 | `0x6238698212D91845cD1c004DE85951055bB5b292` |
 | TMPR (CFR) | `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e` |
-| FeeRightsFixedSale (agents: do not list) | `0xe2A13499292D43254026DAf0C4F75988242BaA66` — operators only |
+| FeeRightsFixedSale | `0xe2A13499292D43254026DAf0C4F75988242BaA66` — list via **`POST /api/list/dual`** (agents execute returned steps; do not invent calldata) |
 | ClankerEscrowV4 | `0x3546A98C09fc5a3E162d510DB331C4dcEdB6EADa` |
 | GroupBuyEscrow | `0x6F00715124d79114E03A94676bEa3BE697F77def` |
 | FeeRightsLoanEscrow | `0x9F167C8dce30ca1e6F46bC2491d6434e30568790` |
