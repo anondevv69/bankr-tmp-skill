@@ -205,7 +205,7 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 
 ## FLOW 9 — Bundle & Rebirth (combine N fee rights → launch new Bankr token)
 
-**Read first:** **`bundle-rebirth-playbook.md`** (explain vs execute, TMPR scan, anti-stuck). **Custody/API:** `bundle-rebirth.md`.
+**Read first:** **tmp-bundle-rebirth** skill — `bundle-rebirth-playbook.md` (explain vs execute, TMPR scan). **Custody/API:** `bundle-rebirth.md`. Mint/status: main TMP skill `mint-pending-deposit.md`.
 
 **One user prompt → agent chains all steps.** User wallet funds everything. **Bundle accepts TMPR NFTs only** — not raw fee rights.
 

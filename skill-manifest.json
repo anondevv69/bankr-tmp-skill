@@ -1,11 +1,23 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 46,
+  "skillVersion": 47,
+  "companionSkills": [
+    {
+      "id": "tmp-bundle-rebirth",
+      "path": "tmp-bundle-rebirth",
+      "installCommand": "install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth"
+    },
+    {
+      "id": "tmp-solana-cto",
+      "path": "tmp-solana-cto",
+      "installCommand": "install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto"
+    }
+  ],
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 22,
+  "referenceFileCount": 20,
   "mandatoryListingFilesAtRepoRoot": [
     "sell-list-autopilot.md",
     "runtime-contract.md",
@@ -19,8 +31,6 @@
   "allReferences": [
     "references/all-escrow-options.md",
     "references/bankr-agent-test-prompts.md",
-    "references/bundle-rebirth-playbook.md",
-    "references/bundle-rebirth.md",
     "references/clanker-rescue-ops.md",
     "references/dm-intents.md",
     "references/flows-reference.md",

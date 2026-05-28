@@ -107,7 +107,7 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 
 Agent should:
 
-1. Route to **Bundle & Rebirth** — read **`bundle-rebirth-playbook.md`** then **`bundle-rebirth.md`**.
+1. Route to **Bundle & Rebirth** — install **tmp-bundle-rebirth** skill; read **`bundle-rebirth-playbook.md`** then **`bundle-rebirth.md`**.
 2. Resolve 3 TMPRs (mint first if needed).
 3. `POST /api/bundle/prepare` → user signs approve + createBundle.
 4. `POST /api/bundle/claim` (and repeat if accumulating).

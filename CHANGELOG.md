@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 46 (current)
+## 47 (current)
+
+- **Monorepo:** separate Bankr skills `tmp-bundle-rebirth/` and `tmp-solana-cto/`; main Base skill stays at **repo root** (install URL unchanged).
+- Bundle playbooks moved out of `references/` into `tmp-bundle-rebirth/references/`.
+
+## 46
 
 - **Move listing autopilot to repo root:** `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md` — Bankr often only exposes `references/` as a folder label (empty `references/` × 3 answers).
 - **`MANDATORY-LISTING-FILES.txt`** + plain-text install answer in `SKILL.md` (no backticks in bullets).

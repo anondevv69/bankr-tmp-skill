@@ -2,13 +2,13 @@
 name: bankr-fee-rights
 description: "TMP skills v46 Base fee rights. LIST AUTOPILOT files at repo ROOT (not references/ folder): sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = GET mint/status, all nextSteps, POST list/dual, OpenSea. Never Doppler dashboard handoff."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 46
-tmp_skill_version: "46"
+version: 47
+tmp_skill_version: "47"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 22
+reference_file_count: 20
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr “v27” / “v45” install counter is internal; content version is **46** (VERSION file).
+Bankr internal install counter may differ; content version is **47** (VERSION file). Companion skills: tmp-bundle-rebirth, tmp-solana-cto (see README).
 
 ---
 
@@ -95,25 +95,21 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
-**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares — “cheapest”, “buy 1”, offer rank**), `reply-drop.md` (**planned reply-drop / reply-split campaign rules**), `redeem-rights-playbook.md` (redeem failures), `partial-sale-resolve-token.md` (token resolution for partial sales), **`bundle-rebirth-playbook.md`** (Bundle & Rebirth — **read first; stops agents getting stuck on mint/bundle**), **`mint-pending-deposit.md`** (stuck `prepareDeposit` / `needs_transfer`), `bundle-rebirth.md` (custody + APIs), `dm-intents.md` (DM templates), `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
 
 ---
 
-## Bundle & Rebirth (one prompt — mandatory)
+## Companion skills (same repo — separate install)
 
-When user says **bundle**, **rebirth**, **merge into $TICKER**, **burn N NFTs and launch**, or **use fees for initial buy**:
+This folder is **tmp-fee-rights** (Base mint, list, buy, partial, group, grant, loan). Install **additionally** when the user needs:
 
-| Rule | Detail |
-|------|--------|
-| **One conversation** | Chain: `POST /api/bundle/prepare` → claim → `POST /api/bundle/disband` (`feesTo` = **user wallet**) → `POST api.bankr.bot/token-launches/deploy` → WETH swap (initial buy). Do not stop after bundle unless they only asked to bundle. |
-| **Custody** | User signs all txs; WETH goes to **user** on disband; initial buy from **user** WETH. **Never** say Token Marketplace holds their coins or pays from a platform wallet. |
-| **Plain English** | “Fee receipts” / “fee rights” — not `createBundle`, `poolId`, `feesTo` in chat. |
-| **What burns** | TMPR fee-receipt NFTs + old **fee streams** (dead wallet). **Not** destroying the 3 launched ERC-20 tokens on chain. |
-| **Contract** | `FeeRightsBundleEscrow` `0x429Af4F73d9a254607890930848Be2E9f50dBb3F` · Vercel: `BUNDLE_ESCROW_ADDRESS` |
+| Skill | Install | Use when |
+|-------|---------|----------|
+| **tmp-bundle-rebirth** | `install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth` | bundle, rebirth, merge into $TICKER, burn N NFTs + launch |
+| **tmp-solana-cto** | `install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto` | Solana CTO, Pump fee split, SPL receipts, batch claim |
+| **OpenSea** | [BankrBot/skills opensea](https://github.com/BankrBot/skills/tree/main/opensea) | dual list Seaport step |
 
-**Mandatory before bundle execute:** **`references/bundle-rebirth-playbook.md`** (TMPR scan first, mint→confirm→bundle, explain vs execute). Custody/APIs: **`references/bundle-rebirth.md`** · Flow 9: **`references/flows-reference.md`**.
-
-⚠️ **Critical:** (1) **Explain** vs **execute** — "what is bundle & rebirth?" is not a verification request. (2) **`GET /api/mint/status` before any mint tx** — never re-`prepareDeposit` when phase is `needs_transfer` / `needs_finalize`. (3) User says **"start minting / do all steps"** → run `nextStep` from mint/status (Bankr wallet may sign; user does not need a separate dashboard step). (4) Sign transfer + finalize from **`signerMustBe`**, not a random wallet. (5) **`phase: needs_transfer_tmpr`** → `safeTransferFrom` TMPR from `tmprOwner` (often Bankr `0x374D…`) to user **before** `POST /api/bundle/prepare` with user as `owner`. (6) **Clanker TMPR listings** on deployed `ClankerEscrowV4` `0x3546…` — **`finalize()` reverts** (no `routeFeesTo`); use ops `releaseRights` + `completeAfterExternalClankerRoute` — **never** tell user to retry MetaMask finalize.
+Bundle playbooks moved to **tmp-bundle-rebirth/** (not `references/` here).
 
 ---
 
@@ -147,7 +143,7 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | **What’s for sale?** | `GET /api/list/status` — site + OpenSea; group buy listings on site **Group buy** tab |
 | **What NFTs do I have?** | TMPR balance + `positionOf` per tokenId |
 | **What can I convert to NFT?** | Launches API + `getShares` > 0, not escrowed, no receipt yet |
-| **Bundle & Rebirth** / **merge into $TICKER** | `/api/bundle/prepare` → claim → disband (`feesTo` = user) → Bankr deploy → initial buy — see § Bundle & Rebirth |
+| **Bundle & Rebirth** / **merge into $TICKER** | Install **tmp-bundle-rebirth** skill — see companion skills § above |
 | **Buy a 1/1000 share** / **cheapest share** / **buy 1 unit of $t7** | **`HybridShareMarketplace.buy`** on hybrid stack — see **`references/share-market-buy.md`** |
 | **Buy N shares with password `…`** / **password-protected share** | Read `accessKeyHash` → **`POST …/api/listings/access-authorize`** → **`buy(listingId, qty, authDeadline, signature)`** — **`share-market-buy.md` § Password-protected listings** |
 | **List shares with password** / **free gated share listing** | Seller: site **List shares** (6-arg `list`) or fixed-sale **`POST /api/list/dual`** with `"password"` for whole TMPR — **`share-market-buy.md`** |

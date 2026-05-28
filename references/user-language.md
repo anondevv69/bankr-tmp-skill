@@ -41,7 +41,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 - **“Version 1”** on share market = usually **cheapest offer, quantity 1** — not a serial # inside the NFT.
 - **Bundle & Rebirth** = burn **fee-receipt NFTs** + collect fees to **user wallet** + launch **new** Bankr token — **not** merging ERC-20s; **not** platform holding coins or paying the buy.
 
-**Full option matrix:** **`all-escrow-options.md`**. **Bundle (anti-stuck playbook):** **`bundle-rebirth-playbook.md`** · custody/APIs: **`bundle-rebirth.md`**.
+**Full option matrix:** **`all-escrow-options.md`**. **Bundle & Rebirth:** install **`tmp-bundle-rebirth`** skill — `tmp-bundle-rebirth/references/bundle-rebirth-playbook.md` · `bundle-rebirth.md`.
 
 ---
 
@@ -97,7 +97,7 @@ User message
     │     → **Paid time loan** — FeeRightsLoanEscrow (100%, paid — NOT % grant)
     │
     ├─ "bundle" / "rebirth" / "merge into" / "burn N NFTs and launch" / "combine tokens and deploy"
-    │     → **Bundle & Rebirth** — bundle-rebirth-playbook.md — TMPR scan → mint if needed → prepare → claim → disband (feesTo=user) → deploy → buy
+    │     → **Bundle & Rebirth** — install **tmp-bundle-rebirth** skill + main TMP for mint/status
     │     → Never say platform holds tokens or pays initial buy
     │
     ├─ "first 100 replies get 1%" / "first 1000 get 1/1000" / "password protect the claim page"

@@ -44,6 +44,6 @@ Both pools had `pendingSeller = 0x374D91a5674Fa7Cf86E725093b5848b97e1e13b4` and 
 
 ## Cross-links
 
-- `bundle-rebirth-playbook.md` — Phase A0 + Phase B  
+- **tmp-bundle-rebirth** skill — `bundle-rebirth-playbook.md` Phase A0 + Phase B  
 - `flows-reference.md` — Flow 1  
-- `bundle-rebirth.md` — APIs
+- **tmp-bundle-rebirth** — `bundle-rebirth.md` APIs

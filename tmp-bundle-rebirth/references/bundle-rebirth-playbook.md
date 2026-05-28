@@ -1,6 +1,6 @@
 # Bundle & Rebirth — agent playbook (do not get stuck)
 
-**Read with:** `bundle-rebirth.md` (custody + APIs) · **Flow 9** in `flows-reference.md` · **Flow 1** (mint TMPR).
+**Read with:** `bundle-rebirth.md` (custody + APIs) · **Flow 9** in main skill `references/flows-reference.md` · mint: main skill `references/mint-pending-deposit.md`.
 
 This file exists because agents often **stop early** on API errors, ask the user to “confirm if minted,” or treat bundle like raw fee rights. Follow this playbook **before** replying.
 
