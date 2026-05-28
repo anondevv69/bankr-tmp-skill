@@ -101,9 +101,19 @@ chain: Base (8453)
 
 **Password-protected listing** (`accessKeyHash != 0`) — **do not** use the 2-arg `buy` alone; it reverts `AuthorizationRequired`. Use § Password-protected listings.
 
-1. Simulate / `eth_call` with buyer account first.
+1. Simulate / `eth_call` with buyer account first (optional sanity check — **not** the source of truth).
 2. User signs via **`bankr.tx.prepare`** / confirm.
-3. After mine: ERC-1155 balance on hybrid TMPR increases; confirm on BaseScan.
+3. **After submit:** wait for a **mined receipt** (`status: success`). If you have a tx hash, treat **BaseScan success** as definitive even when an earlier `eth_call` reverted.
+4. Confirm ownership: `balanceOf(buyer, tokenId)` on hybrid TMPR `0xD8e0639…` increased by `quantity`.
+
+**Do not** tell the user “purchase failed” or “complete manually on the site” when:
+
+- A tx hash is already **Success** on [BaseScan](https://basescan.org), or
+- ERC-1155 `TransferSingle` shows units moved to the buyer wallet.
+
+Common false alarm: simulation reverted on attempt #1 (wrong `msg.value`, expired auth ticket, stale listing state) while attempt #2 mined successfully.
+
+**Free password listings (`pricePerUnitWei == 0`):** `msg.value` must be **exactly 0**. Sending any ETH reverts `WrongPayment` in simulation; the 4-arg `buy` with a valid `access-authorize` ticket still works at **0 ETH**.
 
 **User-facing success (example):**  
 “Bought **1 share** of **$t7** fee rights for **0.002 ETH** from the cheapest listing. You now hold **1 of 1000** units — claim your fee slice when the pool distributes.”
@@ -240,6 +250,14 @@ If **zero** active offers for that `tokenId`:
 | `WrongQuantity` | Ask for fewer shares than remain on that offer |
 | `AuthorizationRequired` | Password listing — call **`access-authorize`** before `buy` |
 | `InvalidAccessKey` / password mismatch | "That password did not unlock this listing. I re-checked the listing state; please confirm the exact password (case-sensitive)." |
+| Simulation reverted but BaseScan **Success** | Purchase likely **already completed** — check buyer ERC-1155 balance; do not ask user to re-buy |
+| `ListingInactive` after a success tx | Offer was **fully filled** (e.g. qty 1 sold) — retries will fail; that is expected |
+
+---
+
+## Example — password buy that succeeded (QA)
+
+[Base tx `0x65d05ab…`](https://basescan.org/tx/0x65d05ab67e1f7d07ed5e793c8aa33248fab8cb563d64400a0df2eddff4d92d7c): `buy(9, 1, authDeadline, signature)` on `HybridShareMarketplace` `0x90230B…`, buyer `0x374D91a5…`, **0 ETH** (`totalWei: 0`), ERC-1155 **1 unit** of tokenId `82162810189150381448686192642592435479296266651479359308798582033011722422011` transferred. Agent should report **success**, not “simulation reverted.”
 
 ---
 
