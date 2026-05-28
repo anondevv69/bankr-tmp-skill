@@ -1,8 +1,20 @@
 # Sell / list fee rights for X ETH (autopilot)
 
-When user says **"list my t7 for 0.01"**, **"sell rights for 0.01 eth"**, or gives launch token `0x9021…3ba3` + price — this is **Flow 2** (sell 100%, dual list). It is **not** a share-market buy and **not** a partial sale.
+**When to load this file:** Any user message that matches **list / sell fee rights / sell 100%** with a **price in ETH** and optional **ticker or launch token `0x…`**. Examples:
+
+```text
+Can you list the rights to 0x9021f7edd729f39b6f6637d5ae3a7185634c3ba3 for 0.01 eth?
+List my t7 for 0.01
+@bankrbot sell this token's fees for 0.01 ETH
+```
+
+**User does not need to say:** “use tmp skill”, “v43”, “sell-list-autopilot”, or paste `GET /api/mint/status` URLs. **You** call those APIs.
+
+This is **Flow 2** (sell 100%, dual list). **Not** share-market buy. **Not** partial sale (`sellerKeepsBps`).
 
 **Do not reply** with "listing failed because fee rights aren't in escrow" and stop. That usually means **mint is incomplete** — finish mint, then list in the **same conversation**.
+
+See **`t7-list-failure-regression.md`** for real Bankr bot mistakes to avoid.
 
 ---
 

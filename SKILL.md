@@ -2,7 +2,7 @@
 name: bankr-fee-rights
 description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (public or password-gated via access-authorize), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 43
+version: 44
 metadata:
   clawdbot:
     emoji: "🧾"
@@ -16,21 +16,33 @@ metadata:
 
 Guidance for agents helping users with **creator fee rights** custody (ERC721 **TMPR** receipts) and **BankrEscrowV3** on **Base (chain id 8453)**. **Listing = dual venue:** tokenmarketplace.shop (`FeeRightsFixedSale`) **and** OpenSea.
 
-## Listing policy (read first — dual list API)
+## Listing policy (read first — autopilot, no special user prompt)
 
-When the user says **list**, **sell rights**, **sell for X ETH**, or **create NFT and list for X ETH**:
+**Users say things like this — nothing else required:**
+
+- “List the rights to `0x9021…` for 0.01 eth”
+- “Can you list my t7 for 0.01?”
+- “Sell fee rights for 0.01 ETH on the marketplace”
+- “@bankrbot list this token for sale at 0.01”
+
+**You must not** ask them to paste `GET /api/mint/status` URLs, say “use skill v43”, or follow a tweet-length checklist. That workflow is **already in this skill** — read **`references/sell-list-autopilot.md`** and execute it silently.
+
+### Mandatory agent path (every list / sell 100% request)
 
 | Step | Action |
 |------|--------|
-| 1 | Mint TMPR if needed (3 escrow txs) |
-| 2 | `POST https://www.tokenmarketplace.shop/api/list/dual` with `{ tokenId, priceEth, seller }` |
-| 3 | Execute each `site.steps[]` via **`bankr.tx.prepare` / `confirmTransaction`** (approve → list) |
-| 4 | **[OpenSea skills](https://github.com/BankrBot/skills/tree/main/opensea)** — `opensea-marketplace` create Seaport listing on Base |
-| 5 | Verify: `GET /api/list/status?tokenId=` — site listing active **and** OpenSea order (or user confirms manual OS step) |
+| 0 | **`references/sell-list-autopilot.md`** + **`references/runtime-contract.md`** — same conversation, no handoff |
+| 1 | Resolve launch token (ticker or `0x…` ERC-20) + seller wallet (Bankr custodial or user EOA) |
+| 2 | **`GET /api/mint/status?tokens=0x…&wallet=0x…`** (or POST body) — read **`phase`** + **`nextStep`**; never guess Doppler steps |
+| 3 | Run every **`nextStep`** until **`phase === "ready"`** (prepare → **`POST /api/bankr-build-transfer`** → finalize; **`signerMustBe`**) |
+| 4 | `POST https://www.tokenmarketplace.shop/api/list/dual` with `{ tokenId, priceEth, seller }` |
+| 5 | Execute each `site.steps[]` via **`bankr.tx.prepare` / `confirmTransaction`** (approve → list) |
+| 6 | **[OpenSea skills](https://github.com/BankrBot/skills/tree/main/opensea)** — Seaport listing on Base |
+| 7 | Verify: `GET /api/list/status?tokenId=` — site + OpenSea; reply with BaseScan + listing URLs only after mined |
 
-**Do not** hand-build `approve`/`list` calldata — use the API response. **Do not** say **“prepared for sale”** after mint only.
+**Do not** hand-build `approve`/`list` calldata. **Do not** say **“prepared for sale”** or **“listing failed — not in escrow”** after mint step 1 only. **Do not** tell user to set Doppler beneficiary to `0x6238…` **before** `prepareDeposit` (ordering bug — see sell-list-autopilot).
 
-**“Create NFT and list for 0.0069”** = mint (3 txs) → dual API → site txs → OpenSea skill.
+**Simulation failed** = fix wallet / feeManager / phase from mint/status and **retry** — not “go fix Doppler manually”.
 
 **Primary UX:** DMs / Ask Bankr / [Bankr Apps](https://docs.bankr.bot/apps/overview) (`apps/token-marketplace/` in repo) — see [QR Coin skill pattern](https://github.com/BankrBot/skills/blob/main/qrcoin/SKILL.md).
 
@@ -49,7 +61,8 @@ When the user says **list**, **sell rights**, **sell for X ETH**, or **create NF
 **Plain language intent routing:** **`references/user-language.md`** — maps spoken phrases to flows. **`references/all-escrow-options.md`** — full decision table + all mainnet addresses.
 
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
-**Sell / list for X ETH:** **`references/sell-list-autopilot.md`** — always `GET /api/mint/status` first; finish mint + dual list in one conversation (do not stop at “transfer beneficiary”).
+**Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
+**Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
@@ -95,7 +108,7 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | UI / user phrase | Agent action |
 |------------------|--------------|
 | **Create NFT** | `prepareDeposit` → fee beneficiary to escrow → `finalizeDeposit` (mints TMPR) |
-| **Sell rights** / **list for X ETH** / **sell 100%** | **Dual list:** `POST /api/list/dual` → site steps + OpenSea skills (§ Where to list) |
+| **Sell rights** / **list for X ETH** / **sell 100%** / **list rights to token `0x…` for X eth** | **`sell-list-autopilot.md`** → mint/status → mint if needed → **dual list** + OpenSea |
 | **Partial sale** / **sell 5% for X ETH** / **keep 95% sell 5%** | **`GroupBuyEscrowV2.createPartialListing`** — `sellerKeepsBps` = **keep** % (sell 5% ⇒ **9500**); `priceWei` = ETH for **sold slice only**; `venueType` + `rightsEscrow` |
 | **Group buy** / **crowdfund fee rights** | **`GroupBuyEscrowV2.createListing`** → `contribute` → `finalize` |
 | **Crowdsource** / **I seed 0.1 raise 0.1 from backers** | **`GroupBuyEscrowV2.createCrowdsource`** payable (seed) — co-own by ETH; **not** partial sale |
@@ -150,13 +163,14 @@ Users speak in **tickers, token names, and ETH prices** — not fee managers or 
 
 Given **ticker and/or launch token address** and **optional list price in ETH**:
 
-1. **`tokenAddress`** — from user’s contract, or `get_token_launch_info(ticker)`, or `GET …/doppler/token-fees/{token}`.
-2. **`poolId`**, **token0**, **token1** — from that API / launch info (WETH on Base = `0x4200000000000000000000000000000000000006`).
-3. **`feeManager`** — production Bankr Doppler: **`0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544`** unless registry + `getShares` prove another.
-4. **`escrow`** — **`0x6238698212D91845cD1c004DE85951055bB5b292`** (BankrEscrowV3).
-5. **`allowedFeeManager(feeManager)`** on escrow — must be **true** (it is for `0xBDF938…`).
-6. **`getShares(poolId, userWallet)`** on fee manager — must be **> 0** before `prepareDeposit`.
-7. **List price** — parse `0.0069` / `.0069` → **`6900000000000000`** wei (18 decimals).
+1. **`GET /api/mint/status`** for launch token + seller wallet — execute **`nextStep`** (do not skip to `prepareDeposit` blind).
+2. **`tokenAddress`** — from user’s contract, or `get_token_launch_info(ticker)`, or `GET …/doppler/token-fees/{token}`.
+3. **`poolId`**, **token0**, **token1** — from mint/status or token-fees (WETH on Base = `0x4200000000000000000000000000000000000006`).
+4. **`feeManager`** — from mint/status / registry; default Bankr Doppler **`0xBDF938149ac6a781F94FAa0ed45E6A0e984c6544`** when launch is Bankr.
+5. **`escrow`** — **`0x6238698212D91845cD1c004DE85951055bB5b292`** (BankrEscrowV3).
+6. **`allowedFeeManager(feeManager)`** on escrow — must be **true** (it is for `0xBDF938…`).
+7. **List price** — parse `0.01` / `.01` → wei (18 decimals).
+8. If **`phase === "ready"`** — skip mint; go straight to **`POST /api/list/dual`**.
 
 **Users should never need to say:** “Use fee manager 0xBDF938…” — that is **your** default for Bankr launches on this marketplace.
 

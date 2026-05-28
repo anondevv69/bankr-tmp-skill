@@ -14,7 +14,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 |----------------|-------------------|------------------|
 | **Create NFT** | Escrow fee rights → mint TMPR receipt | `BankrEscrowV3` / `ClankerEscrowV4` / `ZoraEscrowV1` |
 | **NFT** / **TMPR** / **receipt** | ERC-721 proof fee rights are in escrow | `BankrFeeRightsReceipt` `0xCD6634…0C3e` |
-| **Sell rights** / **list for X ETH** / **sell 100%** | Fixed sale of all fee rights | `FeeRightsFixedSale` + **`POST /api/list/dual`** + OpenSea skills |
+| **Sell rights** / **list for X ETH** / **sell 100%** / **list rights to token `0x…` for X eth** | Fixed sale of all fee rights | **`sell-list-autopilot.md`** → mint/status → mint if needed → dual list + OpenSea |
 | **Partial sale** / **keep X% sell Y%** | Forever split; buyers fund sold % | `GroupBuyEscrow.createPartialListing` |
 | **Group buy** | Many wallets pool ETH | `GroupBuyEscrow.createListing` |
 | **Crowdsource** | Creator seeds + backers | `GroupBuyEscrow.createCrowdsource` |

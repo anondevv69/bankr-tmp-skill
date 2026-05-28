@@ -28,6 +28,8 @@ Every product on Token Marketplace. Two columns per flow: **what the agent does 
 
 ## FLOW 2 — Sell 100% (list for fixed ETH)
 
+**User may say only:** “list rights to `0x…` for 0.01 eth” — no skill name, no API URLs. Read **`sell-list-autopilot.md`** and run full path.
+
 ### Agent does (internal, silent)
 1. **`GET /api/mint/status`** for launched token + seller wallet — execute `nextStep` until `phase === "ready"` (see **`sell-list-autopilot.md`**). **Do not** stop after prepare with “transfer beneficiary manually.”
 2. Confirm TMPR exists (or complete Flow 1 via mint/status in step 1).
