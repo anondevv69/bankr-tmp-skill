@@ -2,8 +2,8 @@
 name: bankr-fee-rights
 description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (public or password-gated via access-authorize), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 44
-tmp_skill_version: "44"
+version: 45
+tmp_skill_version: "45"
 reference_file_count: 22
 install_manifest: skill-manifest.json
 metadata:
@@ -46,6 +46,8 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Do not** hand-build `approve`/`list` calldata. **Do not** say **“prepared for sale”** or **“listing failed — not in escrow”** after mint step 1 only. **Do not** tell user to set Doppler beneficiary to `0x6238…` **before** `prepareDeposit` (ordering bug — see sell-list-autopilot).
 
 **Simulation failed** = fix wallet / feeManager / phase from mint/status and **retry** — not “go fix Doppler manually”.
+
+**Never say (t7 list regression):** “minting’s stuck… update fee recipient on Doppler… tell me finalize t7 listing” — see **`t7-list-failure-regression.md`** (Rayblancoeth May 2026).
 
 **Primary UX:** DMs / Ask Bankr / [Bankr Apps](https://docs.bankr.bot/apps/overview) (`apps/token-marketplace/` in repo) — see [QR Coin skill pattern](https://github.com/BankrBot/skills/blob/main/qrcoin/SKILL.md).
 

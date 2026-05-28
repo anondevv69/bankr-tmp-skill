@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 44 (current)
+## 45 (current)
+
+- Document Rayblancoeth t7 list regression: “finalizeDeposit reverted → fix Doppler” (forbidden).
+- Reinforce: `needs_finalize` / `bankr-build-transfer` from mint/status — no dashboard handoff.
+
+## 44
 
 - **Listing autopilot default:** natural language “list for X ETH” → `sell-list-autopilot.md` + `runtime-contract.md` (no skill name / API URLs from user).
 - **`t7-list-failure-regression.md`:** block Doppler-handoff and “not in escrow” after prepare-only.

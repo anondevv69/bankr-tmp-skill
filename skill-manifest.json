@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 44,
+  "skillVersion": 45,
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",

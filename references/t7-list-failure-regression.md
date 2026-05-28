@@ -19,6 +19,7 @@
 | “Update Doppler beneficiary to `0x6238…` manually” | **Never** point beneficiary at escrow **before** `prepareDeposit` |
 | “You still hold 95% on Doppler” → give up | Normal **before** mint; run mint/status phases |
 | “Simulation failed” → manual Doppler | Retry with correct **phase**, **signerMustBe**, **feeManager** |
+| **“Minting’s stuck… fee rights ready in escrow, but `finalizeDeposit` reverted. Update fee recipient on Doppler, then say finalize t7 listing”** (May 2026, @Rayblancoeth) | **Forbidden.** Escrow holding shares is **expected** before finalize. Call **`GET /api/mint/status`** — if `needs_finalize`, run **`finalizeDeposit` from `signerMustBe`** (often Bankr `0x374D…`); if `needs_transfer`, run **`POST /api/bankr-build-transfer`** then finalize. **Never** send user to Doppler dashboard. Then **`POST /api/list/dual`** in the **same** conversation. |
 
 ---
 

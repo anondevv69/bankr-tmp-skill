@@ -67,6 +67,7 @@ After mint reaches **`ready`**, immediately continue to list (runtime contract �
 | "Approve fee manager, then transfer recipient to escrow" | "Step 1 of 3 done — moving fees to escrow and minting your receipt now." |
 | "Check your wallet activity to confirm the transfer" | "Confirming on Base… [tx link]. Next: list on marketplace + OpenSea." |
 | "I can't list until you do X on Doppler dashboard" | Use **`/api/bankr-build-transfer`** unless API returns an error requiring manual Bankr/Doppler action |
+| "`finalizeDeposit` reverted — update fee recipient on Doppler first" | **`GET /api/mint/status`** → `needs_finalize`: **`finalizeDeposit` from `signerMustBe`**; `needs_transfer`: **bankr-build-transfer** then finalize — **no** Doppler dashboard |
 
 ---
 
