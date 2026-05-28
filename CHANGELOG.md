@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 45 (current)
+## 46 (current)
+
+- **Move listing autopilot to repo root:** `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md` — Bankr often only exposes `references/` as a folder label (empty `references/` × 3 answers).
+- **`MANDATORY-LISTING-FILES.txt`** + plain-text install answer in `SKILL.md` (no backticks in bullets).
+- **`mandatory_listing_files`** in SKILL frontmatter + shorter `description` for Bankr loader.
+
+## 45
 
 - Document Rayblancoeth t7 list regression: “finalizeDeposit reverted → fix Doppler” (forbidden).
 - Reinforce: `needs_finalize` / `bankr-build-transfer` from mint/status — no dashboard handoff.

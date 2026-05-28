@@ -1,6 +1,6 @@
 # Sell / list fee rights for X ETH (autopilot)
 
-> **Bankr agents:** canonical copy is at repo root **`sell-list-autopilot.md`** (same content). Bankr often indexes `references/` as one folder and cannot see individual `.md` names — read the **root** file.
+> **Location:** repo **root** (loaded by Bankr as its own resource). Mirror: references/sell-list-autopilot.md
 
 
 **When to load this file:** Any user message that matches **list / sell fee rights / sell 100%** with a **price in ETH** and optional **ticker or launch token `0x…`**. Examples:

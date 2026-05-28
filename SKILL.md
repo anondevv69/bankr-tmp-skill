@@ -1,9 +1,13 @@
 ---
 name: bankr-fee-rights
-description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (public or password-gated via access-authorize), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
+description: "TMP skills v46 Base fee rights. LIST AUTOPILOT files at repo ROOT (not references/ folder): sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = GET mint/status, all nextSteps, POST list/dual, OpenSea. Never Doppler dashboard handoff."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 45
-tmp_skill_version: "45"
+version: 46
+tmp_skill_version: "46"
+mandatory_listing_files:
+  - sell-list-autopilot.md
+  - runtime-contract.md
+  - t7-list-failure-regression.md
 reference_file_count: 22
 install_manifest: skill-manifest.json
 metadata:
@@ -15,19 +19,22 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
-## Bankr install check (if user asks version or mandatory files)
+## Bankr install check — COPY THIS ANSWER (plain text, no empty bullets)
 
-**Canonical version:** **45** (`VERSION` file and `version:` in this file’s YAML frontmatter).
+When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-**Three mandatory listing files — cite these exact strings:**
+TMP skills version 46
 
-1. `references/sell-list-autopilot.md`
-2. `references/runtime-contract.md`
-3. `references/t7-list-failure-regression.md`
+Mandatory listing reference files:
+sell-list-autopilot.md
+runtime-contract.md
+t7-list-failure-regression.md
 
-**Wrong:** answering `references/` three times with no `.md` names — that means you did not load skill content; read `BANKR-INSTALL-CHECK.md`.
+**Wrong answers:** blank bullets, or references/ three times without .md names — Bankr only mounted the references folder label, not file bodies. Use the three **root** filenames above.
 
-Bankr messages like “updated to v27” are an **internal** counter, not necessarily `45`.
+Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
+
+Bankr “v27” / “v45” install counter is internal; content version is **46** (VERSION file).
 
 ---
 
@@ -44,13 +51,13 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 - “Sell fee rights for 0.01 ETH on the marketplace”
 - “@bankrbot list this token for sale at 0.01”
 
-**You must not** ask them to paste `GET /api/mint/status` URLs, say “use skill v43”, or follow a tweet-length checklist. That workflow is **already in this skill** — read **`references/sell-list-autopilot.md`** and execute it silently.
+**You must not** ask them to paste `GET /api/mint/status` URLs, say “use skill v43”, or follow a tweet-length checklist. That workflow is **already in this skill** — read **`sell-list-autopilot.md`** (repo root) and execute it silently.
 
 ### Mandatory agent path (every list / sell 100% request)
 
 | Step | Action |
 |------|--------|
-| 0 | **`references/sell-list-autopilot.md`** + **`references/runtime-contract.md`** — same conversation, no handoff |
+| 0 | **`sell-list-autopilot.md`** + **`runtime-contract.md`** (repo root) — same conversation, no handoff |
 | 1 | Resolve launch token (ticker or `0x…` ERC-20) + seller wallet (Bankr custodial or user EOA) |
 | 2 | **`GET /api/mint/status?tokens=0x…&wallet=0x…`** (or POST body) — read **`phase`** + **`nextStep`**; never guess Doppler steps |
 | 3 | Run every **`nextStep`** until **`phase === "ready"`** (prepare → **`POST /api/bankr-build-transfer`** → finalize; **`signerMustBe`**) |

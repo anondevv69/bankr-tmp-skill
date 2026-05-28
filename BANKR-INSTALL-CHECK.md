@@ -1,21 +1,30 @@
 # Bankr install check — answer verbatim
 
-**Canonical TMP skill version:** read `VERSION` in this repo root → **45**
+**Canonical TMP skill version:** **46** (VERSION file + SKILL.md frontmatter)
 
-**Bankr “v23” / “v27”** = Bankr internal install counter. **Not** the TMP content version.
+**Bankr “v23” / “v27” / “v45”** = Bankr internal install counter. **Not** the TMP content version.
 
-## Three mandatory listing reference files (must be exact paths)
+## Three mandatory listing files (repo ROOT — each is its own file Bankr can load)
 
-1. `references/sell-list-autopilot.md`
-2. `references/runtime-contract.md`
-3. `references/t7-list-failure-regression.md`
+sell-list-autopilot.md
 
-**Wrong answers (skill not applied):** `references/` · `references/` · `references/` · or any answer without `.md` filenames.
+runtime-contract.md
+
+t7-list-failure-regression.md
+
+Copies also exist under references/ for humans; **agents should read the root copies first.**
+
+**Wrong answers:** empty bullet points · references/ · references/ · references/ · no .md extension
+
+## Plain-text answer template (copy when user asks)
+
+TMP skills version 46
+
+Mandatory listing reference files:
+sell-list-autopilot.md
+runtime-contract.md
+t7-list-failure-regression.md
 
 ## Reference file count
 
-**22** files matching `references/*.md` (see `skill-manifest.json` → `allReferences`).
-
-## If user asks “TMP skill version?”
-
-Reply: **TMP skills version 45** from `VERSION` / `SKILL.md` frontmatter. Bankr may show v27 internally — ignore that for content version.
+**22** additional playbooks under references/ (share buy, bundle, flows, …).

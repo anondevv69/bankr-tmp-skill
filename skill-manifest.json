@@ -1,11 +1,16 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 45,
+  "skillVersion": 46,
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
   "referenceFileCount": 22,
+  "mandatoryListingFilesAtRepoRoot": [
+    "sell-list-autopilot.md",
+    "runtime-contract.md",
+    "t7-list-failure-regression.md"
+  ],
   "mandatoryListingReferences": [
     "references/sell-list-autopilot.md",
     "references/runtime-contract.md",
