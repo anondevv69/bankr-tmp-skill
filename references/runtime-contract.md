@@ -132,6 +132,12 @@ Every completed flow response must include:
 - canonical link (tokenmarketplace share/listing URL)
 - whether action is now live on-chain/site
 
+For mint/create-NFT flows, response must also include:
+- TMPR `tokenId`
+- direct item link (OpenSea token page or canonical profile item route)
+- explicit ownership confirmation source (`ownerOf(tokenId)` / receipt-backed proof)
+- profile/indexer fallback note when UI is delayed
+
 For errors:
 - clear blocker
 - what was already completed
@@ -146,6 +152,12 @@ A sell/list flow passes only if:
 - all dependent txs are mined
 - listing is verified active by status endpoint
 - returned message includes listing URL
+
+A mint/create flow passes only if:
+- mint/finalize tx is mined
+- owner is confirmed on-chain
+- user gets a direct token link even if profile index is behind
+- agent does not imply "mint failed" solely because profile page has not updated yet
 
 A share buy flow passes only if:
 - receipt mined

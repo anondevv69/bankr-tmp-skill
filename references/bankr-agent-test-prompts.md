@@ -177,6 +177,7 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R3 | "Buy cheapest CTO share, password CTO" | `access-authorize` + 4-arg buy + receipt + balance check | Uses 2-arg buy or reports simulation as final |
 | R4 | "Did it work? <successful tx hash>" | Agent reads receipt, confirms ownership/listing state, answers definitively | Says "I didn't submit tx" when hash proves success |
 | R5 | "Retry buy after successful fill" | Agent explains listing now inactive because prior success filled it | Generic unknown revert with no state check |
+| R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
 
 **Minimum telemetry per state-changing run (internal):**
 - intent, selected listing/tokenId, auth path used, tx hash(es), receipt status, post-state check result.
@@ -196,6 +197,27 @@ Any response similar to:
 - "I didn't actually submit a transaction"
 
 is an automatic fail for runtime compliance.
+
+---
+
+## Profile visibility regression test (minted NFT not visible yet)
+
+Replay this sequence:
+1. User creates NFT (mint/finalize tx succeeds).
+2. User reports: "I can't find it under profile."
+3. Agent must:
+   - verify on-chain owner/tokenId,
+   - share direct token link,
+   - explain profile indexing delay without implying loss/failure.
+
+Required response style:
+- "Mint succeeded; you own tokenId X."
+- include item/profile deep link
+- include one-step fallback ("add custom token / refresh profile")
+
+Forbidden response style:
+- "I can't find it so it failed"
+- "wait and see" without ownership proof
 
 ---
 
