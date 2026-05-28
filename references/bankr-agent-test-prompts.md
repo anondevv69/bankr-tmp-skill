@@ -166,6 +166,16 @@ Run these prompts specifically to verify the agent handles password-protected sh
 
 ---
 
+## Install verification (must pass after `install TMP skills at …/bankr-tmp-skill`)
+
+| # | Prompt | Expected outcome | Hard fail |
+|---|--------|------------------|-----------|
+| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v44**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter ≠ 44 | Claims v43 or older; cannot name sell-list-autopilot; says Doppler manual step is default for list |
+
+See **`skill-install-verification.md`**.
+
+---
+
 ## Runtime contract acceptance suite (must pass before rollout)
 
 Use these prompts to verify strict autopilot behavior from `runtime-contract.md`.

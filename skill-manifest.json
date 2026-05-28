@@ -1,0 +1,39 @@
+{
+  "name": "bankr-fee-rights",
+  "displayName": "TMP skills",
+  "skillVersion": 44,
+  "versionFile": "VERSION",
+  "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
+  "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
+  "referenceFileCount": 22,
+  "mandatoryListingReferences": [
+    "references/sell-list-autopilot.md",
+    "references/runtime-contract.md",
+    "references/t7-list-failure-regression.md"
+  ],
+  "allReferences": [
+    "references/all-escrow-options.md",
+    "references/bankr-agent-test-prompts.md",
+    "references/bundle-rebirth-playbook.md",
+    "references/bundle-rebirth.md",
+    "references/clanker-rescue-ops.md",
+    "references/dm-intents.md",
+    "references/flows-reference.md",
+    "references/listing-channels.md",
+    "references/loan-no-forward-sale.md",
+    "references/mint-pending-deposit.md",
+    "references/normal-talk-only.md",
+    "references/partial-sale-resolve-token.md",
+    "references/product-rules.md",
+    "references/redeem-rights-playbook.md",
+    "references/reply-drop.md",
+    "references/runtime-contract.md",
+    "references/sell-list-autopilot.md",
+    "references/share-market-buy.md",
+    "references/skill-install-verification.md",
+    "references/t7-list-failure-regression.md",
+    "references/tmpr-collection-address-trap.md",
+    "references/user-language.md"
+  ],
+  "bankrNote": "Bankr may report an internal install counter (e.g. v25). The canonical TMP skill version is skillVersion 44 in this manifest and version: 44 in SKILL.md frontmatter."
+}
