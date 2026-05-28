@@ -239,6 +239,7 @@ If **zero** active offers for that `tokenId`:
 | `ListingInactive` / sold out | Refresh order book; try next-cheapest |
 | `WrongQuantity` | Ask for fewer shares than remain on that offer |
 | `AuthorizationRequired` | Password listing — call **`access-authorize`** before `buy` |
+| `InvalidAccessKey` / password mismatch | "That password did not unlock this listing. I re-checked the listing state; please confirm the exact password (case-sensitive)." |
 
 ---
 
