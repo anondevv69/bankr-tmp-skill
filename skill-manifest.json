@@ -35,5 +35,6 @@
     "references/tmpr-collection-address-trap.md",
     "references/user-language.md"
   ],
-  "bankrNote": "Bankr may report an internal install counter (e.g. v25). The canonical TMP skill version is skillVersion 44 in this manifest and version: 44 in SKILL.md frontmatter."
+  "bankrInstallCheckFile": "BANKR-INSTALL-CHECK.md",
+  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion 45 in VERSION and SKILL.md. Mandatory listing files must include .md filenames — not three copies of references/."
 }

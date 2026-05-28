@@ -1,6 +1,6 @@
 # TMP skills (Bankr + Token Marketplace)
 
-**Skill version: 44** · [`VERSION`](VERSION) · [`skill-manifest.json`](skill-manifest.json) · [`CHANGELOG.md`](CHANGELOG.md)
+**Skill version: 45** · [`VERSION`](VERSION) · [`BANKR-INSTALL-CHECK.md`](BANKR-INSTALL-CHECK.md) · [`skill-manifest.json`](skill-manifest.json)
 
 Agent skill pack for **Token Marketplace** fee rights on **Base** — mint TMPR, dual-list on [tokenmarketplace.shop](https://www.tokenmarketplace.shop) and OpenSea, group buy, partial sale, grants, loans, redeem, bundle & rebirth, plus reply-drop planning for hybrid fee-right campaigns.
 
@@ -18,9 +18,10 @@ Bankr may reply with an **internal** counter (e.g. “updated to v25”). **TMP 
 
 | Check | Expected |
 |-------|----------|
-| `SKILL.md` → `version:` | `44` |
-| Root `VERSION` | `44` |
-| `skill-manifest.json` → `skillVersion` | `44` |
+| `SKILL.md` → `version:` | `45` |
+| Root `VERSION` | `45` |
+| `BANKR-INSTALL-CHECK.md` | Three mandatory `.md` paths |
+| `skill-manifest.json` → `skillVersion` | `45` |
 | Reference files | **22** in `references/` |
 
 Agents: read **`references/skill-install-verification.md`** after install.

@@ -6,6 +6,8 @@ Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
 - Document Rayblancoeth t7 list regression: “finalizeDeposit reverted → fix Doppler” (forbidden).
 - Reinforce: `needs_finalize` / `bankr-build-transfer` from mint/status — no dashboard handoff.
+- Add **`BANKR-INSTALL-CHECK.md`** at repo root — exact `.md` paths for install Q&A (fixes `references/` × 3 wrong answers).
+- **`SKILL.md`** install-check block at top for agents that only read main file.
 
 ## 44
 

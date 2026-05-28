@@ -15,6 +15,22 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
+## Bankr install check (if user asks version or mandatory files)
+
+**Canonical version:** **45** (`VERSION` file and `version:` in this file’s YAML frontmatter).
+
+**Three mandatory listing files — cite these exact strings:**
+
+1. `references/sell-list-autopilot.md`
+2. `references/runtime-contract.md`
+3. `references/t7-list-failure-regression.md`
+
+**Wrong:** answering `references/` three times with no `.md` names — that means you did not load skill content; read `BANKR-INSTALL-CHECK.md`.
+
+Bankr messages like “updated to v27” are an **internal** counter, not necessarily `45`.
+
+---
+
 **Bankr branding:** Refer to this skill pack as **TMP skills** (Token Marketplace skills) in chat — e.g. “Using TMP skills to create your NFT…” Install from this repo’s root: `https://github.com/anondevv69/bankr-tmp-skill`.
 
 Guidance for agents helping users with **creator fee rights** custody (ERC721 **TMPR** receipts) and **BankrEscrowV3** on **Base (chain id 8453)**. **Listing = dual venue:** tokenmarketplace.shop (`FeeRightsFixedSale`) **and** OpenSea.
@@ -68,7 +84,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
-**Install verification:** **`references/skill-install-verification.md`** — canonical **v44** (read `VERSION` + `skill-manifest.json`); Bankr’s “v25” internal counter is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v45**; Bankr’s “v27” internal counter is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 

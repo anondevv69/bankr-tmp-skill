@@ -8,12 +8,15 @@
 
 | Source | Expected |
 |--------|----------|
-| `SKILL.md` frontmatter `version:` | **44** |
-| Root `VERSION` file | **44** |
-| `skill-manifest.json` → `skillVersion` | **44** |
+| `SKILL.md` frontmatter `version:` | **45** |
+| Root `VERSION` file | **45** |
+| Root `BANKR-INSTALL-CHECK.md` | Lists three mandatory `.md` paths |
+| `skill-manifest.json` → `skillVersion` | **45** |
 | `references/` file count | **22** (includes this file) |
 
-**If Bankr says “updated to v25” (or any number ≠ 44):** that may be Bankr’s **internal** bundle counter. **Trust `SKILL.md` / `VERSION` / `skill-manifest.json` for TMP skill content version.** If `sell-list-autopilot.md` is missing or listing still handoffs to Doppler, **re-run install** from GitHub `main`.
+**If Bankr says “updated to v27” (or any number ≠ 45):** that may be Bankr’s **internal** bundle counter. **Trust `VERSION` / `SKILL.md` / `BANKR-INSTALL-CHECK.md`.**
+
+**If the agent answers mandatory files as `references/` × 3 with no `.md` names:** skill text was **not** read — reinstall from `main` and read `BANKR-INSTALL-CHECK.md` before listing flows.
 
 ---
 
