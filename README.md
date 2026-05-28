@@ -2,6 +2,8 @@
 
 [BankrBot/skills](https://github.com/BankrBot/skills)-style layout: **one folder = one installable skill**, same GitHub repo.
 
+**Scope:** Base (chain 8453) only. Solana CTO / Pump claims are **not** available in Bankr — use [tokenmarketplace.shop](https://www.tokenmarketplace.shop) with a Solana wallet.
+
 ## Install (pick what you need)
 
 ### 1. Main — Base marketplace (mint, list, buy, partial, group, grant, loan)
@@ -24,15 +26,7 @@ install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree
 
 Use with main skill for mint/status. Folder: [tmp-bundle-rebirth/](tmp-bundle-rebirth/).
 
-### 3. Solana CTO & batch claim (optional)
-
-```text
-install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto
-```
-
-Pump fee split → fee vault → batch claim. Folder: [tmp-solana-cto/](tmp-solana-cto/).
-
-### 4. OpenSea (official)
+### 3. OpenSea (official)
 
 ```text
 install opensea skills at https://github.com/BankrBot/skills
@@ -53,15 +47,12 @@ bankr-tmp-skill/
 ├── tmp-bundle-rebirth/
 │   ├── SKILL.md
 │   └── references/
-├── tmp-solana-cto/
-│   ├── SKILL.md
-│   └── references/
 └── README.md                ← this file
 ```
 
 ## Version
 
-Main skill: **47** (`VERSION` at repo root). Bundle / Solana: **1** each.
+Main skill: **48** (`VERSION` at repo root). Bundle rebirth companion: **1**.
 
 ## Related
 

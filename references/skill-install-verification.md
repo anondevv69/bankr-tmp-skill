@@ -8,8 +8,8 @@
 
 | Source | Expected |
 |--------|----------|
-| `SKILL.md` frontmatter `version:` | **45** |
-| Root `VERSION` file | **45** |
+| `SKILL.md` frontmatter `version:` | **48** |
+| Root `VERSION` file | **48** |
 | Root `BANKR-INSTALL-CHECK.md` | Lists three mandatory `.md` paths |
 | `skill-manifest.json` → `skillVersion` | **45** |
 | `references/` file count | **22** (includes this file) |
@@ -46,7 +46,7 @@ Before executing a list request, confirm you will:
 
 If user asks whether TMP skills are current:
 
-> TMP skills **v44** from github.com/anondevv69/bankr-tmp-skill — 22 reference files including sell-list-autopilot, runtime-contract, and t7-list-failure-regression.
+> TMP skills **v48** from github.com/anondevv69/bankr-tmp-skill — 20 reference files; mandatory listing files at repo root: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md.
 
 ---
 

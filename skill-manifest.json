@@ -1,17 +1,12 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 47,
+  "skillVersion": 48,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
       "path": "tmp-bundle-rebirth",
       "installCommand": "install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth"
-    },
-    {
-      "id": "tmp-solana-cto",
-      "path": "tmp-solana-cto",
-      "installCommand": "install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto"
     }
   ],
   "versionFile": "VERSION",
@@ -51,5 +46,5 @@
     "references/user-language.md"
   ],
   "bankrInstallCheckFile": "BANKR-INSTALL-CHECK.md",
-  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion 45 in VERSION and SKILL.md. Mandatory listing files must include .md filenames — not three copies of references/."
+  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion in VERSION and SKILL.md. Mandatory listing files must include .md filenames — not three copies of references/. Solana flows are website-only — not in this skill pack."
 }

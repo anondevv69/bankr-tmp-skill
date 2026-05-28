@@ -2,10 +2,16 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 47 (current)
+## 48 (current)
+
+- **Removed `tmp-solana-cto/`** — Solana does not work on Bankr; CTO / Pump / batch claim → website + Solana wallet only.
+- Main skill notes Solana is out of scope; companion skills = **tmp-bundle-rebirth** + OpenSea only.
+
+## 47
 
 - **Monorepo:** separate Bankr skills `tmp-bundle-rebirth/` and `tmp-solana-cto/`; main Base skill stays at **repo root** (install URL unchanged).
 - Bundle playbooks moved out of `references/` into `tmp-bundle-rebirth/references/`.
+- *(Solana companion removed in v48.)*
 
 ## 46
 

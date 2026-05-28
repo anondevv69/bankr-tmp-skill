@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v46 Base fee rights. LIST AUTOPILOT files at repo ROOT (not references/ folder): sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = GET mint/status, all nextSteps, POST list/dual, OpenSea. Never Doppler dashboard handoff."
+description: "TMP skills v48 Base fee rights. LIST AUTOPILOT files at repo ROOT (not references/ folder): sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = GET mint/status, all nextSteps, POST list/dual, OpenSea. Never Doppler dashboard handoff."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 47
-tmp_skill_version: "47"
+version: 48
+tmp_skill_version: "48"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 46
+TMP skills version 48
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **47** (VERSION file). Companion skills: tmp-bundle-rebirth, tmp-solana-cto (see README).
+Bankr internal install counter may differ; content version is **48** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 ---
 
@@ -91,7 +91,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
-**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v45**; Bankr’s “v27” internal counter is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v48**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
@@ -106,8 +106,9 @@ This folder is **tmp-fee-rights** (Base mint, list, buy, partial, group, grant, 
 | Skill | Install | Use when |
 |-------|---------|----------|
 | **tmp-bundle-rebirth** | `install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth` | bundle, rebirth, merge into $TICKER, burn N NFTs + launch |
-| **tmp-solana-cto** | `install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto` | Solana CTO, Pump fee split, SPL receipts, batch claim |
 | **OpenSea** | [BankrBot/skills opensea](https://github.com/BankrBot/skills/tree/main/opensea) | dual list Seaport step |
+
+**Solana:** Bankr agents cannot execute Solana CTO, Pump fee split, or SPL batch claim. Direct users to [tokenmarketplace.shop](https://www.tokenmarketplace.shop) Solana listing pages and a Solana wallet (Phantom, etc.).
 
 Bundle playbooks moved to **tmp-bundle-rebirth/** (not `references/` here).
 

@@ -170,7 +170,7 @@ Run these prompts specifically to verify the agent handles password-protected sh
 
 | # | Prompt | Expected outcome | Hard fail |
 |---|--------|------------------|-----------|
-| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v44**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter ≠ 44 | Claims v43 or older; cannot name sell-list-autopilot; says Doppler manual step is default for list |
+| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v48**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter (e.g. v30) ≠ 48 | Claims v46 or older; blank bullets; `references/` × 3 without .md; says Doppler manual step is default for list |
 
 See **`skill-install-verification.md`**.
 
