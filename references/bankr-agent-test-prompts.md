@@ -146,6 +146,26 @@ Buy 1 share of $CTO with password mysecret
 
 ---
 
+## Password-gated buy — dedicated QA matrix
+
+Run these prompts specifically to verify the agent handles password-protected share listings end-to-end without falling back to "manual only" unless truly required.
+
+| # | Prompt | Expected agent behavior | Fail pattern |
+|---|--------|-------------------------|--------------|
+| P1 | "Buy cheapest 1/1000 share of $CTO with password CTO" | Resolve token → find protected offer → call `access-authorize` → submit 4-arg `buy` | Uses 2-arg `buy` and reverts `AuthorizationRequired` |
+| P2 | "Buy 1 share of $CTO, password is ` CTO `" | Trim password once, preserve case, retry with normalized input | Sends raw spaced password and reports generic revert |
+| P3 | "Buy second cheapest password listing of $CTO with password CTO" | Sort by price, pick rank #2 protected listing, enforce quantity caps | Ignores rank and buys cheapest |
+| P4 | "Buy 3 shares of $CTO with password CTO" | Clamp by `quantity` + `maxPerWallet`, explain if reduced | Sends invalid quantity and fails on-chain |
+| P5 | "Buy cheapest protected share of $CTO" (no password) | Ask exactly one direct question for password | Says "cannot do on-chain, use website" immediately |
+| P6 | "Buy 1 share with password wrongpass" | Re-fetch listing state, report explicit password mismatch, request correct password | Generic "simulation failed" with no diagnosis |
+| P7 | "Buy 1 share with password CTO" after waiting >10m | Detect/handle expired auth ticket, re-run `access-authorize`, then buy | Reuses stale signature and fails `AuthorizationExpired` |
+
+**Pass criteria:** Agent succeeds with `access-authorize` + 4-arg `buy`, keeps password out of public narration, and surfaces explicit causes (`InvalidAccessKey`, expiry, listing changed).
+
+**Fail criteria:** Agent routes to fixed sale / partial contribute, asks user for contract internals, or defaults to manual site flow when automated path is available.
+
+---
+
 ## Partial sale — agent checklist
 
 **User:** “Sell 5% of t7 fees for 0.05 ETH over 7 days.”
