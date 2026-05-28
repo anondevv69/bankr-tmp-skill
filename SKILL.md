@@ -2,7 +2,7 @@
 name: bankr-fee-rights
 description: TMP skills (Token Marketplace) — fee rights on Base in plain English. Users say tickers and ETH amounts only; agent resolves contracts silently. Mint, sell 100%, buy 1/1000 shares (public or password-gated via access-authorize), partial sale, group buy, crowdsource, timed grant, loan, redeem, bundle & rebirth, and plan reply-drop fee-right campaigns. Read flows-reference.md for every product (agent steps + human language side-by-side).
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 39
+version: 40
 metadata:
   clawdbot:
     emoji: "🧾"
@@ -47,6 +47,8 @@ When the user says **list**, **sell rights**, **sell for X ETH**, or **create NF
 **What can be reversed vs not — the master rule:** **`references/product-rules.md`** — covers every product. Key rules: (1) partial sale / group buy / crowdsource are **permanent** once finalized — no undo; (2) timed grants lock the grantee OUT of the stream — they only receive token transfers, cannot sell or loan; (3) loans auto-return at `endTime` — **fees during the loan go to the borrower directly**, not bundled back to lender; (4) after a finalized split, no one can redirect the underlying stream. Read before any grant, loan, or sale-integrity question.
 
 **Plain language intent routing:** **`references/user-language.md`** — maps spoken phrases to flows. **`references/all-escrow-options.md`** — full decision table + all mainnet addresses.
+
+**Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 
 **Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares — “cheapest”, “buy 1”, offer rank**), `reply-drop.md` (**planned reply-drop / reply-split campaign rules**), `redeem-rights-playbook.md` (redeem failures), `partial-sale-resolve-token.md` (token resolution for partial sales), **`bundle-rebirth-playbook.md`** (Bundle & Rebirth — **read first; stops agents getting stuck on mint/bundle**), **`mint-pending-deposit.md`** (stuck `prepareDeposit` / `needs_transfer`), `bundle-rebirth.md` (custody + APIs), `dm-intents.md` (DM templates), `bankr-agent-test-prompts.md` (QA).
 
