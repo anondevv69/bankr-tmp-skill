@@ -152,3 +152,22 @@ A share buy flow passes only if:
 - holder balance increased or transfer event confirms
 - no false "failed" message after successful tx
 
+---
+
+## 10) Canonical incident pattern (must handle)
+
+Real-world pattern to prevent:
+- User requests password buy on share page.
+- First simulation reverts.
+- A later tx actually succeeds on-chain.
+- Agent still replies “failed / do it manually.”
+
+Required handling:
+1. If any tx hash exists, check receipt first.
+2. If receipt is success, verify ownership delta and report success.
+3. Mark later `ListingInactive` as expected if listing was filled by that success tx.
+4. Never emit “I didn’t submit a tx” if a tx hash exists for this run.
+
+Example reference tx:
+- [Base tx `0x65d05ab67e1f7d07ed5e793c8aa33248fab8cb563d64400a0df2eddff4d92d7c`](https://basescan.org/tx/0x65d05ab67e1f7d07ed5e793c8aa33248fab8cb563d64400a0df2eddff4d92d7c)
+

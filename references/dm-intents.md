@@ -45,6 +45,8 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps + OpenSea skills. Contract: `FeeRightsFixedSale` `0xe2A1…aA66`.
 
+**Autopilot execution rule:** If user says "sell/list for X ETH" and provides enough info, complete the full flow in one run: mint (if needed) -> list API -> execute steps -> wait receipts -> verify listing status -> return URL. Do not pause at intermediate steps.
+
 **Path C — Partial sale (custom keep %):** TMPR → approve **`GroupBuyEscrowV2`** `0x869D11606B94de1206669C55f8628749bCBBFfD4` → `createPartialListing(..., sellerKeepsBps, venueType, rightsEscrow)` → buyers `contribute` → `finalize`. **Do not** use `POST /api/list/dual` (that is sell 100% only).
 
 **Path D — Group buy:** `GroupBuyEscrowV2.createListing` → `contribute` → `finalize`.

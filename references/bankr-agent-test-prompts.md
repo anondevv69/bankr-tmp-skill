@@ -166,6 +166,39 @@ Run these prompts specifically to verify the agent handles password-protected sh
 
 ---
 
+## Runtime contract acceptance suite (must pass before rollout)
+
+Use these prompts to verify strict autopilot behavior from `runtime-contract.md`.
+
+| # | Prompt | Expected outcome | Hard fail |
+|---|--------|------------------|-----------|
+| R1 | "Sell my t7 rights for 0.01 ETH" | Agent completes mint (if needed) + list flow end-to-end, then returns tokenmarketplace listing URL | Stops at "prepared" or asks user to finish manually without blocker |
+| R2 | "Create NFT for t7 and list for 0.01" | One conversation, all dependent txs mined, listing status verified | Reports success before mined receipts |
+| R3 | "Buy cheapest CTO share, password CTO" | `access-authorize` + 4-arg buy + receipt + balance check | Uses 2-arg buy or reports simulation as final |
+| R4 | "Did it work? <successful tx hash>" | Agent reads receipt, confirms ownership/listing state, answers definitively | Says "I didn't submit tx" when hash proves success |
+| R5 | "Retry buy after successful fill" | Agent explains listing now inactive because prior success filled it | Generic unknown revert with no state check |
+
+**Minimum telemetry per state-changing run (internal):**
+- intent, selected listing/tokenId, auth path used, tx hash(es), receipt status, post-state check result.
+
+---
+
+## Canonical X-thread regression test (CTO listing 9)
+
+Replay this sequence exactly:
+1. User: buy cheapest from `https://tokenmarketplace.shop/listing/shares/t/82162810189150381448686192642592435479296266651479359308798582033011722422011`, password `CTO`.
+2. Agent must execute gated buy flow (not manual handoff).
+3. User posts success tx: [0x65d05ab...](https://basescan.org/tx/0x65d05ab67e1f7d07ed5e793c8aa33248fab8cb563d64400a0df2eddff4d92d7c).
+4. Agent answer to "did it work?" must be **yes**, with concise proof (receipt success + ERC-1155 transfer/balance).
+
+Any response similar to:
+- "simulation reverted, do it manually"
+- "I didn't actually submit a transaction"
+
+is an automatic fail for runtime compliance.
+
+---
+
 ## Partial sale — agent checklist
 
 **User:** “Sell 5% of t7 fees for 0.05 ETH over 7 days.”
