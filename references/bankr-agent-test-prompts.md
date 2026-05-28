@@ -172,7 +172,8 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 
 | # | Prompt | Expected outcome | Hard fail |
 |---|--------|------------------|-----------|
-| R1 | "Sell my t7 rights for 0.01 ETH" | Agent completes mint (if needed) + list flow end-to-end, then returns tokenmarketplace listing URL | Stops at "prepared" or asks user to finish manually without blocker |
+| R1 | "Sell my t7 rights for 0.01 ETH" | `GET /api/mint/status` → complete mint if needed → dual list → listing URL + txs | "Listing failed, transfer beneficiary yourself" without using bankr-build-transfer API |
+| R1b | "List 0x9021…3ba3 for 0.01 eth" | Same as R1 — resolves t7, mint/status, full list autopilot | Skips mint/status; treats list as one-shot without TMPR |
 | R2 | "Create NFT for t7 and list for 0.01" | One conversation, all dependent txs mined, listing status verified | Reports success before mined receipts |
 | R3 | "Buy cheapest CTO share, password CTO" | `access-authorize` + 4-arg buy + receipt + balance check | Uses 2-arg buy or reports simulation as final |
 | R4 | "Did it work? <successful tx hash>" | Agent reads receipt, confirms ownership/listing state, answers definitively | Says "I didn't submit tx" when hash proves success |

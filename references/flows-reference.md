@@ -29,11 +29,12 @@ Every product on Token Marketplace. Two columns per flow: **what the agent does 
 ## FLOW 2 — Sell 100% (list for fixed ETH)
 
 ### Agent does (internal, silent)
-1. Confirm TMPR exists (or run Flow 1 first).
-2. `POST https://www.tokenmarketplace.shop/api/list/dual` `{ tokenId, priceEth, seller }`.
-3. Execute returned `site.steps[]` (approve + list on `FeeRightsFixedSale 0xe2A1…`).
-4. OpenSea skills → Seaport listing on Base.
-5. Verify: `GET /api/list/status?tokenId=` → active on both.
+1. **`GET /api/mint/status`** for launched token + seller wallet — execute `nextStep` until `phase === "ready"` (see **`sell-list-autopilot.md`**). **Do not** stop after prepare with “transfer beneficiary manually.”
+2. Confirm TMPR exists (or complete Flow 1 via mint/status in step 1).
+3. `POST https://www.tokenmarketplace.shop/api/list/dual` `{ tokenId, priceEth, seller }`.
+4. Execute returned `site.steps[]` (approve + list on `FeeRightsFixedSale 0xe2A1…`).
+5. OpenSea skills → Seaport listing on Base.
+6. Verify: `GET /api/list/status?tokenId=` → active on both.
 
 ### User says
 > "List my t7 fee rights for 0.01 ETH."  
