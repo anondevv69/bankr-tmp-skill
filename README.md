@@ -14,7 +14,7 @@
 install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 ```
 
-Covers: create NFT · list/sell 100% · buy 1/1000 share · partial · group buy · grants · loans · redeem.
+Covers: create NFT · list/sell 100% · buy 1/1000 share · **claim hybrid unit fees** · partial · group buy · grants · loans · redeem.
 
 Root files: `SKILL.md`, `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`, `references/`.
 
@@ -52,7 +52,7 @@ bankr-tmp-skill/
 
 ## Version
 
-Main skill: **49** (`VERSION` at repo root). Bundle rebirth companion: **1**.
+Main skill: **50** (`VERSION` at repo root). Bundle rebirth companion: **1**.
 
 ## Related
 

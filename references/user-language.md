@@ -21,6 +21,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Timed fee share** / **employee grant** / **assign 10% for 30 days** | Named wallet, **%** of fees for N days, **no ETH**, then return to you | `FeeRightsTimedGrantEscrow` |
 | **Paid time loan** / **bag worker** / **loan rights for X ETH** | **100%** to borrower for N days; **borrower pays** `priceWei`, then return to you | `FeeRightsLoanEscrow` |
 | **For sale** / **listed** | Site and/or OpenSea ask | `GET /api/list/status` + OpenSea |
+| **Claim fees** / **collect fees** / **claim my unit** / **claim CTO fees** | Pull + pay **all** ERC-1155 unit holders in one tx | **`HybridClaimRouter.claimFeesForToken`** — **`hybrid-claim-fees.md`** — **not** Bankr `collectFees` |
 | **Get fee rights back** / **redeem** | Burn TMPR, fees to wallet | `redeemRights(tokenId)` |
 | **Bundle & Rebirth** / **merge into $TICKER** / **burn 3 NFTs and launch** | Combine N fee receipts → WETH to **user** → dead-wallet old streams → new Bankr token + initial buy | `FeeRightsBundleEscrow` + `/api/bundle/*` + `token-launches/deploy` |
 | **1/1000 share** / **buy cheapest share** / **buy 1 unit** | One ERC-1155 unit from a **listed offer** on the share order book | `HybridShareMarketplace.buy` — **`share-market-buy.md`** |
@@ -32,6 +33,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 **Not the same:**
 
 - **NFT in wallet** ≠ **fee rights in wallet** — TMPR = escrowed; **redeem** restores direct beneficiary.
+- **Hybrid Unit** (ERC-1155 on `0xD8e0639…`) ≠ **direct Bankr beneficiary** — claim via **`HybridClaimRouter`**, not Bankr app `collectFees`.
 - **TMPR collection** (`0xCD66…`) ≠ **tokenId** ≠ **user wallet**.
 - **Timed fee share** (timed **%**, named wallet, **no ETH**) ≠ **paid time loan** (timed **100%**, borrower **pays**) ≠ **partial sale** (forever %, buyers pay ETH).
 - **“Loan my rights for 2 weeks for 0.1 ETH”** → **paid time loan**. **“Give 0x… 15% for 30 days”** → **timed fee share**.

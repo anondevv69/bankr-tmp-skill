@@ -8,13 +8,13 @@
 
 | Source | Expected |
 |--------|----------|
-| `SKILL.md` frontmatter `version:` | **49** |
-| Root `VERSION` file | **49** |
+| `SKILL.md` frontmatter `version:` | **50** |
+| Root `VERSION` file | **50** |
 | Root `BANKR-INSTALL-CHECK.md` | Lists three mandatory `.md` paths |
-| `skill-manifest.json` → `skillVersion` | **49** |
-| `references/` file count | **22** (includes this file) |
+| `skill-manifest.json` → `skillVersion` | **50** |
+| `references/` file count | **23** (includes this file) |
 
-**If Bankr says “updated to v27” (or any number ≠ 49):** that may be Bankr’s **internal** bundle counter. **Trust `VERSION` / `SKILL.md` / `BANKR-INSTALL-CHECK.md`.**
+**If Bankr says “updated to v27” (or any number ≠ 50):** that may be Bankr’s **internal** bundle counter. **Trust `VERSION` / `SKILL.md` / `BANKR-INSTALL-CHECK.md`.**
 
 **If the agent answers mandatory files as `references/` × 3 with no `.md` names:** skill text was **not** read — reinstall from `main` and read `BANKR-INSTALL-CHECK.md` before listing flows.
 
@@ -46,7 +46,7 @@ Before executing a list request, confirm you will:
 
 If user asks whether TMP skills are current:
 
-> TMP skills **v49** from github.com/anondevv69/bankr-tmp-skill — 20 reference files; mandatory listing files at repo root: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md.
+> TMP skills **v50** from github.com/anondevv69/bankr-tmp-skill — 21 reference files; mandatory listing files at repo root: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md.
 
 ---
 

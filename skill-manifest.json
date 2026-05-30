@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 49,
+  "skillVersion": 50,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
@@ -29,6 +29,7 @@
     "references/clanker-rescue-ops.md",
     "references/dm-intents.md",
     "references/flows-reference.md",
+    "references/hybrid-claim-fees.md",
     "references/listing-channels.md",
     "references/loan-no-forward-sale.md",
     "references/mint-pending-deposit.md",

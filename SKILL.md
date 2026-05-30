@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v49 Base fee rights. LIST AUTOPILOT at repo ROOT: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. List for X ETH = mint/status, bankr-build-transfer, list/dual, OpenSea. Tweet sell-100% = same as DM. Never Doppler handoff."
-tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth]
-version: 49
-tmp_skill_version: "49"
+description: "TMP skills v50 Base fee rights. LIST AUTOPILOT at repo ROOT: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. Hybrid unit claim: references/hybrid-claim-fees.md — NEVER Bankr collectFees for ERC-1155 units. List for X ETH = mint/status, bankr-build-transfer, list/dual, OpenSea."
+tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
+version: 50
+tmp_skill_version: "50"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 20
+reference_file_count: 21
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 49
+TMP skills version 50
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **49** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **50** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 ---
 
@@ -84,6 +84,8 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 
 **Normal talk only:** **`references/normal-talk-only.md`** — never expose poolId, bps, wei, escrow addresses, `approve GroupBuyEscrow`, or contract names to users. Resolve silently; reply in plain English always.
 
+**CRITICAL — hybrid unit fee claim:** If the user holds **“TMPR #N · … · Unit”** (ERC-1155 on `0xD8e0639…`) or asks to **claim fees on a 1/1000 share**, read **`references/hybrid-claim-fees.md`** first. **Never** call Bankr fee-manager **`collectFees`** from the user wallet — that path returns **0** and does not pay co-owners. Use **`HybridClaimRouter.claimFeesForToken`** (`0x0f5148…`) with **all unit holders**.
+
 **CRITICAL — user pasted `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e`:** That is the **TMPR NFT collection**, not a token. Do not run `token-fees` on it. Read **`references/tmpr-collection-address-trap.md`** → ask for the token name or ticker instead.
 
 **Active loan — no forward sale:** While a token is on a **paid time loan**, **do not** dual-list, partial-sell, grant, or bundle that pool. Fee rights must **return to the original lender** on `reclaimLoan` — not be sold forward. Lender has no TMPR to list; borrower must not list either. Read **`references/loan-no-forward-sale.md`** before any sale flow.
@@ -95,11 +97,11 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
-**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v49**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v50**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
-**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`hybrid-claim-fees.md`** (**claim fees on hybrid units**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
 
 ---
 
@@ -144,6 +146,7 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | **Crowdsource** / **I seed 0.1 raise 0.1 from backers** | **`GroupBuyEscrowV2.createCrowdsource`** payable (seed) — co-own by ETH; **not** partial sale |
 | **Timed fee share** / **give 10% for 30 days** / **assign wallet X%** | **`FeeRightsTimedGrantEscrow`** — no ETH from grantee; lender runs **`distributeFees`** on schedule |
 | **Paid time loan** / **loan fees for N days for X ETH** | **`FeeRightsLoanEscrow`** — borrower gets **100%**; claims fees directly; **not** grant distribute |
+| **Claim fees** / **collect fees** / **claim my unit** / **claim CTO fees** | **`references/hybrid-claim-fees.md`** if ERC-1155 **Unit** on `0xD8e0639…` → **`HybridClaimRouter.claimFeesForToken`** — **not** Bankr `collectFees` |
 | **Get fee rights back** / **return to wallet** / **be the reward person again** / **convert NFT back** | `redeemRights(tokenId)` on correct escrow — **not** an NFT transfer (see § Get fee rights back) |
 | **What’s for sale?** | `GET /api/list/status` — site + OpenSea; group buy listings on site **Group buy** tab |
 | **What NFTs do I have?** | TMPR balance + `positionOf` per tokenId |
@@ -687,7 +690,7 @@ If My Launches hasn’t updated yet, that’s normal indexer delay — use the l
    - **Crowdsource:** `createCrowdsource(..., venueType, rightsEscrow)` with `msg.value` = creator seed; `targetRaise` = ETH from outsiders only.
 3. Buyers `contribute(listingId)` with ETH until `totalRaised >= priceWei` (crowdsource: outsiders only; seed does not count toward target).
 4. Anyone `finalize(listingId)` → 0xSplits; fees route per `venueType`.
-5. **Claim:** Bankr/Clanker claim → site **Distribute** on listing (group buy tab).
+5. **Claim (hybrid V6 / ERC-1155 units):** **`HybridClaimRouter.claimFeesForToken`** — see **`references/hybrid-claim-fees.md`**. **Claim (legacy V2–V5 Liquid Split):** pull via **`BankrSplitFeeCollector`** → **0xSplits distribute** on site **Completed group sales**.
 
 **Do not use `POST /api/list/dual` for partial sale** — that is sell **100%** only.
 

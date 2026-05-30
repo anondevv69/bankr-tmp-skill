@@ -317,6 +317,32 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 
 ---
 
+## FLOW 13 — Claim fees on hybrid unit (ERC-1155)
+
+**When:** User holds **TMPR units** (1/1000 share) or says “claim fees on my CTO / t7 unit”.
+
+### User says
+> "Claim fees for my CTO unit"  
+> "Collect the fees on TMPR #12"  
+> "@bankr claim fees for 0xb6fB…"
+
+### Agent does (silent)
+1. Confirm **ERC-1155** balance on hybrid TMPR `0xD8e0639…` — label often includes **"Unit"**.
+2. Resolve **tokenId** from NFT metadata or `positionOf` scan matching launch token.
+3. **Do not** call Bankr **`collectFees`** from user wallet.
+4. Build full holder list (1000 units) — see **`hybrid-claim-fees.md`**.
+5. `HybridClaimRouter.claimFeesForToken(tokenId, recipients, isBankrVenue=true)` on `0x0f5148…`.
+6. Parse **`ClaimedHybridFees`** + user wallet balance delta (pro-rata).
+
+### Agent replies
+> "Claimed **$CTO** trading fees for all **N** unit holders. Your share: **X WETH** + **Y CTO**. [BaseScan]"
+
+> (empty vault) "Ran the marketplace claim — **nothing to distribute** yet. Fees may still be accruing. [tx]"
+
+**Full spec:** **`hybrid-claim-fees.md`**
+
+---
+
 ## Human ↔ Agent quick reference
 
 | What you say | What it means | Bankr does |
@@ -333,6 +359,7 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 | "What do I have?" | Portfolio | Scan launches + TMPR |
 | "Buy cheapest 1/1000 share of $t7" | Share market | HybridShareMarketplace.buy |
 | "Buy 1 share with password xxx" | Gated share buy | access-authorize + buy(…, signature) |
+| "Claim fees on my unit" / "collect CTO fees" | Hybrid unit claim | `claimFeesForToken` — **`hybrid-claim-fees.md`** |
 | "First 100 replies get 1%" | Reply drop | Explain unit math + gather campaign params |
 
 ---

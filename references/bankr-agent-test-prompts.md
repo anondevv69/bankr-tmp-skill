@@ -170,7 +170,7 @@ Run these prompts specifically to verify the agent handles password-protected sh
 
 | # | Prompt | Expected outcome | Hard fail |
 |---|--------|------------------|-----------|
-| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v49**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter (e.g. v30) ≠ 49 | Claims v47 or older; blank bullets; `references/` × 3 without .md; says Doppler manual step is default for list |
+| I1 | "What TMP skill version is loaded? List the three mandatory listing reference files." | **v50**; names `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`; may note Bankr internal counter (e.g. v30) ≠ 50 | Claims v47 or older; blank bullets; `references/` × 3 without .md; says Doppler manual step is default for list |
 
 See **`skill-install-verification.md`**.
 
@@ -323,7 +323,29 @@ Agent should:
 | Clanker/Zora timed grant | `createGrantClanker` missing | Deploy **new** FeeRightsTimedGrantEscrow |
 | “Sell 5%” → `sellerKeepsBps=500` | Wrong economics | Must be **9500** to *keep* 95% |
 | `priceWei` = full token price | Overpriced raise | `priceWei` = ETH for **sold % only** |
+| Hybrid unit claim → Bankr `collectFees` | 0 WETH / 0 token “success” | **`hybrid-claim-fees.md`** — use **`claimFeesForToken`** |
 | Grantee “claim in Bankr” | User confusion | Explain **distributeFees** by lender |
+
+---
+
+## Hybrid unit fee claim — regression (May 2026)
+
+**User:** Holds **TMPR #12 · Unit** for **$CTO**; tweets “claim fees” with token `0xb6fB…`.
+
+**Wrong agent behavior (fail):**
+
+- Calls Bankr fee-manager **`collectFees(poolId)`** from user/Bankr wallet.
+- Reports “✅ claimed” with **0 WETH / 0 CTO** from **Collect** event.
+
+**Correct agent behavior (pass):**
+
+1. Detect ERC-1155 unit on `0xD8e0639…`.
+2. Read **`hybrid-claim-fees.md`**.
+3. Submit **`HybridClaimRouter.claimFeesForToken(12, allHolders, true)`**.
+4. Report **`ClaimedHybridFees`** amounts + user’s pro-rata share.
+5. If vault empty, say **no fees to distribute** — do not imply Bankr launch claim worked.
+
+**Tx to cite as wrong-path example:** [0xbc1d690e…](https://basescan.org/tx/0xbc1d690e38dc6e00b281bcbd26406c2b1cf127d573a688c4dae634e7bcabc745) — Collect 0/0.
 
 ---
 

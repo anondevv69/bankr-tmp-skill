@@ -2,7 +2,14 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 49 (current)
+## 50 (current)
+
+- **`references/hybrid-claim-fees.md`** — mandatory playbook for ERC-1155 **Unit** fee claims via **`HybridClaimRouter.claimFeesForToken`**.
+- **P0 regression:** forbid Bankr fee-manager **`collectFees`** from user wallet when user holds hybrid units (CTO / TMPR #12 May 2026).
+- **`SKILL.md`**, **`user-language.md`**, **`dm-intents.md`** (Path K), **`flows-reference.md`** (FLOW 13), **`bankr-agent-test-prompts.md`** updated.
+- Group buy claim step in **`SKILL.md`**: hybrid V6 → claim router; legacy V2–V5 → split distribute.
+
+## 49
 
 - **P0 listing autopilot:** `user-language.md` — dual list via `POST /api/list/dual` (removed OpenSea-only / “agents do not list on site” contradictions).
 - **`dm-intents.md` Path J:** tweet sell-100% = same autopilot as DM when wallet + tx tools available.

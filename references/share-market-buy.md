@@ -118,6 +118,8 @@ Common false alarm: simulation reverted on attempt #1 (wrong `msg.value`, expire
 **User-facing success (example):**  
 “Bought **1 share** of **$t7** fee rights for **0.002 ETH** from the cheapest listing. You now hold **1 of 1000** units — claim your fee slice when the pool distributes.”
 
+**Later — claim fees:** After the user holds units, fee claims use **`HybridClaimRouter.claimFeesForToken`** (same as the site **Claim fees** button). Read **`hybrid-claim-fees.md`** — **never** Bankr fee-manager `collectFees` from the buyer wallet.
+
 Link: `https://www.tokenmarketplace.shop/listing/shares/t/{tokenId}`
 
 ---
