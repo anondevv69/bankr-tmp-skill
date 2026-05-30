@@ -48,7 +48,7 @@
 **Before any hybrid claim**, call:
 
 ```text
-GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=0x…
+GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=0x…&serial=12
 ```
 
 | Response field | Use |
@@ -61,6 +61,10 @@ GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet
 | `nextStep.agentMustNot` | Never Bankr `collectFees` from user wallet |
 
 **Do not ask the user to paste the token contract** if they already gave **`0xb6fB…`** or **`$CTO`** in the same tweet/thread — resolve via this API + linked Bankr wallet.
+
+**ERC-20 ≠ units:** **`1.86M CTO`** in the wallet is the **meme token** (ERC-20). Fee-right **units** are **ERC-1155** on hybrid TMPR **`0xD8e0639…`**. Never say “zero units” because you only checked ERC-20 balance.
+
+**Doppler `token-fees` may return empty** for group-buy / hybrid CTO launches — then pass **`wallet=0x…`** and/or **`serial=12`** (TMPR **#12** label, not `tokenId=12`) to `/api/claim/hybrid-status`; API scans hybrid positions on-chain.
 
 **Ticker-only tweet (`$CTO`):** call API with each candidate from `get_token_launch_info` / wallet scan, or ask **once** for the `0x…` address if multiple matches.
 
