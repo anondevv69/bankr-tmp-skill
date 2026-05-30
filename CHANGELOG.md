@@ -2,7 +2,28 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 51 (current)
+## 55 (current)
+
+- **`hybrid-claim-single-recipient-regression.md`:** tx 0xd866… paid 1 wallet only — forbid `recipients=[requester]` when unitsHeld < 1000.
+- API `nextStep.data` only when full cap table; decode recipientCount before sign.
+
+## 54
+
+- **`hybrid-claim-zero-units-regression.md`:** claim tweet must scan ERC-1155 before “0 units”; same thread “yes claim now” rule.
+- CTO May 2026: Bankr found 630 units on erc1155 check but denied on claim — documented fail pattern.
+
+## 53
+
+- **Linked wallet:** user never pastes wallet — Bankr injects from X↔Bankr connection.
+- **`hybrid-status` API:** `proof` + `agentInstructions` — claim pays all holders; `canSubmitTx` gate.
+- Tweet templates: token only (optional serial).
+
+## 52
+
+- **`hybrid-claim-fees.md` § Glossary:** explicit definitions — `token=` vs `wallet=`, ERC-20 vs units, serial vs `hybridTokenId`, buy tx vs claim tx, tweet phrase meanings. CTO worked example addresses.
+- Fix: “TMPR #12” → **`serial=12`**, not on-chain id `12`.
+
+## 51
 
 - **`GET /api/claim/hybrid-status`** on tokenmarketplace.shop — resolves hybrid tokenId, units, vault, claim calldata for agents.
 - **Tweet hybrid claim (Path L):** execute from public @bankr when X↔Bankr wallet linked; do not re-ask for address if `0x…` in tweet.

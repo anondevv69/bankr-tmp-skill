@@ -2,6 +2,91 @@
 
 **Read this before any “claim fees / collect fees / claim my CTO” request when the user holds a TMPR *Unit* (ERC-1155) or bought shares on the hybrid share market.**
 
+---
+
+## Glossary — what each thing means (read first)
+
+Agents **must** understand these distinctions. Users will **not** use this jargon — translate silently.
+
+### Assets (three different things)
+
+| Term | What it is | Example (CTO) | Used for |
+|------|------------|---------------|----------|
+| **Launch token / ERC-20 / `token=`** | The meme coin on Base | `0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3` | Identifies **which pool/sale**; API query param **`token=`** |
+| **Fee-right units / ERC-1155 units** | Share of **trading fees** (1000 total per sale) | **628 units** = 62.8% of fee stream | **`balanceOf(wallet, hybridTokenId)`** on hybrid TMPR |
+| **ERC-20 balance of launch token** | Coins user holds in wallet | **1.86M CTO** tokens | **NOT** fee-right units — **never** use this to infer units |
+
+**Hard rule:** User says “I have ~600 units” → check **ERC-1155 on `0xD8e0639…`**. User holding **millions of CTO ERC-20** does **not** mean they have units (and vice versa).
+
+### Addresses (do not swap)
+
+| Address type | Meaning | CTO example |
+|--------------|---------|-------------|
+| **`token=` (API) / launch ERC-20** | Meme token contract | `0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3` |
+| **`wallet=` (API)** | **Bankr injects** from linked connection — scans ERC-1155 units | Example: `0xA20A…` holds **628 units** |
+| **Bankr custodial prefix `0x374d…`** | Often a **Bankr wallet** — valid **`wallet=`**, **never** **`token=`** | `0x374d91a5674fa7cf86e725093b5848b97e1e13b4` is a **wallet**, not the CTO token |
+| **Hybrid TMPR collection** | Contract holding all hybrid sales + units | `0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7` |
+| **HybridShareMarketplace** | Where users **buy/sell units** | `0x90230B59…` — buy tx ≠ claim tx |
+
+**Hard rule:** Putting a **wallet** in **`token=`** → API error `Bankr token-fees failed`. Swap params correctly.
+
+### Linked wallet — user never pastes wallet
+
+| Who provides `wallet=` | When |
+|------------------------|------|
+| **Bankr agent** | Always — from **X↔Bankr linked wallet** or DM session wallet |
+| **User in tweet/DM** | **Never required** — Bankr scans that wallet for ERC-1155 units |
+
+**Flow:**
+1. User tweets `@bankrbot claim CTO unit fees 0xb6fB…` (token only — enough).
+2. Bankr resolves **linked wallet** silently (same as tweet listing / sell autopilot).
+3. Bankr calls **`GET …/hybrid-status?token=0xb6fB…&wallet=<linked>`** — proves **`unitsHeld`**, **`vaultHasFees`**, **`capTableComplete`**, returns pre-encoded **`claimFeesForToken`** calldata.
+4. Bankr submits tx — **`claimFeesForToken` pays ALL unit holders** in one shot. Requester is the **gas signer**, not the sole beneficiary.
+
+**Do not ask** “what’s your wallet?” or “paste wallet address” when X is linked to Bankr. **Do not** use Bankr **`collectFees`** — that only touches the caller’s wallet and returns 0 for unit holders.
+
+**Optional `serial=N`:** disambiguates when user says “TMPR #12” and Doppler pool lookup fails. User still does **not** paste wallet.
+
+### IDs (three different numbers)
+
+| Term | Meaning | CTO example |
+|------|---------|-------------|
+| **`serial` / “TMPR #12”** | Human label — **12th** hybrid sale on site | UI shows **“TMPR #12 · Unit”** |
+| **`hybridTokenId`** | Long on-chain id for ERC-721 + ERC-1155 | `82162810189150381448686192642592435479296266651479359308798582033011722422011` |
+| **Small integer `12`** | **NOT** the on-chain id unless proven | **`tokenId=12` on hybrid TMPR is usually wrong** |
+
+**Hard rule:** User says “TMPR #12” → API/query param **`serial=12`**, then read **`hybridTokenId`** from API or `positionOf` scan. **Never** pass `12` as `claimFeesForToken` tokenId without verification.
+
+### User tweet phrases (what they mean — agent interprets)
+
+| User says | Agent understands |
+|-----------|-------------------|
+| “claim CTO fee-right unit fees `0xb6fB…`” | **`token=0xb6fB…`** → hybrid claim for that sale |
+| “TMP hybrid claim” / “TMP v53” | Load **`hybrid-claim-fees.md`**; use **`claimFeesForToken`**, not **`collectFees`** |
+| “628 units” / “~600 units” | Confirm via linked wallet **`unitsHeld`** from API — user does not paste units |
+| “$CTO” only | Ticker ambiguous — prefer **`0xb6fB…`** from thread; else one clarifying question |
+| “paste contract address” (agent ask) | **Wrong** if user already gave **`0xb6fB…`** |
+| “paste wallet address” (agent ask) | **Wrong** when X↔Bankr linked — use linked wallet silently |
+
+### Transactions (buy vs claim)
+
+| Tx type | What happened | What to look for on BaseScan |
+|---------|---------------|------------------------------|
+| **Share buy** | User **acquired units** | `HybridShareMarketplace`, **TransferSingle** ERC-1155, `quantity` e.g. **628** |
+| **Hybrid fee claim** | Pull fees + **pay all unit holders** | **`HybridClaimRouter`**, events **`ClaimedHybridFees`** |
+| **Bankr launch claim (WRONG for units)** | `collectFees` from user wallet | Fee manager **`Collect`** with **0/0** — **not** a successful unit claim |
+
+**CTO reference buy tx:** [0x27ccf819…](https://basescan.org/tx/0x27ccf819214f2829858a1cb22decfd5c17aea7f7a79cfcc98dc495e856510180) — buyer `0xA20A…` received **628 units**; this is **not** claiming fees.
+
+### Claim methods
+
+| Method | When | Pays |
+|--------|------|------|
+| **`HybridClaimRouter.claimFeesForToken(tokenId, recipients, true)`** | Hybrid unit fee claim | **All** unit holders pro-rata |
+| **Bankr `collectFees(poolId)` from user wallet** | Sole direct beneficiary (no units) | Caller only — **wrong for unit holders** |
+
+---
+
 ## P0 regression — do NOT use Bankr launch claim
 
 | Wrong (forbidden for hybrid units) | Right (Token Marketplace path) |
@@ -43,36 +128,37 @@
 
 ## Agent flow (execute silently)
 
-### 0 — Status API (mandatory for tweets and “claim CTO”)
+### 0 — Status API (mandatory — proves claim + builds all-holder tx)
 
-**Before any hybrid claim**, call:
+**Before any hybrid claim**, Bankr calls (linked wallet injected silently):
 
 ```text
-GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=0x…&serial=12
+GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=<linkedWallet>&serial=12
 ```
 
 | Response field | Use |
 |----------------|-----|
+| `proof.claimPaysAllHolders` | **true** — this tx pays everyone, not only requester |
+| `proof.canSubmitTx` | **true** → submit `nextStep.data` |
+| `proof.requesterHasUnits` | Confirms linked wallet holds units |
+| `proof.holderCount` | How many wallets receive payout |
 | `hybridTokenId` | On-chain id for `claimFeesForToken` (NOT the UI serial “#12”) |
-| `serialLabel` | Human label e.g. `"12"` → “TMPR #12” |
-| `unitsHeld` / `userSharePct` | User’s ERC-1155 position |
+| `unitsHeld` / `userSharePct` | Requester’s share from linked wallet scan |
 | `phase` | `ready` \| `vault_empty` \| `no_units_in_wallet` \| `needs_holder_scan` \| `not_finalized` |
-| `nextStep.data` | Pre-encoded `claimFeesForToken` when holder indexer is complete |
+| `nextStep.data` | Pre-encoded **`claimFeesForToken(all holders)`** when indexer complete |
 | `nextStep.agentMustNot` | Never Bankr `collectFees` from user wallet |
 
-**Do not ask the user to paste the token contract** if they already gave **`0xb6fB…`** or **`$CTO`** in the same tweet/thread — resolve via this API + linked Bankr wallet.
+**Never ask the user for their wallet** on tweet/DM when X↔Bankr is linked — use the same linked wallet as sell/list autopilot.
 
-**ERC-20 ≠ units:** **`1.86M CTO`** in the wallet is the **meme token** (ERC-20). Fee-right **units** are **ERC-1155** on hybrid TMPR **`0xD8e0639…`**. Never say “zero units” because you only checked ERC-20 balance.
+**ERC-20 ≠ units:** **`1.86M CTO`** is the meme token. Fee-right **units** are **ERC-1155** on hybrid TMPR — scan linked wallet, not ERC-20 balance.
 
-**Doppler `token-fees` may return empty** for group-buy / hybrid CTO launches — then pass **`wallet=0x…`** and/or **`serial=12`** (TMPR **#12** label, not `tokenId=12`) to `/api/claim/hybrid-status`; API scans hybrid positions on-chain.
-
-**Ticker-only tweet (`$CTO`):** call API with each candidate from `get_token_launch_info` / wallet scan, or ask **once** for the `0x…` address if multiple matches.
+**Doppler `token-fees` may return empty** — Bankr passes **linked `wallet=`** + optional **`serial=`**; API scans on-chain.
 
 ---
 
 ### 1 — Detect hybrid unit holding
 
-1. User wallet (Bankr custodial or EOA).
+1. **Linked wallet** (Bankr custodial or EOA from X/DM session — not user-pasted).
 2. Scan hybrid TMPR `0xD8e0639…`:
    - Alchemy `getNFTsForOwner` (ERC-1155) **or**
    - `balanceOf(wallet, tokenId)` for known `tokenId`.
@@ -117,13 +203,19 @@ If cap table incomplete → expand scan (Alchemy NFT API for contract `0xD8e0639
 
 **Sort recipients ascending by address** (router expects sorted list).
 
-### 4 — Submit claim tx
+### 4 — Submit claim tx (all holders — mandatory)
+
+**Only submit when `GET /api/claim/hybrid-status` returns `proof.canSubmitTx === true`.**
+
+Use **`nextStep.data` exactly** — **never** build calldata with `recipients: [linkedWallet]` when **`unitsHeld < 1000`**.
+
+Before sign, verify **`nextStep.recipientCount >= 2`** (unless requester holds all 1000 units). See **`hybrid-claim-single-recipient-regression.md`**.
 
 ```text
 HybridClaimRouter.claimFeesForToken(
   tokenId,
-  recipients[],   // all current unit holders, sorted
-  isBankrVenue      // true when positionOf.factoryName / venue is Bankr
+  recipients[],   // ALL current unit holders — sorted — from API only
+  isBankrVenue
 )
 ```
 
@@ -161,7 +253,7 @@ Follow **`runtime-contract.md`**: wait mined receipt → read logs.
 | User says | Agent does |
 |-----------|------------|
 | “Claim fees on my CTO unit” | Detect hybrid unit → `claimFeesForToken` |
-| “Collect fees for TMPR #12” | tokenId = 12 on `0xD8e0639…` → full holder scan → claim |
+| “Collect fees for TMPR #12” | **`serial=12`** → resolve **`hybridTokenId`** via API — **not** on-chain id `12` |
 | “Claim my 1/1000 share fees” | Same — hybrid unit claim |
 | “Claim fees for token `0xb6fB…`” | Resolve tokenId from `positionOf` scan → hybrid if units exist |
 | “@bankr claim fees” ( holds Unit NFT ) | **This doc** — not Bankr Doppler claim |
@@ -201,7 +293,25 @@ Claim fees for my CTO unit in my Bankr wallet
 
 **Fail the run** if the only tx is fee-manager `collectFees` from the user wallet while they hold hybrid **Unit** NFTs.
 
+**Fail the run** if bot says **“0 hybrid units”** on a claim request but **would find units** when user asks “how many erc1155?” — see **`hybrid-claim-zero-units-regression.md`**.
+
 ---
+
+## Same thread: user confirmed units → claim immediately
+
+If Bankr already replied **“you hold N ERC-1155 units… want me to run the claim now?”** and user says **yes** / **claim now**:
+
+| Do | Don't |
+|----|-------|
+| Use **`hybridTokenId`** from that reply | Re-run Doppler “direct beneficiary” check |
+| **`claimFeesForToken(all holders)`** | **`collectFees`** from user wallet |
+| Report **N holders paid** + user's **pro-rata** share | Say “0 units” again |
+
+User reply (copy-paste):
+
+```text
+@bankrbot yes — run the hybrid claim now for all TMPR #12 holders
+```
 
 ## @bankr tweet execution (public X — same as DM)
 
@@ -209,29 +319,33 @@ Claim fees for my CTO unit in my Bankr wallet
 
 | Step | Action |
 |------|--------|
-| 0 | **`GET /api/claim/hybrid-status?token=0x…&wallet=linkedWallet`** — never ask for address if `0x…` is already in the tweet |
-| 1 | If `phase === ready` and `nextStep.data` present → **`bankr.tx.prepare`** / confirm |
+| 0 | Resolve **linked wallet** from X↔Bankr — **`GET /api/claim/hybrid-status?token=0x…&wallet=<linked>`** — never ask user to paste wallet |
+| 1 | Read **`proof.claimPaysAllHolders`** + **`proof.canSubmitTx`** — if ready, **`bankr.tx.prepare`** `nextStep.data` |
 | 2 | If `phase === needs_holder_scan` → expand holder scan, rebuild calldata, then submit |
-| 3 | If `phase === vault_empty` → reply plainly: ran marketplace claim, **nothing to distribute** (not “✅ claimed”) |
-| 4 | Report **`ClaimedHybridFees`** + user **pro-rata** share + **recipient count** |
+| 3 | If `phase === vault_empty` → reply plainly: ran marketplace claim for **all holders**, **nothing to distribute** |
+| 4 | Report **`ClaimedHybridFees`** + user **pro-rata** share + **`proof.holderCount`** (everyone paid) |
 
-**Do not** reply “paste the contract address” when the tweet already includes **`0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3`** or `@bankr claim … 0xb6fb…`.
+**Do not** reply “paste the contract address” when the tweet already includes **`0xb6fB…`**.
 
-**Do not** stop at “link the site” if wallet + prepare path exists — execute like **`sell-list-autopilot`** tweet listing.
+**Do not** reply “paste your wallet” when X↔Bankr is linked — scan linked wallet like sell/list autopilot.
+
+**Do not** stop at “link the site” if linked wallet + prepare path exists.
 
 ### Tweet the user can post (copy-paste)
 
-Single tweet — includes token address so Bankr never asks again:
+**This is all you need** (X linked to Bankr):
 
 ```text
-@bankrbot claim hybrid unit fees for all holders on 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 — TMP skills v50 — use GET tokenmarketplace.shop/api/claim/hybrid-status then claimFeesForToken
+@bankrbot claim all CTO fee-right unit fees for all holders 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3
 ```
 
-Shorter:
+With serial if you say “TMPR #12”:
 
 ```text
-@bankrbot claim all CTO fee-right unit fees 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 (TMP v50 hybrid claim)
+@bankrbot claim hybrid unit fees for all holders — token 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 serial 12
 ```
+
+**Do not paste your wallet** — Bankr reads it from your linked account. The tx pays **every** unit holder, not just you.
 
 **Requires:** X account ↔ Bankr wallet linked (same as tweet listing). If not linked, Bankr can only guide — user connects wallet or uses site **Claim fees**.
 
