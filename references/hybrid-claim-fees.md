@@ -43,6 +43,29 @@
 
 ## Agent flow (execute silently)
 
+### 0 — Status API (mandatory for tweets and “claim CTO”)
+
+**Before any hybrid claim**, call:
+
+```text
+GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=0x…
+```
+
+| Response field | Use |
+|----------------|-----|
+| `hybridTokenId` | On-chain id for `claimFeesForToken` (NOT the UI serial “#12”) |
+| `serialLabel` | Human label e.g. `"12"` → “TMPR #12” |
+| `unitsHeld` / `userSharePct` | User’s ERC-1155 position |
+| `phase` | `ready` \| `vault_empty` \| `no_units_in_wallet` \| `needs_holder_scan` \| `not_finalized` |
+| `nextStep.data` | Pre-encoded `claimFeesForToken` when holder indexer is complete |
+| `nextStep.agentMustNot` | Never Bankr `collectFees` from user wallet |
+
+**Do not ask the user to paste the token contract** if they already gave **`0xb6fB…`** or **`$CTO`** in the same tweet/thread — resolve via this API + linked Bankr wallet.
+
+**Ticker-only tweet (`$CTO`):** call API with each candidate from `get_token_launch_info` / wallet scan, or ask **once** for the `0x…` address if multiple matches.
+
+---
+
 ### 1 — Detect hybrid unit holding
 
 1. User wallet (Bankr custodial or EOA).
@@ -173,3 +196,43 @@ Claim fees for my CTO unit in my Bankr wallet
 ```
 
 **Fail the run** if the only tx is fee-manager `collectFees` from the user wallet while they hold hybrid **Unit** NFTs.
+
+---
+
+## @bankr tweet execution (public X — same as DM)
+
+**Rule:** Hybrid unit **claim on tweet** uses the **same tx path** as DM when the tweeter’s **X account is linked to a Bankr wallet** and **`bankr.tx.prepare`** is available.
+
+| Step | Action |
+|------|--------|
+| 0 | **`GET /api/claim/hybrid-status?token=0x…&wallet=linkedWallet`** — never ask for address if `0x…` is already in the tweet |
+| 1 | If `phase === ready` and `nextStep.data` present → **`bankr.tx.prepare`** / confirm |
+| 2 | If `phase === needs_holder_scan` → expand holder scan, rebuild calldata, then submit |
+| 3 | If `phase === vault_empty` → reply plainly: ran marketplace claim, **nothing to distribute** (not “✅ claimed”) |
+| 4 | Report **`ClaimedHybridFees`** + user **pro-rata** share + **recipient count** |
+
+**Do not** reply “paste the contract address” when the tweet already includes **`0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3`** or `@bankr claim … 0xb6fb…`.
+
+**Do not** stop at “link the site” if wallet + prepare path exists — execute like **`sell-list-autopilot`** tweet listing.
+
+### Tweet the user can post (copy-paste)
+
+Single tweet — includes token address so Bankr never asks again:
+
+```text
+@bankrbot claim hybrid unit fees for all holders on 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 — TMP skills v50 — use GET tokenmarketplace.shop/api/claim/hybrid-status then claimFeesForToken
+```
+
+Shorter:
+
+```text
+@bankrbot claim all CTO fee-right unit fees 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 (TMP v50 hybrid claim)
+```
+
+**Requires:** X account ↔ Bankr wallet linked (same as tweet listing). If not linked, Bankr can only guide — user connects wallet or uses site **Claim fees**.
+
+### Tweet success reply (plain English)
+
+> “Claimed **$CTO** trading fees for **N** unit holders in one tx. Your **~60%** share: **X WETH** + **Y CTO**. [BaseScan]”
+
+(Serial label **TMPR #12** is fine in the reply — on-chain id comes from the API.)

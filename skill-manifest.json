@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 50,
+  "skillVersion": 51,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",

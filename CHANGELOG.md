@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 50 (current)
+## 51 (current)
+
+- **`GET /api/claim/hybrid-status`** on tokenmarketplace.shop — resolves hybrid tokenId, units, vault, claim calldata for agents.
+- **Tweet hybrid claim (Path L):** execute from public @bankr when X↔Bankr wallet linked; do not re-ask for address if `0x…` in tweet.
+- **`hybrid-claim-fees.md`:** tweet copy-paste prompts + status API step 0.
+
+## 50
 
 - **`references/hybrid-claim-fees.md`** — mandatory playbook for ERC-1155 **Unit** fee claims via **`HybridClaimRouter.claimFeesForToken`**.
 - **P0 regression:** forbid Bankr fee-manager **`collectFees`** from user wallet when user holds hybrid units (CTO / TMPR #12 May 2026).

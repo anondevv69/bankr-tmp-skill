@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v50 Base fee rights. LIST AUTOPILOT at repo ROOT: sell-list-autopilot.md, runtime-contract.md, t7-list-failure-regression.md. Hybrid unit claim: references/hybrid-claim-fees.md — NEVER Bankr collectFees for ERC-1155 units. List for X ETH = mint/status, bankr-build-transfer, list/dual, OpenSea."
+description: "TMP skills v51 Base fee rights. Hybrid tweet claim: GET /api/claim/hybrid-status then claimFeesForToken. LIST AUTOPILOT at repo ROOT. Never Bankr collectFees for ERC-1155 units."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 50
-tmp_skill_version: "50"
+version: 51
+tmp_skill_version: "51"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 50
+TMP skills version 51
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **50** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **51** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 ---
 
@@ -84,7 +84,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 
 **Normal talk only:** **`references/normal-talk-only.md`** — never expose poolId, bps, wei, escrow addresses, `approve GroupBuyEscrow`, or contract names to users. Resolve silently; reply in plain English always.
 
-**CRITICAL — hybrid unit fee claim:** If the user holds **“TMPR #N · … · Unit”** (ERC-1155 on `0xD8e0639…`) or asks to **claim fees on a 1/1000 share**, read **`references/hybrid-claim-fees.md`** first. **Never** call Bankr fee-manager **`collectFees`** from the user wallet — that path returns **0** and does not pay co-owners. Use **`HybridClaimRouter.claimFeesForToken`** (`0x0f5148…`) with **all unit holders**.
+**CRITICAL — hybrid unit fee claim:** If the user holds **“TMPR #N · … · Unit”** (ERC-1155 on `0xD8e0639…`) or asks to **claim fees on a 1/1000 share** (tweet or DM), read **`references/hybrid-claim-fees.md`**. First call **`GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=0x…`**. **Never** call Bankr fee-manager **`collectFees`** from the user wallet. **Never** ask for the token address if the tweet already includes **`0xb6fB…`** or a full ERC-20. Use **`HybridClaimRouter.claimFeesForToken`** (`0x0f5148…`).
 
 **CRITICAL — user pasted `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e`:** That is the **TMPR NFT collection**, not a token. Do not run `token-fees` on it. Read **`references/tmpr-collection-address-trap.md`** → ask for the token name or ticker instead.
 
@@ -97,7 +97,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
-**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v50**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v51**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
@@ -146,7 +146,7 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | **Crowdsource** / **I seed 0.1 raise 0.1 from backers** | **`GroupBuyEscrowV2.createCrowdsource`** payable (seed) — co-own by ETH; **not** partial sale |
 | **Timed fee share** / **give 10% for 30 days** / **assign wallet X%** | **`FeeRightsTimedGrantEscrow`** — no ETH from grantee; lender runs **`distributeFees`** on schedule |
 | **Paid time loan** / **loan fees for N days for X ETH** | **`FeeRightsLoanEscrow`** — borrower gets **100%**; claims fees directly; **not** grant distribute |
-| **Claim fees** / **collect fees** / **claim my unit** / **claim CTO fees** | **`references/hybrid-claim-fees.md`** if ERC-1155 **Unit** on `0xD8e0639…` → **`HybridClaimRouter.claimFeesForToken`** — **not** Bankr `collectFees` |
+| **Claim fees** / **collect fees** / **@bankr claim** on hybrid unit | **`GET /api/claim/hybrid-status`** → **`claimFeesForToken`** — **`hybrid-claim-fees.md`** (tweet = same as DM if X↔Bankr linked) |
 | **Get fee rights back** / **return to wallet** / **be the reward person again** / **convert NFT back** | `redeemRights(tokenId)` on correct escrow — **not** an NFT transfer (see § Get fee rights back) |
 | **What’s for sale?** | `GET /api/list/status` — site + OpenSea; group buy listings on site **Group buy** tab |
 | **What NFTs do I have?** | TMPR balance + `positionOf` per tokenId |

@@ -1,6 +1,6 @@
 # Bankr install check — answer verbatim
 
-**Canonical TMP skill version:** **50** (VERSION file + SKILL.md frontmatter). **Base only** — no Solana skill in this repo (Bankr cannot run Solana).
+**Canonical TMP skill version:** **51** (VERSION file + SKILL.md frontmatter). **Base only** — no Solana skill in this repo (Bankr cannot run Solana).
 
 **Bankr “v23” / “v27” / “v45”** = Bankr internal install counter. **Not** the TMP content version.
 
