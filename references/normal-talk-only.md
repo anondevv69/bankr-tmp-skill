@@ -28,6 +28,8 @@ These are **valid** user messages. Route them without asking for technical follo
 - “Sell 5% of test1 for 0.005 eth.”
 - “I want to keep most of my fees but let someone buy a small piece for half a cent.”
 - “Put my t7 fee rights on the marketplace and list them for 0.01.”
+- “List this for sale with a password.”
+- “List my CTO units at 0 ETH.”
 - “Get my fees back — I bought the NFT on OpenSea.”
 - “Give my cofounder 10% of trading fees for a month, no payment.”
 - “Let 10 people pool money to buy 30% of my fees.”
@@ -53,6 +55,7 @@ Ask **at most one** clarifying question when you truly cannot proceed:
 | “Which wallet should receive the fees — the one you’re using with Bankr?” | “What is the fee manager address?” |
 | “OpenSea link to the NFT?” (if they say they bought one) | “Is this Clanker or Doppler? Paste Uniswap v3 pool.” |
 | “You want to keep 95% and sell 5% for 0.005 ETH — right?” | “Confirm sellerKeepsBps=9500” |
+| *(never ask)* | “Which marketplace?” / “Site or OpenSea?” — **default is Token Marketplace** |
 
 Default: **assume** their connected Bankr wallet. **Scan** TMPR + APIs before asking.
 

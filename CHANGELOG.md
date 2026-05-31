@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 66 (current)
+## 67 (current)
+
+- **`AGENT-ROUTING-LISTINGS.md`:** all list/sell/for-sale/password intents **default to tokenmarketplace.shop** — never OpenSea-only or "site or OpenSea?"
+- Updated listing-channels, sell-list-autopilot, user-language, normal-talk-only, SKILL.md routing block.
+
+## 66
 
 - **`share-market-list.md`** + **`share-market-list-autopilot.md`:** list ERC-1155 units — **0 ETH**, password, `maxPerWallet`; no dual-list API.
 - Routing updates in SKILL.md, user-language, listing-channels, bankr-agent-test-prompts (L1, L2).

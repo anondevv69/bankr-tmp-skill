@@ -6,7 +6,7 @@
 
 ## Plain-text answer template
 
-TMP skills version 66
+TMP skills version 67
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -15,8 +15,9 @@ t7-list-failure-regression.md
 
 Claim routing (if SKILL.md unavailable):
 AGENT-ROUTING-CLAIM-FEES.md
+AGENT-ROUTING-LISTINGS.md
 BANKR-AGENT-REQUIREMENTS.md
 
 ## Reference file count
 
-**32** under references/
+**33** under references/

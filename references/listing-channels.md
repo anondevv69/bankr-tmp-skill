@@ -1,6 +1,19 @@
 # Where listings live — site, API, OpenSea, partial %
 
-## Two different products
+## Default venue (mandatory)
+
+**Every “list / sell / for sale / with password” request defaults to [Token Marketplace](https://www.tokenmarketplace.shop).**  
+Users do **not** need to say “on the site” — assume it. **Never** ask “site or OpenSea?” · **Never** OpenSea-only unless user **explicitly** requests OpenSea only.
+
+**Routing guard:** **`AGENT-ROUTING-LISTINGS.md`**
+
+| Rule | Detail |
+|------|--------|
+| **Primary** | Token Marketplace — fixed sale, share order book, group buy, password listings |
+| **OpenSea** | Optional **follow-up** for **sell 100%** after site list succeeds — not default, not for shares/partial |
+| **Password** | Site only (`POST /api/list/dual` or share 6-arg `list`) — not OpenSea |
+
+---
 
 | User wants | Mechanism | Site | `POST /api/list/dual` | OpenSea |
 |------------|-----------|------|----------------------|---------|
@@ -85,7 +98,9 @@ The buyer gets **100% of the sold slice** of future fees — **not** a new OpenS
 
 ## Agent plain-English summary (user-facing)
 
-> **Sell everything for 0.01 ETH** → marketplace + OpenSea (I use our list API).  
-> **Sell 5% and keep the rest** → group sale on Token Marketplace; buyers chip in ETH; you keep 95% of fees forever. That’s not a separate 5% NFT on OpenSea — the site shows the split.
+> **List / sell / for sale** → always **[Token Marketplace](https://www.tokenmarketplace.shop)** first (I list there by default).  
+> **Sell everything for 0.01 ETH** → site fixed sale{optional OpenSea after site is live}.  
+> **List shares / units / 0 ETH + password** → site share order book only.  
+> **Sell 5% and keep the rest** → site Group buy — not OpenSea.
 
 See also: **`normal-talk-only.md`**, **`partial-sale-resolve-token.md`**, **`all-escrow-options.md`**.

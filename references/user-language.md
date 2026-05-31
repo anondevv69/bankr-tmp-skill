@@ -14,7 +14,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 |----------------|-------------------|------------------|
 | **Create NFT** | Escrow fee rights → mint TMPR receipt | `BankrEscrowV3` / `ClankerEscrowV4` / `ZoraEscrowV1` |
 | **NFT** / **TMPR** / **receipt** | ERC-721 proof fee rights are in escrow | `BankrFeeRightsReceipt` `0xCD6634…0C3e` |
-| **Sell rights** / **list for X ETH** / **sell 100%** / **list rights to token `0x…` for X eth** | Fixed sale of all fee rights | **`sell-list-autopilot.md`** → mint/status → mint if needed → dual list + OpenSea |
+| **Sell rights** / **list for X ETH** / **sell 100%** / **list rights to token `0x…` for X eth** / **list for sale** / **list with password** | **Token Marketplace** default — **`sell-list-autopilot.md`** → mint/status → site list (`POST /api/list/dual`) |
 | **Partial sale** / **keep X% sell Y%** | Forever split; buyers fund sold % | `GroupBuyEscrow.createPartialListing` |
 | **Group buy** | Many wallets pool ETH | `GroupBuyEscrow.createListing` |
 | **Crowdsource** | Creator seeds + backers | `GroupBuyEscrow.createCrowdsource` |
@@ -46,7 +46,9 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 - **Timed fee share** (timed **%**, named wallet, **no ETH**) ≠ **paid time loan** (timed **100%**, borrower **pays**) ≠ **partial sale** (forever %, buyers pay ETH).
 - **“Loan my rights for 2 weeks for 0.1 ETH”** → **paid time loan**. **“Give 0x… 15% for 30 days”** → **timed fee share**.
 - **“Assign wallet 20%”** without “forever” or “buy” → **timed fee share**; with “buy/fund” → **partial sale**.
-- **Dual listing** = site (`/api/list/dual`) + OpenSea — default for **sell 100%**.
+- **Default listing venue** = **[Token Marketplace](https://www.tokenmarketplace.shop)** — user never needs to say “on the site.”
+- **Sell 100%** = site fixed sale first (`POST /api/list/dual`); OpenSea optional after site is live.
+- **List shares / password / 0 ETH** = site share order book only — **no OpenSea**.
 - **1/1000 share buy** = pick a **listed unit offer** (cheapest first) — **not** buying the whole TMPR on fixed sale; **not** chipping into a partial-sale pool.
 - **“Version 1”** on share market = usually **cheapest offer, quantity 1** — not a serial # inside the NFT.
 - **Bundle & Rebirth** = burn **fee-receipt NFTs** + collect fees to **user wallet** + launch **new** Bankr token — **not** merging ERC-20s; **not** platform holding coins or paying the buy.

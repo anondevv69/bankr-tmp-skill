@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 66,
+  "skillVersion": 67,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
@@ -12,7 +12,7 @@
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 32,
+  "referenceFileCount": 33,
   "mandatoryListingFilesAtRepoRoot": [
     "sell-list-autopilot.md",
     "runtime-contract.md",
@@ -25,6 +25,7 @@
   ],
   "allReferences": [
     "references/AGENT-ROUTING-CLAIM-FEES.md",
+    "references/AGENT-ROUTING-LISTINGS.md",
     "references/BANKR-AGENT-REQUIREMENTS.md",
     "references/BANKR-PLATFORM-TWEET-INTAKE.md",
     "references/all-escrow-options.md",

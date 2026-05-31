@@ -12,10 +12,10 @@
 Match any of:
 
 - **list / sell** + **share(s) / unit(s) / 1/1000**
-- **list on hybrid share marketplace**
+- **list on hybrid share marketplace** / **list for sale** / **list with password**
 - **0 ETH / free / $0** + **password** + **units**
-- **max N per wallet** + list shares
-- ticker ($CTO) or launch **`0xb6fB…`** + list units
+
+**Default venue:** **[Token Marketplace](https://www.tokenmarketplace.shop)** share order book — **not** OpenSea, **not** dual list API. See **`AGENT-ROUTING-LISTINGS.md`**.
 
 **Load:** `bankr-fee-rights` → this file + **`share-market-list.md`**.
 
