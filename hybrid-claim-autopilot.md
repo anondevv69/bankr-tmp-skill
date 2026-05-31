@@ -16,7 +16,7 @@ Use TMP skill to claim fees for $CTO
 
 This is **Flow 13** (hybrid unit fee claim). **Not** Bankr **`claimtokenfees`**. **Not** Bankr launch **`collectFees`**. **Not** redeem TMPR. **Not** Solana.
 
-**P0 — before any Bankr native claim tool:** Doppler/Bankr deployment does **not** mean use **`claimtokenfees`**. Many Bankr tokens have **hybrid unit sales** — always **`GET /api/claim/hybrid-status`** first. See **`references/hybrid-claim-claimtokenfees-regression.md`**.
+**P0 — INSTEAD OF claimtokenfees (not “before”):** Hybrid autopilot **is** the claim for unit holders. **One tx, then STOP.** Do **not** run **`claimtokenfees`** afterward. See **`hybrid-claim-terminal-step.md`**.
 
 See **`references/hybrid-claim-serial-not-tokenid-regression.md`**, **`hybrid-claim-zero-units-regression.md`**, **`hybrid-claim-single-recipient-regression.md`**, **`hybrid-claim-claimtokenfees-regression.md`** for real Bankr mistakes to avoid.
 
@@ -83,10 +83,13 @@ Deep glossary (agent-only): **`references/hybrid-id-vocabulary.md`**, **`referen
 | 1 | Resolve launch token (ticker → `0x…` if needed) + **linked wallet** (never ask on tweet/DM if linked) |
 | 2 | **`GET /api/claim/hybrid-status?token=0x…&wallet=0x…`** (+ `&serial=N` if TMPR #N) |
 | 3 | If **`proof.canSubmitTx`**: submit **`nextStep.data`** unchanged — full **`recipients[]`** from API |
-| 4 | If **`phase === needs_holder_scan`**: expand scan per API / site — **do not** submit single-recipient tx |
-| 5 | If **`phase === vault_empty`**: submit or report plainly — **nothing to distribute** yet |
-| 6 | Verify receipt: **`ClaimedHybridFees`** with **`recipientCount >= 2`** when user holds partial units |
-| 7 | Reply plain English: token name, **N holders paid**, user’s **pro-rata** share, BaseScan link |
+| 4 | Verify receipt + reply plain English — **STOP. Do not call claimtokenfees or collectFees.** |
+
+**Branches (same conversation, still one terminal claim tx):**
+
+- **`needs_holder_scan`** → expand scan, retry API, then step 3 — still **no** claimtokenfees
+- **`vault_empty`** → report plainly — **STOP**
+- Receipt must show **`ClaimedHybridFees`** with **`recipientCount >= 2`** when requester holds **< 1000** units
 
 **Twitter / short-turn:** Same path as DM when X↔Bankr wallet linked. Never reply “paste contract” if `0x…` in tweet. Never reply “paste wallet”. Never “I hit my step limit” without **`phase`** from API.
 

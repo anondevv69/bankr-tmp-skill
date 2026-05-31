@@ -6,6 +6,13 @@
 @bankrbot claim fees for 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 for all
 ```
 
+**Failed Bankr plan (do not repeat):**
+
+> 1. Run claim autopilot first  
+> 2. **Execute claimtokenfees after autopilot completes**
+
+Step 2 is **forbidden** for hybrid unit holders. Autopilot **is** the claim — submit **`nextStep.data`** once, then **STOP**.
+
 **Failed Bankr reply (do not repeat):**
 
 > “Token … was deployed via **Bankr (Doppler)**, not Clanker. Use the **`claimtokenfees`** tool instead to claim fees for this token.”
@@ -33,8 +40,8 @@ That is **wrong** when the user holds **hybrid ERC-1155 units** (TMPR #12 · Uni
 
 1. Load **`hybrid-claim-autopilot.md`** — **same priority as sell-list autopilot for list requests**.
 2. **`GET /api/claim/hybrid-status?token=0x…&wallet=<linked>`** — **before** `claimtokenfees`, `collectFees`, `token-fees`, or Clanker reward lookup.
-3. If API returns **`ok: true`** with hybrid sale data → submit **`nextStep.data`** (**`HybridClaimRouter.claimFeesForToken`**).
-4. **Only if** hybrid-status says **no hybrid sale** / wallet is **sole direct beneficiary with zero units** → Bankr **`claimtokenfees`** is correct.
+3. If API returns **`ok: true`** with hybrid sale data → submit **`nextStep.data`** → **DONE (no claimtokenfees)**
+4. **Only if** hybrid-status says **no hybrid sale** / wallet is **sole direct beneficiary with zero units** → Bankr **`claimtokenfees`** is correct — **separate path, not step after hybrid**
 
 **Never** tell user to switch tools based on “Doppler vs Clanker” without step 2.
 

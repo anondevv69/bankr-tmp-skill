@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 59 (current)
+## 60 (current)
+
+- **`hybrid-claim-terminal-step.md`:** fix step-4 bug — hybrid claim ENDS at one tx; **INSTEAD OF** claimtokenfees, never "before then after".
+- Skill description changed from "runs BEFORE claimtokenfees" → "ENDS at claimFeesForToken — never after".
+- Regression doc: explicit fail for "autopilot then claimtokenfees" plan.
+
+## 59
 
 - **Hybrid claim mandate:** API-enforced rule — every claim uses `nextStep.data` unchanged, distributes to ALL holders, must pass `proof.canSubmitTx` and `recipientCount >= 2` checks.
 - **`hybrid-claim-autopilot.md`**: mandatory behavior section; cannot proceed if `canSubmitTx` is false.
