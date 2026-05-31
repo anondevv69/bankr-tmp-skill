@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v61. Full claim docs in references/ (not stubs). Hybrid claim ENDS at claimFeesForToken — INSTEAD OF claimtokenfees."
+description: "TMP skills v62. SKILL.md top: claim routing guard + SELF-CHECK. BANKR-AGENT-REQUIREMENTS.md. Hybrid claim INSTEAD OF claimtokenfees."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 61
-tmp_skill_version: "61"
+version: 62
+tmp_skill_version: "62"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 26
+reference_file_count: 27
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -19,11 +19,34 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
+## AGENT ROUTING — claim fees (read first, overrides default Bankr tools)
+
+**MINIMUM CONTENT VERSION:** `62` — check `VERSION` file + this file’s frontmatter `version:`. If installed version **< 62**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
+
+| | |
+|--|--|
+| **TRIGGER** | User says **claim / collect fees** + token (`0x…` or ticker) — e.g. `claim fees for 0xb6fB… for all` |
+| **MANDATORY FIRST STEP** | **`GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=<launch>&wallet=<linked>`** — before `claimtokenfees`, `collectFees`, or Doppler routing |
+| **FORBIDDEN** | **Never** call **`claimtokenfees`** or **`collectFees`** after hybrid claim. **Never** “autopilot then claimtokenfees”. Hybrid path runs **INSTEAD OF** native claim when API shows hybrid sale. |
+
+### Routing guard (do not skip to claimtokenfees)
+
+```
+if user says "claim fees" / "collect fees":
+  1. GET hybrid-status (linked wallet injected)
+  2. if hybrid sale + proof.canSubmitTx → submit nextStep.data → STOP
+  3. elif needs_holder_scan → retry API → submit → STOP
+  4. elif vault_empty → report nothing to distribute → STOP
+  5. elif no hybrid sale + sole direct beneficiary + 0 units → claimtokenfees OK → STOP
+```
+
+Full spec: **`BANKR-AGENT-REQUIREMENTS.md`** · **`references/hybrid-claim-terminal-step.md`** · **`references/hybrid-claim-autopilot.md`**
+
 ## Bankr install check — COPY THIS ANSWER (plain text, no empty bullets)
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 61
+TMP skills version 62
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +57,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **61** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **62** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 **Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 
@@ -830,6 +853,19 @@ Scripts call `POST /api/list/dual` and `GET /api/list/status`; UI uses `bankr.co
 8. **Testing Bankr:** run prompts in **`references/bankr-agent-test-prompts.md`** and log where the agent stops.
 9. **After every state-changing tx:** run **Verification & Reporting** — `get_token_launch_info` + Doppler + Bankr launch links + explicit `feeRecipient` check.
 10. **User-facing tx narration:** explain each wallet signature and each material custody change in plain English; skip raw calldata, read calls, and low-level contract jargon unless the user explicitly asks.
+
+---
+
+## SELF-CHECK — hybrid claim (answer before any claim tx)
+
+Answer these **internally** before calling `claimtokenfees`, `collectFees`, or submitting a claim tx:
+
+1. **Do you call claimtokenfees after hybrid autopilot for `0xb6fB…`?** → Must be **NO**
+2. **What is step 5 after hybrid claim?** → **There is no step 5 — STOP**
+3. **What do you call before any on-chain claim tx?** → **GET /api/claim/hybrid-status**
+4. **Autopilot before or instead of claimtokenfees?** → **INSTEAD OF** (when hybrid sale exists)
+
+If any answer is wrong → re-read **`BANKR-AGENT-REQUIREMENTS.md`** and top **AGENT ROUTING** section — do not use native Doppler claim path.
 
 ---
 

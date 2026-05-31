@@ -2,7 +2,14 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 61 (current)
+## 62 (current)
+
+- **`BANKR-AGENT-REQUIREMENTS.md`:** full hybrid claim spec for Bankr routing owners.
+- **`SKILL.md` top:** AGENT ROUTING block (TRIGGER, MANDATORY FIRST STEP, FORBIDDEN, routing guard) — loads before default claimtokenfees.
+- **`SKILL.md` bottom:** SELF-CHECK questions before any claim tx.
+- **MINIMUM version gate:** 62 in VERSION + frontmatter.
+
+## 61
 
 - **Full claim docs in `references/`** — Bankr only loaded 5-line stubs; now mirrors root autopilot + terminal-step.
 - **VERSION sync** — install check requires VERSION = SKILL frontmatter; stale 56 vs v60 header explained.
