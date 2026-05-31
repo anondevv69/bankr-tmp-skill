@@ -53,7 +53,7 @@ bankr-tmp-skill/
 
 ## Version
 
-Main skill: **58** (`VERSION` at repo root). **Claim:** hybrid-status **before** `claimtokenfees` — Doppler tokens can have hybrid unit sales. Bundle rebirth: **1**.
+Main skill: **59** (`VERSION` at repo root). **Hybrid claim:** API-enforced all-holders rule. Cannot proceed if `proof.canSubmitTx` false or `recipientCount < 2`. Bundle rebirth: **1**.
 
 ## Related
 

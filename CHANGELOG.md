@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 58 (current)
+## 59 (current)
+
+- **Hybrid claim mandate:** API-enforced rule — every claim uses `nextStep.data` unchanged, distributes to ALL holders, must pass `proof.canSubmitTx` and `recipientCount >= 2` checks.
+- **`hybrid-claim-autopilot.md`**: mandatory behavior section; cannot proceed if `canSubmitTx` is false.
+- **Fail conditions:** explicitly forbid manual calldata builds, single-recipient txs, follow-ups without state re-check.
+
+## 58
 
 - **`hybrid-claim-claimtokenfees-regression.md`:** Bankr replied “Doppler not Clanker → use claimtokenfees” for CTO claim tweet — wrong; hybrid-status first.
 - **`hybrid-claim-autopilot.md`:** routing table — hybrid claim before any Bankr native claim tool.
