@@ -139,20 +139,6 @@ If any condition fails, the claim **cannot proceed** — report why and offer [t
 
 ---
 
-## Mandatory claim behavior — no exceptions
-
-**Every hybrid unit claim must:**
-
-1. **Call `/api/claim/hybrid-status` with linked wallet** — **required** before any on-chain tx
-2. **Use API's `nextStep.data` unchanged** — never build your own calldata
-3. **Verify `nextStep.recipientCount >= 2` (or user holds all 1000 units)** — before signing
-4. **Verify `proof.canSubmitTx === true`** — never submit if false
-5. **Distribute to ALL holders in one tx** — never single-recipient, never multi-step claims
-
-If any condition fails, the claim **cannot proceed** — report why and offer [tokenmarketplace.shop](https://www.tokenmarketplace.shop) site button as fallback.
-
----
-
 ## Fail the run if
 
 - Only tx is **`collectFees`** from user wallet while they hold hybrid **Unit** NFTs

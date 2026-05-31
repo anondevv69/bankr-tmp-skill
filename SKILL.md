@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 60
+TMP skills version 61
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +34,9 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **56** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **60** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+
+**Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 
 ---
 

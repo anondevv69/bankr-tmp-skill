@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 60 (current)
+## 61 (current)
+
+- **Full claim docs in `references/`** — Bankr only loaded 5-line stubs; now mirrors root autopilot + terminal-step.
+- **VERSION sync** — install check requires VERSION = SKILL frontmatter; stale 56 vs v60 header explained.
+- Fix duplicate section in `hybrid-claim-autopilot.md`.
+
+## 60
 
 - **`hybrid-claim-terminal-step.md`:** fix step-4 bug — hybrid claim ENDS at one tx; **INSTEAD OF** claimtokenfees, never "before then after".
 - Skill description changed from "runs BEFORE claimtokenfees" → "ENDS at claimFeesForToken — never after".
