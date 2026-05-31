@@ -1,5 +1,9 @@
 # Hybrid unit fee claim — Bankr agent (mandatory)
 
+**Autopilot (read first):** repo root **`hybrid-claim-autopilot.md`** — user says “claim fees for CTO”; you run **`GET /api/claim/hybrid-status`** + full-holder tx **silently**. Never ask user for API URLs, wallet, `serial=`, or `tokenId`.
+
+**Read this file for:** glossary, contracts, regression details, edge cases.
+
 **Read this before any “claim fees / collect fees / claim my CTO” request when the user holds a TMPR *Unit* (ERC-1155) or bought shares on the hybrid share market.**
 
 ---
@@ -322,50 +326,27 @@ If Bankr already replied **“you hold N ERC-1155 units… want me to run the cl
 | **`claimFeesForToken(all holders)`** | **`collectFees`** from user wallet |
 | Report **N holders paid** + user's **pro-rata** share | Say “0 units” again |
 
-User reply (copy-paste):
+## @bankr tweet / DM (same autopilot as listing)
 
-```text
-@bankrbot yes — run the hybrid claim now for all TMPR #12 holders
-```
+**Rule:** User posts natural language only — same as **`hybrid-claim-autopilot.md`**. No technical checklist in the tweet.
 
-## @bankr tweet execution (public X — same as DM)
+| User tweet (enough) | Agent does (silent) |
+|---------------------|---------------------|
+| `@bankrbot claim fees for CTO` | Resolve `0xb6fB…` → hybrid-status → submit all holders |
+| `@bankrbot claim fees for 0xb6fB…` | hybrid-status → submit all holders |
+| `@bankrbot claim my unit fees for all` | hybrid-status → submit all holders |
+| `@bankrbot yes claim now` (after units found) | Submit immediately — same thread |
 
-**Rule:** Hybrid unit **claim on tweet** uses the **same tx path** as DM when the tweeter’s **X account is linked to a Bankr wallet** and **`bankr.tx.prepare`** is available.
-
-| Step | Action |
-|------|--------|
-| 0 | Resolve **linked wallet** from X↔Bankr — **`GET /api/claim/hybrid-status?token=0x…&wallet=<linked>`** — never ask user to paste wallet |
-| 1 | Read **`proof.claimPaysAllHolders`** + **`proof.canSubmitTx`** — if ready, **`bankr.tx.prepare`** `nextStep.data` |
-| 2 | If `phase === needs_holder_scan` → expand holder scan, rebuild calldata, then submit |
-| 3 | If `phase === vault_empty` → reply plainly: ran marketplace claim for **all holders**, **nothing to distribute** |
-| 4 | Report **`ClaimedHybridFees`** + user **pro-rata** share + **`proof.holderCount`** (everyone paid) |
+**Do not** tell user to add: `use_skill`, `GET hybrid-status`, `serial=12`, `do NOT use tokenId 12`, `nextStep.data`, holder counts — **that is your job**.
 
 **Do not** reply “paste the contract address” when the tweet already includes **`0xb6fB…`**.
 
-**Do not** reply “paste your wallet” when X↔Bankr is linked — scan linked wallet like sell/list autopilot.
+**Do not** reply “paste your wallet” when X↔Bankr is linked.
 
-**Do not** stop at “link the site” if linked wallet + prepare path exists.
-
-### Tweet the user can post (copy-paste)
-
-**This is all you need** (X linked to Bankr):
-
-```text
-@bankrbot claim all CTO fee-right unit fees for all holders 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3
-```
-
-With serial if you say “TMPR #12”:
-
-```text
-@bankrbot claim hybrid unit fees for all holders — token 0xb6fB5AE1eb79AA628aeEC8E1dFD6e736CC624ba3 serial 12
-```
-
-**Do not paste your wallet** — Bankr reads it from your linked account. The tx pays **every** unit holder, not just you.
-
-**Requires:** X account ↔ Bankr wallet linked (same as tweet listing). If not linked, Bankr can only guide — user connects wallet or uses site **Claim fees**.
+**Requires:** X account ↔ Bankr wallet linked (same as tweet listing). If not linked, guide to connect Bankr or site **Claim fees** button.
 
 ### Tweet success reply (plain English)
 
-> “Claimed **$CTO** trading fees for **N** unit holders in one tx. Your **~60%** share: **X WETH** + **Y CTO**. [BaseScan]”
+> “Claimed **$CTO** trading fees for **N** unit holders in one tx. Your share: **X WETH** + **Y CTO**. [BaseScan]”
 
 (Serial label **TMPR #12** is fine in the reply — on-chain id comes from the API.)

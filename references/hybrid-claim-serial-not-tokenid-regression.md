@@ -1,9 +1,9 @@
 # Regression: “serial 12” → on-chain `tokenId=12` (May 2026)
 
-**Trigger (user tweet):**
+**Trigger (user tweet — natural language is enough):**
 
 ```text
-@bankrbot claim hybrid unit fees for ALL holders — token 0xb6fB… serial 12
+@bankrbot claim fees for CTO
 ```
 
 **Failed Bankr reply (do not repeat):**

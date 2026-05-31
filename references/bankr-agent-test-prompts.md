@@ -191,6 +191,7 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
 | R7 | "@bankrbot list my t7 fee rights for 0.01 ETH on marketplace" (public tweet) | `GET /api/mint/status` → execute `nextStep` (incl. `bankr-build-transfer` if `needs_transfer`) → `finalizeDeposit` → `POST /api/list/dual` → site listing URL | "Create NFT first" without `phase`; "go to Doppler"; "I hit my step limit"; OpenSea-only with no site list; guidance-only with no status call |
 | R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |
+| R9 | "@bankrbot claim fees for CTO" (public tweet, X↔Bankr linked) | **`hybrid-claim-autopilot.md`** → `GET /api/claim/hybrid-status` → submit `nextStep.data` (all holders) → plain English reply | Ask user for wallet; `collectFees`; `tokenId=12` for TMPR #12; tell user to paste use_skill / hybrid-status / serial=; single-recipient tx |
 
 **Minimum telemetry per state-changing run (internal):**
 - intent, selected listing/tokenId, auth path used, tx hash(es), receipt status, post-state check result.
@@ -323,7 +324,7 @@ Agent should:
 | Clanker/Zora timed grant | `createGrantClanker` missing | Deploy **new** FeeRightsTimedGrantEscrow |
 | “Sell 5%” → `sellerKeepsBps=500` | Wrong economics | Must be **9500** to *keep* 95% |
 | `priceWei` = full token price | Overpriced raise | `priceWei` = ETH for **sold % only** |
-| Hybrid unit claim → Bankr `collectFees` | 0 WETH / 0 token “success” | **`hybrid-claim-fees.md`** — use **`claimFeesForToken`** |
+| Hybrid unit claim → Bankr `collectFees` | 0 WETH / 0 token “success” | **`hybrid-claim-autopilot.md`** — status API + **`claimFeesForToken`** all holders |
 | Grantee “claim in Bankr” | User confusion | Explain **distributeFees** by lender |
 
 ---
@@ -339,11 +340,13 @@ Agent should:
 
 **Correct agent behavior (pass):**
 
-1. Detect ERC-1155 unit on `0xD8e0639…`.
-2. Read **`hybrid-claim-fees.md`**.
-3. Submit **`HybridClaimRouter.claimFeesForToken(12, allHolders, true)`**.
+1. Load **`hybrid-claim-autopilot.md`** on “claim fees for 0xb6fB…” (no technical tweet required).
+2. **`GET /api/claim/hybrid-status`** with linked wallet — use **`hybridTokenId`** from response, **not** serial as `tokenId`.
+3. Submit **`nextStep.data`** — **`recipientCount >= 2`** when user holds partial units.
 4. Report **`ClaimedHybridFees`** amounts + user’s pro-rata share.
 5. If vault empty, say **no fees to distribute** — do not imply Bankr launch claim worked.
+
+**Fail:** User had to paste `use_skill`, `GET hybrid-status`, `serial=12`, or “do NOT use tokenId 12” for agent to behave correctly.
 
 **Tx to cite as wrong-path example:** [0xbc1d690e…](https://basescan.org/tx/0xbc1d690e38dc6e00b281bcbd26406c2b1cf127d573a688c4dae634e7bcabc745) — Collect 0/0.
 

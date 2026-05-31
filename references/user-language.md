@@ -21,7 +21,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Timed fee share** / **employee grant** / **assign 10% for 30 days** | Named wallet, **%** of fees for N days, **no ETH**, then return to you | `FeeRightsTimedGrantEscrow` |
 | **Paid time loan** / **bag worker** / **loan rights for X ETH** | **100%** to borrower for N days; **borrower pays** `priceWei`, then return to you | `FeeRightsLoanEscrow` |
 | **For sale** / **listed** | Site and/or OpenSea ask | `GET /api/list/status` + OpenSea |
-| **Claim fees** / **collect fees** / **claim my unit** / **claim CTO fees** | Pull + pay **all** ERC-1155 unit holders in one tx | **`HybridClaimRouter.claimFeesForToken`** — read **`hybrid-claim-fees.md` § Glossary** — **not** Bankr `collectFees` |
+| **Claim fees** / **collect fees** / **claim my unit** / **claim CTO fees** / **claim fees for all** | Pull + pay **all** ERC-1155 unit holders — **`hybrid-claim-autopilot.md`** | User says token/ticker only; agent runs API + tx silently — **not** Bankr `collectFees` |
 | **TMPR #12** / **serial 12** | UI label — API **`serial=12`** only | **Never** on-chain **`tokenId=12`** — use **`hybridTokenId`** from API |
 | **628 units** / **1/1000 share** (when holding) | ERC-1155 **`balanceOf(wallet, hybridTokenId)`** on `0xD8e0639…` | **Not** ERC-20 balance of CTO |
 | **`token=` in hybrid-status API** | Launch ERC-20 (e.g. `0xb6fB…`) | **Never** a wallet address |
@@ -76,6 +76,10 @@ User message
     ├─ "sell … for X ETH" / "list for X" / "sell 100%"
     │     → If no TMPR: CREATE NFT → **dual list** (`POST /api/list/dual` + OpenSea)
     │     → If TMPR in wallet: dual list only
+    │
+    ├─ "claim fees" / "collect fees" / "claim my unit" / "claim CTO fees" / "claim fees for all"
+    │     → **Hybrid claim autopilot** — hybrid-claim-autopilot.md — GET hybrid-status → all holders
+    │     → User says token/ticker only; NOT Bankr collectFees; NOT technical API tweet
     │
     ├─ "buy cheapest share" / "buy 1/1000" / "buy 1 share of $t7" / "buy version 1"
     │     → **Share market buy** — share-market-buy.md — HybridShareMarketplace `0x90230B…`

@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 56 (current)
+## 57 (current)
+
+- **`hybrid-claim-autopilot.md`** (repo root): claim fees = natural language only — “claim fees for CTO”; agent runs hybrid-status + all holders silently.
+- **`SKILL.md` § Claim policy** mirrors sell-list autopilot — users never paste API params, use_skill, serial=, or tokenId rules.
+- Removed technical tweet checklists from **`hybrid-claim-fees.md`**; updated FLOW 13, dm-intents, user-language, test prompts.
+
+## 56
 
 - **`hybrid-id-vocabulary.md`:** canonical glossary — `serial`, `hybridTokenId`, `tokenId`, units, wallet vs launch token.
 - **`hybrid-claim-serial-not-tokenid-regression.md`:** forbid `canClaimFees(12)` / `isFinalized(12)` when user said TMPR #12; API first.

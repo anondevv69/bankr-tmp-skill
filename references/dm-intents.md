@@ -61,9 +61,9 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path I — Buy 1/1000 share (hybrid share market):** Resolve ticker → hybrid **tokenId** → scan **`HybridShareMarketplace`** `0x90230B…` → sort **cheapest first** → if **`accessKeyHash == 0`**: `buy(listingId, quantity)`; if **protected**: **`POST …/api/listings/access-authorize`** then `buy(listingId, quantity, authDeadline, signature)` — same **`msg.value`**. See **`share-market-buy.md`**. **Not** fixed sale; **not** partial `contribute`.
 
-**Path K — Claim fees on hybrid unit (ERC-1155):** Read **`hybrid-id-vocabulary.md`**. **`GET /api/claim/hybrid-status?token=0x…&serial=N&wallet=<linked>`** — use **`hybridTokenId`** from response, **never** `tokenId=serial`. Then **`claimFeesForToken`** (all holders). **Forbidden:** `canClaimFees(12)` for TMPR #12; Bankr **`collectFees`**.
+**Path K — Claim fees on hybrid unit (ERC-1155):** **`hybrid-claim-autopilot.md`** — user says “claim fees for [token]”; agent runs status API + all-holder tx silently. Never ask wallet or API jargon.
 
-**Path L — Tweet / @bankr hybrid claim:** Same as **Path K**. User may say **`serial 12`** or **TMPR #12** — that is **`serial=12` in API**, **not** on-chain id **12**.
+**Path L — Tweet / @bankr hybrid claim:** Same as **Path K**. Natural language only — e.g. `@bankrbot claim fees for CTO`.
 
 **Path J — Tweet / @bankr social (list):** Same execution as DM when intent is clear (**sell/list 100% for X ETH**, token or ticker, **on marketplace** / **on tokenmarketplace**). Run **`sell-list-autopilot.md`** (`GET /api/mint/status` → all `nextStep` → `POST /api/list/dual` → site txs → OpenSea). **Do not** stop at “link the site” or “Create NFT tutorial” if wallet + `bankr.tx.prepare` / custodial sign are available. **Guidance-only** only when a real blocker remains (missing wallet, unsigned external EOA with no prepare path, API down) — report **`phase`** + next signer, never “I hit my step limit.” Partial sale / group buy / password share buys on public tweets: route to DM for signing. **Claim hybrid unit fees on tweet:** use **Path L** / **Path K** when wallet available — same as DM.
 

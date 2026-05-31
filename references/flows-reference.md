@@ -319,27 +319,29 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 
 ## FLOW 13 — Claim fees on hybrid unit (ERC-1155)
 
-**When:** User holds **TMPR units** (1/1000 share) or says “claim fees on my CTO / t7 unit”.
+**When:** User holds **TMPR units** or says “claim / collect fees” for a token.
+
+**Autopilot:** repo root **`hybrid-claim-autopilot.md`**
 
 ### User says
-> "Claim fees for my CTO unit"  
-> "Collect the fees on TMPR #12"  
-> "@bankr claim fees for 0xb6fB…"
+> "Claim fees for CTO"  
+> "Claim fees for 0xb6fB… for all holders"  
+> "@bankrbot claim my unit fees"  
+> "Collect fees on TMPR #12"
 
 ### Agent does (silent)
-1. Confirm **ERC-1155** balance on hybrid TMPR `0xD8e0639…` — label often includes **"Unit"**.
-2. Resolve **tokenId** from NFT metadata or `positionOf` scan matching launch token.
-3. **Do not** call Bankr **`collectFees`** from user wallet.
-4. Build full holder list (1000 units) — see **`hybrid-claim-fees.md`**.
-5. `HybridClaimRouter.claimFeesForToken(tokenId, recipients, isBankrVenue=true)` on `0x0f5148…`.
-6. Parse **`ClaimedHybridFees`** + user wallet balance delta (pro-rata).
+1. **`hybrid-claim-autopilot.md`** — resolve launch token + linked wallet (never ask on tweet if linked).
+2. **`GET /api/claim/hybrid-status?token=0x…&wallet=0x…`** (+ `serial=N` if TMPR #N).
+3. Submit **`nextStep.data`** when **`proof.canSubmitTx`** — **all** holders from API, not requester-only.
+4. **Do not** Bankr **`collectFees`** · **do not** use serial as on-chain `tokenId`.
+5. Parse **`ClaimedHybridFees`** + user pro-rata share.
 
 ### Agent replies
 > "Claimed **$CTO** trading fees for all **N** unit holders. Your share: **X WETH** + **Y CTO**. [BaseScan]"
 
-> (empty vault) "Ran the marketplace claim — **nothing to distribute** yet. Fees may still be accruing. [tx]"
+> (empty vault) "Ran the marketplace claim for all holders — **nothing to distribute** yet."
 
-**Full spec:** **`hybrid-claim-fees.md`**
+**Full spec:** **`hybrid-claim-fees.md`** · **`hybrid-id-vocabulary.md`**
 
 ---
 
@@ -359,13 +361,13 @@ Fees during the active loan period belong to the **borrower**. They are **not** 
 | "What do I have?" | Portfolio | Scan launches + TMPR |
 | "Buy cheapest 1/1000 share of $t7" | Share market | HybridShareMarketplace.buy |
 | "Buy 1 share with password xxx" | Gated share buy | access-authorize + buy(…, signature) |
-| "Claim fees on my unit" / "collect CTO fees" | Hybrid unit claim | `claimFeesForToken` — **`hybrid-claim-fees.md`** |
+| "Claim fees on my unit" / "collect CTO fees" / "claim fees for all" | Hybrid unit claim | **`hybrid-claim-autopilot.md`** — natural language only |
 | "First 100 replies get 1%" | Reply drop | Explain unit math + gather campaign params |
 
 ---
 
 ## What users NEVER need to say
 
-Contract addresses · poolId · sellerKeepsBps · priceWei · venueType · rightsEscrow · feeManager · tokenId (just say the token name or paste an OpenSea link) · approve escrow · setApprovalForAll.
+Contract addresses · poolId · sellerKeepsBps · priceWei · venueType · rightsEscrow · feeManager · on-chain tokenId · hybrid-status API · serial= · nextStep.data · use_skill · skill version numbers.
 
 Agent resolves everything silently. If stuck, ask **one** human question (which token? OpenSea link? which wallet?).

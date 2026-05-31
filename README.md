@@ -16,7 +16,7 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 
 Covers: create NFT · list/sell 100% · buy 1/1000 share · **claim hybrid unit fees** · partial · group buy · grants · loans · redeem.
 
-Root files: `SKILL.md`, `sell-list-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`, `references/`.
+Root files: `SKILL.md`, `sell-list-autopilot.md`, `hybrid-claim-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`, `references/`.
 
 ### 2. Bundle & Rebirth (optional)
 
@@ -42,8 +42,9 @@ Dual list step for Base listings.
 bankr-tmp-skill/
 ├── SKILL.md                 ← tmp-fee-rights (main, repo root)
 ├── sell-list-autopilot.md
+├── hybrid-claim-autopilot.md
 ├── runtime-contract.md
-├── references/              ← Base playbooks (20 files)
+├── references/              ← Base playbooks (24 files)
 ├── tmp-bundle-rebirth/
 │   ├── SKILL.md
 │   └── references/
@@ -52,7 +53,7 @@ bankr-tmp-skill/
 
 ## Version
 
-Main skill: **56** (`VERSION` at repo root). Hybrid claims: read **`references/hybrid-id-vocabulary.md`** — **`serial=12` ≠ `tokenId=12`**. Bundle rebirth companion: **1**.
+Main skill: **57** (`VERSION` at repo root). **Claim:** say “claim fees for [token]” — agent autopilot handles the rest. Bundle rebirth companion: **1**.
 
 ## Related
 
