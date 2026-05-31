@@ -1,12 +1,17 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 68,
+  "skillVersion": 69,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
       "path": "tmp-bundle-rebirth",
       "installCommand": "install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth"
+    },
+    {
+      "id": "tmp-solana-cto",
+      "path": "tmp-solana-cto",
+      "installCommand": "install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto"
     }
   ],
   "versionFile": "VERSION",
@@ -28,6 +33,7 @@
     "references/AGENT-ROUTING-LISTINGS.md",
     "references/BANKR-AGENT-REQUIREMENTS.md",
     "references/BANKR-PLATFORM-TWEET-INTAKE.md",
+    "references/BANKR-PLATFORM-TWEET-LIST-INTAKE.md",
     "references/all-escrow-options.md",
     "references/bankr-agent-test-prompts.md",
     "references/clanker-rescue-ops.md",
@@ -61,5 +67,5 @@
     "references/user-language.md"
   ],
   "bankrInstallCheckFile": "BANKR-INSTALL-CHECK.md",
-  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion in VERSION and SKILL.md. Mandatory listing files must include .md filenames — not three copies of references/. Solana flows are website-only — not in this skill pack."
+  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion in VERSION and SKILL.md. Solana: install tmp-solana-cto + /api/solana/buy-status | claim-status. Base list tweets: BANKR-PLATFORM-TWEET-LIST-INTAKE.md."
 }

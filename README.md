@@ -2,7 +2,7 @@
 
 [BankrBot/skills](https://github.com/BankrBot/skills)-style layout: **one folder = one installable skill**, same GitHub repo.
 
-**Scope:** Base (chain 8453) only. Solana CTO / Pump claims are **not** available in Bankr — use [tokenmarketplace.shop](https://www.tokenmarketplace.shop) with a Solana wallet.
+**Scope:** Base (chain 8453) in the main skill. **Solana** (Pump / SPL receipts): install companion **`tmp-solana-cto`** + use `/api/solana/buy-status` and `/api/solana/claim-status`.
 
 ## Install (pick what you need)
 

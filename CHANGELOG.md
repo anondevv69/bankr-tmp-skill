@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 68 (current)
+## 69 (current)
+
+- **Restored `tmp-solana-cto/`** companion — Solana buy + batch claim autopilot (`solana-buy-autopilot.md`, `solana-claim-autopilot.md`).
+- Site APIs: **`GET /api/solana/buy-status`**, **`GET /api/solana/claim-status`** (password verify, cheapest offer, cap table, batch chunks).
+- **`BANKR-PLATFORM-TWEET-LIST-INTAKE.md`:** tweet “list X for 0.01 eth” must auto-load skill + `GET /api/mint/status` before list tools (parallel to claim tweet fix).
+
+## 68
 
 - **X reply rule:** after successful list on @bankrbot tweet, reply **must** include full `https://www.tokenmarketplace.shop/...` listing URL.
 - **`AGENT-ROUTING-LISTINGS.md`**, sell-list-autopilot, share-market-list-autopilot, runtime-contract updated.

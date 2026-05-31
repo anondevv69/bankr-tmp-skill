@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v68. X list replies must include full tokenmarketplace.shop listing URL."
-tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market]
-version: 68
-tmp_skill_version: "68"
+description: "TMP skills v69. Solana buy/claim APIs + tmp-solana-cto companion. X list replies must include full shop URL."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market]
+version: 69
+tmp_skill_version: "69"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
@@ -23,7 +23,7 @@ metadata:
 
 **Bankr install quirk:** read **`references/AGENT-ROUTING-LISTINGS.md`** on any list/sell/for-sale message if SKILL.md body unavailable.
 
-**MINIMUM CONTENT VERSION:** `68`
+**MINIMUM CONTENT VERSION:** `69`
 
 | | |
 |--|--|
@@ -40,7 +40,7 @@ Full spec: **`AGENT-ROUTING-LISTINGS.md`** · **`listing-channels.md`**
 
 **Bankr install quirk:** agents often **cannot read repo-root `SKILL.md`** — only `references/`. If SKILL.md missing, read **`references/AGENT-ROUTING-CLAIM-FEES.md`** first (same content as this section).
 
-**MINIMUM CONTENT VERSION:** `68` — check `VERSION` file + frontmatter `version:`. If installed version **< 68**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
+**MINIMUM CONTENT VERSION:** `69` — check `VERSION` file + frontmatter `version:`. If installed version **< 69**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
 
 | | |
 |--|--|
@@ -65,7 +65,7 @@ Full spec: **`BANKR-AGENT-REQUIREMENTS.md`** · **`references/AGENT-ROUTING-CLAI
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 68
+TMP skills version 69
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -76,7 +76,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **63** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **69** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companions: **tmp-bundle-rebirth**, **tmp-solana-cto** (see README). Solana buy/claim → install **tmp-solana-cto** + call `/api/solana/buy-status` or `/api/solana/claim-status`.
 
 **Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 
@@ -193,9 +193,10 @@ This folder is **tmp-fee-rights** (Base mint, list, buy, partial, group, grant, 
 | Skill | Install | Use when |
 |-------|---------|----------|
 | **tmp-bundle-rebirth** | `install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth` | bundle, rebirth, merge into $TICKER, burn N NFTs + launch |
+| **tmp-solana-cto** | `install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto` | Solana `/listing/sol/…` buy (password share book) + batch fee claim |
 | **OpenSea** | [BankrBot/skills opensea](https://github.com/BankrBot/skills/tree/main/opensea) | dual list Seaport step |
 
-**Solana:** Bankr agents cannot execute Solana CTO, Pump fee split, or SPL batch claim. Direct users to [tokenmarketplace.shop](https://www.tokenmarketplace.shop) Solana listing pages and a Solana wallet (Phantom, etc.).
+**Solana:** Load **tmp-solana-cto** on any Solana listing URL or “buy/claim on Pump/Solana”. Call **`GET /api/solana/buy-status`** or **`GET /api/solana/claim-status`** before tx. Until Bankr ships Solana signing, status API + **`siteListingUrl`** + Connect Solana fallback — do **not** refuse without calling the API.
 
 Bundle playbooks moved to **tmp-bundle-rebirth/** (not `references/` here).
 

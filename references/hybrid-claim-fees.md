@@ -128,7 +128,7 @@ See **`hybrid-claim-serial-not-tokenid-regression.md`** — May 2026 Bankr repli
 | **Group buy V2–V5** (Liquid Split, not hybrid) | Pull via **`BankrSplitFeeCollector`** + **0xSplits distribute** — site **Completed group sales** tab |
 | **Direct Bankr beneficiary** (no TMPR; `getShares(poolId, wallet) > 0`) | Bankr native **`collectFees`** is correct |
 | **Paid time loan borrower** | Borrower claims **directly** in Bankr/Clanker — not hybrid router |
-| **Solana SPL receipt / Pump** | **Out of scope** — website + Phantom only |
+| **Solana SPL receipt / Pump** | **tmp-solana-cto** + `/api/solana/buy-status` or `/api/solana/claim-status` — not hybrid-status |
 
 ---
 
