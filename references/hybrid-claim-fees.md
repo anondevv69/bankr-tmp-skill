@@ -55,14 +55,27 @@ Agents **must** understand these distinctions. Users will **not** use this jargo
 | **`hybridTokenId`** | Long on-chain id for ERC-721 + ERC-1155 | `82162810189150381448686192642592435479296266651479359308798582033011722422011` |
 | **Small integer `12`** | **NOT** the on-chain id unless proven | **`tokenId=12` on hybrid TMPR is usually wrong** |
 
-**Hard rule:** User says “TMPR #12” → API/query param **`serial=12`**, then read **`hybridTokenId`** from API or `positionOf` scan. **Never** pass `12` as `claimFeesForToken` tokenId without verification.
+**Hard rule:** User says “TMPR #12” or **`serial=12`** → call **`GET /api/claim/hybrid-status?token=0x…&serial=12&wallet=<linked>`** — use returned **`hybridTokenId`**. **Never** call `canClaimFees(12)`, `isFinalized(12)`, `balanceOf(wallet, 12)`, or `claimFeesForToken(12, …)`.
+
+See **`hybrid-claim-serial-not-tokenid-regression.md`** — May 2026 Bankr replied “tokenId 12 not finalized” for CTO TMPR #12 (wrong).
+
+### “tokenId” disambiguation (agents confuse this)
+
+| Context | “tokenId” means |
+|---------|-----------------|
+| User: “TMPR #12” | **Serial label 12** → API `serial=12` |
+| API response: `hybridTokenId` | **Use this** in contract calls |
+| Contract arg in `claimFeesForToken` | **`hybridTokenId`** (long uint), **not** serial |
+| **`tokenId=12` on hybrid TMPR** | **Almost always wrong** — empty/unrelated sale |
+
+**CTO proof (API, not guesswork):** `serial=12` + `token=0xb6fB…` → `hybridTokenId=821628…`, `unitsFinalized=true`, `unitsHeld=630`, `holderCount=114`.
 
 ### User tweet phrases (what they mean — agent interprets)
 
 | User says | Agent understands |
 |-----------|-------------------|
 | “claim CTO fee-right unit fees `0xb6fB…`” | **`token=0xb6fB…`** → hybrid claim for that sale |
-| “TMP hybrid claim” / “TMP v53” | Load **`hybrid-claim-fees.md`**; use **`claimFeesForToken`**, not **`collectFees`** |
+| “TMP hybrid claim” / “TMP v56” | Load **`hybrid-id-vocabulary.md`** + **`hybrid-claim-fees.md`**; use **`claimFeesForToken`**, not **`collectFees`** |
 | “628 units” / “~600 units” | Confirm via linked wallet **`unitsHeld`** from API — user does not paste units |
 | “$CTO” only | Ticker ambiguous — prefer **`0xb6fB…`** from thread; else one clarifying question |
 | “paste contract address” (agent ask) | **Wrong** if user already gave **`0xb6fB…`** |
@@ -128,9 +141,11 @@ Agents **must** understand these distinctions. Users will **not** use this jargo
 
 ## Agent flow (execute silently)
 
-### 0 — Status API (mandatory — proves claim + builds all-holder tx)
+### 0 — Status API (mandatory — before ANY on-chain read)
 
-**Before any hybrid claim**, Bankr calls (linked wallet injected silently):
+**Forbidden before this step:** `canClaimFees(N)`, `isFinalized(N)`, `unitsFinalized(N)`, `balanceOf(wallet, N)` where **N = user’s serial** (e.g. 12).
+
+**Always call first** (linked wallet injected silently):
 
 ```text
 GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=0x…&wallet=<linkedWallet>&serial=12

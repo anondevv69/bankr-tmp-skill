@@ -52,7 +52,7 @@ bankr-tmp-skill/
 
 ## Version
 
-Main skill: **50** (`VERSION` at repo root). Bundle rebirth companion: **1**.
+Main skill: **56** (`VERSION` at repo root). Hybrid claims: read **`references/hybrid-id-vocabulary.md`** — **`serial=12` ≠ `tokenId=12`**. Bundle rebirth companion: **1**.
 
 ## Related
 

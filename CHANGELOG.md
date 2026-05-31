@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 55 (current)
+## 56 (current)
+
+- **`hybrid-id-vocabulary.md`:** canonical glossary — `serial`, `hybridTokenId`, `tokenId`, units, wallet vs launch token.
+- **`hybrid-claim-serial-not-tokenid-regression.md`:** forbid `canClaimFees(12)` / `isFinalized(12)` when user said TMPR #12; API first.
+- **`SKILL.md`**, **`dm-intents.md`**, **`user-language.md`**, **`BANKR-INSTALL-CHECK.md`**, **`README.md`** — v56 alignment.
+
+## 55
 
 - **`hybrid-claim-single-recipient-regression.md`:** tx 0xd866… paid 1 wallet only — forbid `recipients=[requester]` when unitsHeld < 1000.
 - API `nextStep.data` only when full cap table; decode recipientCount before sign.

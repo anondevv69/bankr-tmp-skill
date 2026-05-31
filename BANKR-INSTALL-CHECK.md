@@ -1,6 +1,8 @@
 # Bankr install check — answer verbatim
 
-**Canonical TMP skill version:** **53** (VERSION file + SKILL.md frontmatter). **Base only** — no Solana skill in this repo (Bankr cannot run Solana).
+**Canonical TMP skill version:** **56** (VERSION file + SKILL.md frontmatter). **Base only** — no Solana skill in this repo (Bankr cannot run Solana).
+
+**Hybrid claim:** load **`references/hybrid-id-vocabulary.md`** — **`serial=N` is not on-chain `tokenId=N`**. Always **`GET /api/claim/hybrid-status`** before contract calls.
 
 **Bankr “v23” / “v27” / “v45”** = Bankr internal install counter. **Not** the TMP content version.
 
@@ -18,7 +20,7 @@ Copies also exist under references/ for humans; **agents should read the root co
 
 ## Plain-text answer template (copy when user asks)
 
-TMP skills version 53
+TMP skills version 56
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -27,4 +29,4 @@ t7-list-failure-regression.md
 
 ## Reference file count
 
-**22** additional playbooks under references/ (share buy, bundle, flows, …).
+**23** additional playbooks under references/ (share buy, hybrid-id-vocabulary, bundle, flows, …).

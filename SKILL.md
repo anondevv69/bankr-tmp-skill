@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v55 Base fee rights. Hybrid claim: full cap table, never recipients=[requester only]. hybrid-claim-single-recipient-regression.md."
+description: "TMP skills v56 Base fee rights. hybrid-id-vocabulary: serial=N is NOT tokenId=N. GET hybrid-status before claim. Full cap table required."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 55
-tmp_skill_version: "55"
+version: 56
+tmp_skill_version: "56"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 21
+reference_file_count: 23
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 53
+TMP skills version 56
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **53** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **56** (VERSION file). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 ---
 
@@ -84,7 +84,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 
 **Normal talk only:** **`references/normal-talk-only.md`** — never expose poolId, bps, wei, escrow addresses, `approve GroupBuyEscrow`, or contract names to users. Resolve silently; reply in plain English always.
 
-**CRITICAL — hybrid unit fee claim:** Read **`references/hybrid-claim-fees.md`** (§ Linked wallet). User never pastes wallet — Bankr injects linked wallet. **`claimFeesForToken` pays ALL holders.** Call **`GET /api/claim/hybrid-status?token=0x…&wallet=<linked>`** — read **`proof`** before submit. **Never** Bankr **`collectFees`** for ERC-1155 units.
+**CRITICAL — hybrid unit fee claim:** Read **`references/hybrid-id-vocabulary.md`** then **`references/hybrid-claim-fees.md`**. **`serial=N` ≠ on-chain `tokenId=N`.** Always **`GET /api/claim/hybrid-status?token=0x…&serial=N&wallet=<linked>`** first — use **`hybridTokenId`** from response. **Never** `canClaimFees(12)` when user said TMPR #12. **Never** Bankr **`collectFees`** for units.
 
 **CRITICAL — user pasted `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e`:** That is the **TMPR NFT collection**, not a token. Do not run `token-fees` on it. Read **`references/tmpr-collection-address-trap.md`** → ask for the token name or ticker instead.
 
@@ -97,13 +97,14 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Runtime contract (mandatory):** **`references/runtime-contract.md`** — required execution behavior for all state-changing flows (submit -> mined receipt -> post-state verify -> user response). Read this before executing list/buy/mint actions.
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
+**Bankr bot regression (serial ≠ tokenId):** **`references/hybrid-claim-serial-not-tokenid-regression.md`** — never `canClaimFees(12)` for TMPR #12; API first.
 **Bankr bot regression (hybrid claim):** **`references/hybrid-claim-zero-units-regression.md`** — scan ERC-1155 before “0 units”.
 **Bankr bot regression (single recipient):** **`references/hybrid-claim-single-recipient-regression.md`** — never `recipients=[requester]` when `unitsHeld < 1000`; use API `nextStep.data` only when `recipientCount >= 2`.
-**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v53**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v56**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
-**Other references (load as needed):** `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`hybrid-claim-fees.md`** (**claim fees on hybrid units**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** **`hybrid-id-vocabulary.md`** (**serial vs tokenId**), `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`hybrid-claim-fees.md`** (**claim fees on hybrid units**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
 
 ---
 
