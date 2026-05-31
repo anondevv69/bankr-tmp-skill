@@ -1,14 +1,15 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v70. Harden list-for-X-ETH routing — never Doppler handoff; verify list/status before listed reply."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market]
-version: 72
-tmp_skill_version: "70"
+description: "TMP skills v71. Harden custodial approve blocks — mandatory 3x retry + NFT fallback; never stop after first block."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block]
+version: 73
+tmp_skill_version: "71"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 33
+  - custodial-approve-block-retry.md
+reference_file_count: 34
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
