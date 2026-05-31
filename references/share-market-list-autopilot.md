@@ -67,7 +67,9 @@ elif user wants partial sale / group buy:
 7. **List** on `0x90230B…` (tx 2).
 8. **Verify** receipt → link order book → plain English reply → **STOP**.
 
-There is **no** step 9. Do not hand off to “use the website” if wallet + contract tools work.
+**X / tweet reply (mandatory):** include full URL  
+`https://www.tokenmarketplace.shop/listing/shares/t/{hybridTokenId}`  
+Never say “listed” on @bankrbot without that link. Do **not** post password on X.
 
 ---
 

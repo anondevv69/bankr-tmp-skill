@@ -151,7 +151,10 @@ Simulate before submit. After mine:
 
 ### 5 — Reply (plain English)
 
-> “Listed **{qty}** share(s) of **$CTO** at **{price} ETH each** on the Token Marketplace order book.{password note}{max per wallet note} [order book link]”
+> “Listed **{qty}** share(s) of **$CTO** at **{price} ETH each** on the Token Marketplace order book.{password note}{max per wallet note}  
+> https://www.tokenmarketplace.shop/listing/shares/t/{hybridTokenId}”
+
+**@bankrbot / X:** paste the **full order book URL** in the public reply — mandatory. Do not post password on X. See **`AGENT-ROUTING-LISTINGS.md` § X / Twitter reply**.
 
 For **0 ETH**: say **“free — buyers pay 0 ETH”**, not “$0”.
 

@@ -56,9 +56,11 @@ The runtime must do all of this in one conversation:
 9. Verify listing status via `GET /api/list/status?tokenId=`.
 10. Return final user message with:
    - success state
-   - tokenmarketplace listing link
-   - OpenSea status (if applicable)
-   - tx hashes (or compact refs)
+   - **full** tokenmarketplace listing URL (`siteListingUrl` from list/status or constructed path)
+   - tx hash
+   - OpenSea status (optional, **after** shop link — never instead of shop link on X)
+
+**Public @bankrbot tweet:** success reply **must** include clickable `https://www.tokenmarketplace.shop/...` — see **`AGENT-ROUTING-LISTINGS.md` § X / Twitter reply**.
 
 Do not pause after mint saying "next do list". The runtime must continue unless a real blocker occurs.
 

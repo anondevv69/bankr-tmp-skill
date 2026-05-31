@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 67 (current)
+## 68 (current)
+
+- **X reply rule:** after successful list on @bankrbot tweet, reply **must** include full `https://www.tokenmarketplace.shop/...` listing URL.
+- **`AGENT-ROUTING-LISTINGS.md`**, sell-list-autopilot, share-market-list-autopilot, runtime-contract updated.
+- Site API: `GET /api/list/status` returns **`siteListingUrl`** for fixed-sale listings.
+
+## 67
 
 - **`AGENT-ROUTING-LISTINGS.md`:** all list/sell/for-sale/password intents **default to tokenmarketplace.shop** — never OpenSea-only or "site or OpenSea?"
 - Updated listing-channels, sell-list-autopilot, user-language, normal-talk-only, SKILL.md routing block.

@@ -6,7 +6,7 @@
 
 ## Plain-text answer template
 
-TMP skills version 67
+TMP skills version 68
 
 Mandatory listing reference files:
 sell-list-autopilot.md
