@@ -41,11 +41,15 @@ On **every** tweet/DM matching list/sell TRIGGER (token + price in ETH):
      needs_finalize → finalizeDeposit (signerMustBe)
 6. POST …/api/list/dual { tokenId, priceEth, seller }
 7. Execute site.steps[] (approve → list on FeeRightsFixedSale)
-8. GET …/api/list/status?tokenId= — verify active
+8. GET …/api/list/status?tokenId= — **listedOnSite: true** or **siteListingUrl** set — **mandatory before “listed” reply**
 9. Reply on X with FULL siteListingUrl + tx hash
 ```
 
 **Hard block:** Do not say “not in escrow” or “update Doppler beneficiary” before step 4 completes.
+
+**Hard block (May 2026 @Rayblancoeth):** Do not stop at “prepareDeposit already active / beneficiary transfer simulation failed” and tell user to manually set Doppler fee recipient — call **`POST /api/bankr-build-transfer`** then **`finalizeDeposit`** then dual list in **same** conversation.
+
+**One-conversation rule:** If `phase !== "ready"`, finish all mint steps here — no Doppler dashboard handoff.
 
 **Order bug to prevent:** Never tell user to set Doppler beneficiary to escrow **before** `prepareDeposit`.
 

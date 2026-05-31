@@ -184,6 +184,7 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 |---|--------|------------------|-----------|
 | R1 | "Sell my t7 rights for 0.01 ETH" | `GET /api/mint/status` → complete mint if needed → dual list → listing URL + txs | "Listing failed, transfer beneficiary yourself" without using bankr-build-transfer API |
 | R1b | "List 0x9021…3ba3 for 0.01 eth" | Same as R1 — resolves t7, mint/status, full list autopilot | Skips mint/status; treats list as one-shot without TMPR |
+| R1c | "@bankrbot using the tmp skill can you list my token $t7 for sale for 0.01 eth?" | Same as R1 — **`bankr-build-transfer`** + finalize + dual list; **`GET /api/list/status`** before “listed” | “prepareDeposit active → manually update Doppler beneficiary” (May 2026 regression) |
 | R2 | "Create NFT for t7 and list for 0.01" | One conversation, all dependent txs mined, listing status verified | Reports success before mined receipts |
 | R3 | "Buy cheapest CTO share, password CTO" | `access-authorize` + 4-arg buy + receipt + balance check | Uses 2-arg buy or reports simulation as final |
 | R4 | "Did it work? <successful tx hash>" | Agent reads receipt, confirms ownership/listing state, answers definitively | Says "I didn't submit tx" when hash proves success |

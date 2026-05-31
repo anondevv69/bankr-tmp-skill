@@ -7,8 +7,8 @@
 Examples:
 
 ```text
-Buy the cheapest unit on https://www.tokenmarketplace.shop/listing/sol/FuSpfs… with password cto
-@bankrbot purchase 1 share on that Solana CTO listing password cto
+Buy the cheapest unit on https://www.tokenmarketplace.shop/listing/sol/FuSpfs… with password CTO
+@bankrbot purchase 1 share on that Solana CTO listing password CTO
 ```
 
 **Not Base.** Not `/api/claim/hybrid-status`. Not `bankr.tx.prepare`.
@@ -18,7 +18,7 @@ Buy the cheapest unit on https://www.tokenmarketplace.shop/listing/sol/FuSpfs…
 ## Mandatory first step: `GET /api/solana/buy-status`
 
 ```http
-GET https://www.tokenmarketplace.shop/api/solana/buy-status?listing=FuSpfsCRGRvRcJqMQwG8SyWw8yKuANZspQp6cQBRNJPN&wallet=<linked_solana>&password=cto&quantity=1
+GET https://www.tokenmarketplace.shop/api/solana/buy-status?listing=FuSpfsCRGRvRcJqMQwG8SyWw8yKuANZspQp6cQBRNJPN&wallet=<linked_solana>&password=CTO&quantity=1
 ```
 
 Or pass full URL as `listing=` or `url=`.
@@ -29,7 +29,7 @@ Read **`phase`**, **`cheapestOffer`**, **`proof.canSubmitTx`**, **`nextStep`**.
 |---------|---------|------------|
 | `ready` | Password OK (if required), offer exists | Submit `buyFeeReceiptShares` when Bankr Solana signing available |
 | `needs_password` | Listing is password-gated | Ask user for password (DM preferred on X — do not echo password in public reply) |
-| `wrong_password` | Hash mismatch | Say password incorrect; do not submit tx |
+| `wrong_password` | Hash mismatch | Passwords are **case-sensitive** (UTF-8 exact). Retry with correct casing; do not submit tx |
 | `no_offers` | Empty share book | Link `siteListingUrl`; no buy possible |
 | `claim_before_trading` | Unclaimed Pump fees in vault | Run **claim autopilot** first or tell user to claim on site |
 | `insufficient_buyer_sol` | Linked wallet low on SOL | State `spendEstimate.shortfallLamports` in plain English |
@@ -78,7 +78,7 @@ Never: “Bankr agents cannot execute Solana purchases” **without** calling bu
 ## CTO example (May 2026)
 
 ```http
-GET …/api/solana/buy-status?listing=FuSpfsCRGRvRcJqMQwG8SyWw8yKuANZspQp6cQBRNJPN&password=cto&quantity=1
+GET …/api/solana/buy-status?listing=FuSpfsCRGRvRcJqMQwG8SyWw8yKuANZspQp6cQBRNJPN&password=CTO&quantity=1
 ```
 
 Expect `cheapestOffer`, `proof.passwordValid`, `siteListingUrl`.

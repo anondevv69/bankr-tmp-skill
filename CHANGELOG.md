@@ -2,8 +2,15 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 69 (current)
+## 70 (current)
 
+- **UNAMBIGUOUS INTENT** block at top of **`SKILL.md`**: “list for X ETH” → **always** tokenmarketplace.shop — never ask venue, never OpenSea-only, never Doppler handoff.
+- **t7 regression guardrails** moved into main **`Common agent mistakes`** table with **NEVER** labels (before success-path docs).
+- **`sell-list-autopilot.md`:** one-conversation rule + mandatory **`GET /api/list/status`** checkpoint (`listedOnSite: true`) before “listed” reply.
+- **`t7-list-failure-regression.md`:** documents @Rayblancoeth May 2026 failure (prepareDeposit active → manual Doppler — forbidden).
+- **`AGENT-ROUTING-LISTINGS.md`**, **`BANKR-PLATFORM-TWEET-LIST-INTAKE.md`:** v70 minimum + same guardrails.
+
+## 69
 - **Restored `tmp-solana-cto/`** companion — Solana buy + batch claim autopilot (`solana-buy-autopilot.md`, `solana-claim-autopilot.md`).
 - Site APIs: **`GET /api/solana/buy-status`**, **`GET /api/solana/claim-status`** (password verify, cheapest offer, cap table, batch chunks).
 - **`BANKR-PLATFORM-TWEET-LIST-INTAKE.md`:** tweet “list X for 0.01 eth” must auto-load skill + `GET /api/mint/status` before list tools (parallel to claim tweet fix).

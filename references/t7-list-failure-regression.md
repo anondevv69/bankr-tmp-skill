@@ -1,10 +1,14 @@
 # Regression: “List t7 for 0.01” — Bankr bot handoff (May 2026)
 
+> **Location:** repo **root** (Bankr resource). Mirror: references/t7-list-failure-regression.md
+
+
 **Trigger phrases (user says only):**
 
 - “List `0x9021f7edd729f39b6f6637d5ae3a7185634c3ba3` for 0.01 eth”
 - “Can you try again and list it for 0.01 ETH?”
 - “List the rights to this token for 0.01 eth”
+- “@bankrbot using the tmp skill can you list my token $t7 for sale for 0.01 eth?”
 
 **Agent must run `sell-list-autopilot.md` end-to-end.** User does **not** need to mention skill version or paste API URLs.
 
@@ -14,6 +18,7 @@
 
 | Bot said | Why wrong |
 |----------|-----------|
+| **“prepareDeposit is already active… manually update the fee recipient on Doppler to escrow… once updated let me know and I will call finalizeDeposit”** (@Rayblancoeth, May 2026) | **Forbidden.** `prepareDeposit` active = **`needs_transfer`** or **`needs_finalize`** — call **`POST /api/bankr-build-transfer`**, then **`finalizeDeposit`**, then **`POST /api/list/dual`** in **same** conversation. **Never** Doppler dashboard handoff. |
 | “Listing failed — fee rights aren’t in escrow yet” | Mint incomplete — **finish mint**, don’t call it a listing failure |
 | “Transfer fee recipient to escrow” then stop | Use **`POST /api/bankr-build-transfer`** + **`finalizeDeposit`** in same turn |
 | “Update Doppler beneficiary to `0x6238…` manually” | **Never** point beneficiary at escrow **before** `prepareDeposit` |
@@ -31,7 +36,8 @@
 2. Execute all `nextStep` until `phase: "ready"`
 3. `POST /api/list/dual` `{ tokenId, priceEth: "0.01", seller }`
 4. Run `site.steps[]` + OpenSea
-5. Reply: BaseScan txs + marketplace + OpenSea links
+5. **`GET /api/list/status?tokenId=`** — **`listedOnSite: true`** before “listed” reply
+6. Reply: BaseScan txs + **full `siteListingUrl`** + marketplace links
 
 If **mint/status API** returns 5xx, retry API once; then use on-chain reads + same phase table in `mint-pending-deposit.md` — still **no** Doppler dashboard handoff.
 
