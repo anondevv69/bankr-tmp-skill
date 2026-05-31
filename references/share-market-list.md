@@ -202,6 +202,7 @@ Password is **not** a full-page website gate — buyers enter it on the **order 
 ## Cancel / update
 
 - **Cancel unsold listing:** `HybridShareMarketplace.cancel(listingId)` — returns unsold units to seller.
+- **Bankr agent:** **`GET /api/share/list-status?wallet=&listingId=`** → submit **`nextStep.data`** — **`share-market-cancel-autopilot.md`**
 - **Change price/password:** cancel + create new listing (terms are fixed at list time).
 
 ---

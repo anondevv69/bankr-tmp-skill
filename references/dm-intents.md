@@ -61,6 +61,8 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path I — Buy 1/1000 share (hybrid share market):** Resolve ticker → hybrid **tokenId** → scan **`HybridShareMarketplace`** `0x90230B…` → sort **cheapest first** → if **`accessKeyHash == 0`**: `buy(listingId, quantity)`; if **protected**: **`POST …/api/listings/access-authorize`** then `buy(listingId, quantity, authDeadline, signature)` — same **`msg.value`**. See **`share-market-buy.md`**. **Not** fixed sale; **not** partial `contribute`.
 
+**Path J — Cancel share / unit listing:** **`GET …/api/share/list-status?wallet=&listingId=`** (or `hybridTokenId` after hybrid-status) → **`cancel(listingId)`** on `0x90230B…` — **`share-market-cancel-autopilot.md`**. **Not** `FeeRightsFixedSale.cancel`.
+
 **Path K — Claim fees on hybrid unit (ERC-1155):** **`hybrid-claim-autopilot.md`** — user says “claim fees for [token]”; agent runs status API + all-holder tx silently. Never ask wallet or API jargon.
 
 **Path L — Tweet / @bankr hybrid claim:** Same as **Path K**. Natural language only — e.g. `@bankrbot claim fees for CTO`.

@@ -41,6 +41,23 @@ Bankr installs often expose **`references/`** only. **Start here** on any “lis
 
 ---
 
+---
+
+## Cancel share / unit listing (mandatory path)
+
+**TRIGGER:** cancel / remove / delist + shares / units / order book
+
+| | |
+|--|--|
+| **File** | **`share-market-cancel-autopilot.md`** |
+| **API** | **`GET /api/share/list-status?wallet=&listingId=`** or **`&hybridTokenId=`** |
+| **Tx** | **`cancel(listingId)`** on **`HybridShareMarketplace`** `0x90230B…` |
+| **NOT** | `FeeRightsFixedSale.cancel` · dual-list cancel API |
+
+**Example tweet:** `@bankrbot cancel my CTO share listing 13` → list-status → cancel tx → verify → reply.
+
+---
+
 ## Routing guard (pick ONE path)
 
 ```
@@ -150,6 +167,7 @@ When the user requested a list via **public tweet** (`@bankrbot …`) and the li
 |--------|------|
 | Sell 100% / list for X ETH | **`sell-list-autopilot.md`** |
 | List shares / units | **`share-market-list-autopilot.md`** + **`share-market-list.md`** |
+| **Cancel share / unit listing** | **`share-market-cancel-autopilot.md`** |
 | Product matrix | **`listing-channels.md`** |
 | Buy shares | **`share-market-buy.md`** |
 | Tweet intake | **`BANKR-PLATFORM-TWEET-INTAKE.md`** |

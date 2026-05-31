@@ -2,7 +2,7 @@
 name: bankr-fee-rights
 description: "TMP skills v70. Harden list-for-X-ETH routing — never Doppler handoff; verify list/status before listed reply."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market]
-version: 70
+version: 72
 tmp_skill_version: "70"
 mandatory_listing_files:
   - sell-list-autopilot.md
@@ -42,6 +42,21 @@ Can you list 0x9021… for 0.01 eth?
 **Means:** dual-list on **tokenmarketplace.shop** at **0.01 ETH** after mint completes — not a generic “sell tokens” question.
 
 **NEVER after `prepareDeposit` is active:** “manually update fee recipient on Doppler… then tell me to finalize” — use **`POST /api/bankr-build-transfer`** + **`finalizeDeposit`** from **`signerMustBe`**. See **`t7-list-failure-regression.md`**.
+
+---
+
+## AGENT ROUTING — cancel share listing (read on cancel / delist / remove units)
+
+**Bankr install quirk:** read **`references/share-market-cancel-autopilot.md`** on any cancel/delist share/units message.
+
+| | |
+|--|--|
+| **TRIGGER** | **cancel / remove / delist** + **share(s) / units / order book** — optional listing id or $TICKER |
+| **MANDATORY FIRST STEP** | **`GET …/api/share/list-status?wallet=<linked>&listingId=`** or **`&hybridTokenId=`** (from hybrid-status if ticker only) |
+| **ON-CHAIN** | **`HybridShareMarketplace.cancel(listingId)`** on `0x90230B…` — use **`nextStep.data`** from API |
+| **FORBIDDEN** | `FeeRightsFixedSale.cancel` for ERC-1155 shares · ask user for listingId when API returned **`nextStep`** · “no cancel in skill” |
+
+Full spec: **`share-market-cancel-autopilot.md`**
 
 ---
 
@@ -212,7 +227,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
-**Other references (load as needed):** **`AGENT-ROUTING-LISTINGS.md`** (**list/sell default = site**), **`hybrid-claim-autopilot.md`** (root — claim fees natural language), **`hybrid-id-vocabulary.md`**, `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`share-market-list-autopilot.md`** + **`share-market-list.md`** (**list/sell units — 0 ETH, password, maxPerWallet**), **`hybrid-claim-fees.md`** (**claim edge cases**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** **`AGENT-ROUTING-LISTINGS.md`** (**list/sell default = site**), **`share-market-cancel-autopilot.md`** (**cancel share/unit listings via @bankrbot**), **`hybrid-claim-autopilot.md`** (root — claim fees natural language), **`hybrid-id-vocabulary.md`**, `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`share-market-list-autopilot.md`** + **`share-market-list.md`** (**list/sell units — 0 ETH, password, maxPerWallet**), **`hybrid-claim-fees.md`** (**claim edge cases**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
 
 ---
 
@@ -267,6 +282,7 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | **Buy a 1/1000 share** / **cheapest share** / **buy 1 unit of $t7** | **`HybridShareMarketplace.buy`** on hybrid stack — see **`references/share-market-buy.md`** |
 | **Buy N shares with password `…`** / **password-protected share** | Read `accessKeyHash` → **`POST …/api/listings/access-authorize`** → **`buy(listingId, qty, authDeadline, signature)`** — **`share-market-buy.md` § Password-protected listings** |
 | **List shares with password** / **free gated share listing** / **list units at 0 ETH** | **`HybridShareMarketplace.list`** — **`share-market-list-autopilot.md`** + **`share-market-list.md`** |
+| **Cancel share listing** / **remove my unit listing** / **cancel listing 13** | **`HybridShareMarketplace.cancel`** — **`share-market-cancel-autopilot.md`** → **`GET /api/share/list-status`** |
 | **Reply drop** / **first 100 replies** / **first 1000 replies get 1/1000** | **Planned** hybrid fee-right campaign — explain as units, capture params, do **not** claim live execution |
 
 Full intent router, portfolio steps, and **which option** table: **`references/user-language.md`** + **`references/all-escrow-options.md`**.

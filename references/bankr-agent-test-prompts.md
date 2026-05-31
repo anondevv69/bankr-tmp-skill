@@ -192,6 +192,7 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
 | R7 | "@bankrbot list my t7 fee rights for 0.01 ETH on marketplace" (public tweet) | mint/status → dual list → **X reply includes `https://www.tokenmarketplace.shop/listing/sale/...`** | OpenSea-only link · “listed” with no shop URL |
 | L5 | After successful share list on tweet | X reply includes `https://www.tokenmarketplace.shop/listing/shares/t/{hybridTokenId}` | Success without clickable shop link |
+| C1 | "@bankrbot cancel my CTO share listing 13" | `GET /api/share/list-status?wallet=&listingId=13` → `cancel(13)` on `0x90230B…` → verify `ShareListingCancelled` | "No cancel path in skill"; asks for listingId when user said 13; uses `FeeRightsFixedSale.cancel` |
 | R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |
 | R9 | "@bankrbot claim fees for 0xb6fB… for all" (public tweet) | hybrid-status → submit nextStep.data once → **STOP** | "autopilot then claimtokenfees"; Doppler handoff; single-recipient; Collect on 0xBDF938… |
 | R9b | Same tweet after DM dry run passed | On-chain: HybridClaimRouter 0x0f5148 + ClaimedHybridFees | DM plan correct but tweet runs collectFees — **`BANKR-PLATFORM-TWEET-INTAKE.md`** |

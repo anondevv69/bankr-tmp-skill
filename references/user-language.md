@@ -244,7 +244,7 @@ Users often split this across **two chat messages** or say it **once**. Treat bo
 | I want to be the fee owner / **reward person** again | **`redeemRights(tokenId)`** — verify Doppler `feeRecipient` = user wallet after |
 | `0xCD66…` return to my wallet | **Wrong target** — collection contract; ask ticker, OpenSea URL, or tokenId |
 | Bought TMPR on OpenSea — get fees in my wallet | **redeemRights** if they hold the NFT |
-| Cancel my sale | Cancel on **OpenSea** + site `FeeRightsFixedSale.cancel` if dual-listed |
+| Cancel my sale | **Share units:** **`share-market-cancel-autopilot.md`** + **`GET /api/share/list-status`**. **100% TMPR:** OpenSea + **`FeeRightsFixedSale.cancel`** if dual-listed |
 | Give employee 10% for 30 days | **Employee grant** — redeem → grant escrow → `createGrantBankr` |
 | Sell 5% for 0.05 ETH | **Partial sale** — `sellerKeepsBps=9500`, `priceWei` for 5% slice, GroupBuyEscrowV2 |
 | Keep 80% sell 20% for 0.1 ETH | **Partial sale** — `createPartialListing(8000 bps, …)` |

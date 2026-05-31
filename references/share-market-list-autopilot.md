@@ -71,6 +71,40 @@ elif user wants partial sale / group buy:
 `https://www.tokenmarketplace.shop/listing/shares/t/{hybridTokenId}`  
 Never say “listed” on @bankrbot without that link. Do **not** post password on X.
 
+**After ShareListed (Bankr agent):** the site UI auto-calls `POST /api/listings/notify` — **Bankr listings skip that**. Either:
+- rely on the twitter-bot **ShareListed chain watcher** (Railway, `ALERT_SHARE_LISTINGS_CHAIN` default on), or
+- **POST** `https://www.tokenmarketplace.shop/api/listings/notify` with Bearer `LISTING_PUBLISH_SECRET` (platform env only):
+
+```json
+{
+  "kind": "shares",
+  "saleType": "shares",
+  "listingId": "13",
+  "tokenId": "82162810189150381448686192642592435479296266651479359308798582033011722422011",
+  "priceWei": "0",
+  "seller": "0x…",
+  "collection": "0xD8e0639DfAa1cB2b9f9642EeCbd40b1e5a8b42A7",
+  "passwordProtected": true,
+  "tokenSymbol": "CTO"
+}
+```
+
+Replay curl: **`RAILWAY.md`** § “Replay Base share listing”.
+
+---
+
+## Cancel share listing
+
+**User:** “Cancel listing 13” / “remove my CTO share listing”
+
+→ **`share-market-cancel-autopilot.md`** — **not** a skill gap; Bankr must load this file.
+
+1. **`GET …/api/share/list-status?wallet=<linked>&listingId=13`**
+2. Submit **`nextStep.data`** (`cancel` on `0x90230B…`)
+3. Verify **`ShareListingCancelled`** → reply → **STOP**
+
+**Site fallback:** order book on `/listing/shares/t/{hybridTokenId}` → seller cancel button.
+
 ---
 
 ## Example — CTO 630 units, 0 ETH, password (user intent from tweet)

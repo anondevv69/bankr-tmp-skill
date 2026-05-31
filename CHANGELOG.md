@@ -2,7 +2,18 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 70 (current)
+## 72 (current)
+
+- **`share-market-cancel-autopilot.md`** — @bankrbot cancel/delist ERC-1155 share listings via **`GET /api/share/list-status`** + **`HybridShareMarketplace.cancel`**.
+- Site API: **`GET /api/share/list-status`** returns active seller listings + cancel calldata (`nextStep.data`).
+- **`AGENT-ROUTING-LISTINGS.md`**, **`SKILL.md`**, **`user-language.md`** — cancel share routing (not FeeRightsFixedSale).
+
+## 71
+
+- **`share-market-list-autopilot.md`:** cancel path (`HybridShareMarketplace.cancel`), mandatory shop URL in @bankrbot replies, **`POST /api/listings/notify`** for Bankr lists (or chain watcher on bot).
+- Site/bot: **ShareListed chain watcher** + dedupe so @TokenMkp / Telegram fire when Bankr skips site notify.
+
+## 70
 
 - **UNAMBIGUOUS INTENT** block at top of **`SKILL.md`**: “list for X ETH” → **always** tokenmarketplace.shop — never ask venue, never OpenSea-only, never Doppler handoff.
 - **t7 regression guardrails** moved into main **`Common agent mistakes`** table with **NEVER** labels (before success-path docs).
