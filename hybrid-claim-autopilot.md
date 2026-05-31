@@ -14,9 +14,11 @@ Use TMP skill to claim fees for $CTO
 
 **User does not need to say:** “use_skill bankr-fee-rights”, “GET hybrid-status”, “serial=12”, “do not use tokenId 12”, “submit nextStep.data”, “114 holders”, skill version numbers, or paste their wallet. **You** call the API and resolve IDs silently.
 
-This is **Flow 13** (hybrid unit fee claim). **Not** Bankr launch `collectFees`. **Not** redeem TMPR. **Not** Solana.
+This is **Flow 13** (hybrid unit fee claim). **Not** Bankr **`claimtokenfees`**. **Not** Bankr launch **`collectFees`**. **Not** redeem TMPR. **Not** Solana.
 
-See **`references/hybrid-claim-serial-not-tokenid-regression.md`**, **`hybrid-claim-zero-units-regression.md`**, **`hybrid-claim-single-recipient-regression.md`** for real Bankr mistakes to avoid.
+**P0 — before any Bankr native claim tool:** Doppler/Bankr deployment does **not** mean use **`claimtokenfees`**. Many Bankr tokens have **hybrid unit sales** — always **`GET /api/claim/hybrid-status`** first. See **`references/hybrid-claim-claimtokenfees-regression.md`**.
+
+See **`references/hybrid-claim-serial-not-tokenid-regression.md`**, **`hybrid-claim-zero-units-regression.md`**, **`hybrid-claim-single-recipient-regression.md`**, **`hybrid-claim-claimtokenfees-regression.md`** for real Bankr mistakes to avoid.
 
 ---
 
@@ -31,6 +33,19 @@ See **`references/hybrid-claim-serial-not-tokenid-regression.md`**, **`hybrid-cl
 | “yes” / “claim now” after you found their units | Same thread — submit immediately; do not re-check Doppler direct beneficiary |
 
 **Default:** If user says “claim fees” without “for all”, still pay **all** holders. Partial self-claim is **not** a product path for hybrid units.
+
+---
+
+## Routing — hybrid claim vs Bankr `claimtokenfees`
+
+| Check (in order) | Result |
+|------------------|--------|
+| User says **claim / collect fees** + token | Load this autopilot — **stop** default Bankr claim routing |
+| **`GET /api/claim/hybrid-status`** | Hybrid sale found → **`claimFeesForToken`** (all holders) |
+| API: no hybrid sale, wallet = **sole direct beneficiary**, **0 units** | **`claimtokenfees`** / **`collectFees`** OK |
+| Token is Doppler/Bankr launch | **Not a reason** to skip hybrid-status — CTO is Doppler + hybrid units |
+
+**Forbidden replies:** “deployed via Bankr (Doppler), not Clanker — use **claimtokenfees**” without hybrid-status. See **`hybrid-claim-claimtokenfees-regression.md`**.
 
 ---
 
@@ -49,6 +64,8 @@ GET https://www.tokenmarketplace.shop/api/claim/hybrid-status?token=<launch0x>&w
 | **`serial=`** | Only if user said **TMPR #N** or site label — **never** pass serial as contract `tokenId` |
 
 Read **`phase`**, **`proof`**, **`hybridTokenId`**, **`nextStep`**. Execute **`nextStep.data`** via **`bankr.tx.prepare`** when **`proof.canSubmitTx === true`**.
+
+**Forbidden before this API call:** `claimtokenfees`, `collectFees`, `token-fees`, Clanker reward lookup, Doppler-vs-Clanker routing.
 
 **Forbidden before this API call:** `canClaimFees(N)`, `isFinalized(N)`, `balanceOf(wallet, N)` where **N = serial label**.
 
@@ -111,4 +128,5 @@ If user already gave **`0xb6fB…`**, **do not** ask for contract again.
 - Bot says **“0 units”** without calling **`hybrid-status`** (or after API shows **`unitsHeld > 0`**)
 - Bot uses **`tokenId=12`** when user said **TMPR #12**
 - Bot submits **`recipients.length === 1`** when requester holds **< 1000** units
-- Bot tells user to paste API params, skill install lines, or technical checklist
+- Bot tells user to use **`claimtokenfees`** because token is **Doppler/Bankr** — see **`hybrid-claim-claimtokenfees-regression.md`**
+- Bot says **“wasn't able to complete”** without calling **`hybrid-status`** when user gave launch `0x…`

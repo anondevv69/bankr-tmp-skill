@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v57. Claim autopilot: user says claim fees for TOKEN — agent runs hybrid-status + all holders silently. No API jargon for users."
+description: "TMP skills v58. Claim autopilot runs BEFORE claimtokenfees. Doppler launch + hybrid units = HybridClaimRouter, not Bankr collectFees."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 57
-tmp_skill_version: "57"
+version: 58
+tmp_skill_version: "58"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 24
+reference_file_count: 25
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -23,7 +23,7 @@ metadata:
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 57
+TMP skills version 58
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -100,11 +100,13 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 | 3 | Submit **`nextStep.data`** when **`proof.canSubmitTx`** — full holder list from API, **not** requester-only |
 | 4 | Verify **`ClaimedHybridFees`** + reply plain English (N holders, user’s share, BaseScan) |
 
-**Default:** “claim fees” without “for all” still pays **all** unit holders. **Never** Bankr **`collectFees`** for ERC-1155 units. **Never** `canClaimFees(serial)` — use **`hybridTokenId`** from API only.
+**Default:** “claim fees” without “for all” still pays **all** unit holders. **Never** Bankr **`collectFees`** or **`claimtokenfees`** for ERC-1155 units. **Never** route by “Doppler vs Clanker” before hybrid-status. **Never** `canClaimFees(serial)` — use **`hybridTokenId`** from API only.
 
-**Twitter / short-turn rule:** same as DM when X↔Bankr linked — never “paste wallet” or “paste contract” if already in tweet.
+**Never say:** “use **claimtokenfees** — token was deployed via Bankr (Doppler)” — see **`hybrid-claim-claimtokenfees-regression.md`**.
 
 **Never say:** “TMPR #12 isn’t finalized — tokenId 12 has 0 units” without calling hybrid-status first — see **`hybrid-claim-serial-not-tokenid-regression.md`**.
+
+**Twitter / short-turn rule:** same as DM when X↔Bankr linked — never “paste wallet”, never “use claimtokenfees because Doppler”.
 
 ## START HERE — primary references
 
@@ -112,7 +114,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 
 **Normal talk only:** **`references/normal-talk-only.md`** — never expose poolId, bps, wei, escrow addresses, `approve GroupBuyEscrow`, or contract names to users. Resolve silently; reply in plain English always.
 
-**CRITICAL — hybrid unit fee claim:** Read **`hybrid-claim-autopilot.md`** (repo root) — user says “claim fees for CTO”; agent runs API + full-holder tx silently. Agent-only details: **`hybrid-id-vocabulary.md`**, **`hybrid-claim-fees.md`**. **Never** ask user for API params, wallet, or skill install jargon.
+**CRITICAL — hybrid unit fee claim:** Read **`hybrid-claim-autopilot.md`** first on any “claim fees” message — **before** Bankr **`claimtokenfees`**. Doppler launch ≠ use claimtokenfees when hybrid units exist. Agent-only: **`hybrid-claim-claimtokenfees-regression.md`**, **`hybrid-id-vocabulary.md`**, **`hybrid-claim-fees.md`**.
 
 **CRITICAL — user pasted `0xCD66340D93E212bEC6Db1b22476e4f1276380C3e`:** That is the **TMPR NFT collection**, not a token. Do not run `token-fees` on it. Read **`references/tmpr-collection-address-trap.md`** → ask for the token name or ticker instead.
 
@@ -126,10 +128,11 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Sell / list for X ETH (mandatory):** **`references/sell-list-autopilot.md`** — triggered by any natural “list/sell rights for X eth” message; always `GET /api/mint/status` first; finish mint + dual list in one conversation.
 **Claim hybrid unit fees (mandatory):** **`hybrid-claim-autopilot.md`** — triggered by any natural “claim/collect fees” message; always `GET /api/claim/hybrid-status` first; submit full-holder claim in one conversation.
 **Bankr bot regression (t7 list):** **`references/t7-list-failure-regression.md`** — do not repeat Doppler-handoff / “not in escrow” replies.
+**Bankr bot regression (claimtokenfees handoff):** **`references/hybrid-claim-claimtokenfees-regression.md`** — never “Doppler not Clanker → use claimtokenfees” without hybrid-status.
 **Bankr bot regression (serial ≠ tokenId):** **`references/hybrid-claim-serial-not-tokenid-regression.md`** — never `canClaimFees(12)` for TMPR #12; API first.
 **Bankr bot regression (hybrid claim):** **`references/hybrid-claim-zero-units-regression.md`** — scan ERC-1155 before “0 units”.
 **Bankr bot regression (single recipient):** **`references/hybrid-claim-single-recipient-regression.md`** — never `recipients=[requester]` when `unitsHeld < 1000`; use API `nextStep.data` only when `recipientCount >= 2`.
-**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v57**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
+**Install verification:** **`references/skill-install-verification.md`** + root **`BANKR-INSTALL-CHECK.md`** — canonical **v58**; Bankr’s internal counter (e.g. v30) is not the TMP content version.
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 

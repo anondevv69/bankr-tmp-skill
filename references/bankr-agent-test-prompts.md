@@ -191,7 +191,7 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
 | R7 | "@bankrbot list my t7 fee rights for 0.01 ETH on marketplace" (public tweet) | `GET /api/mint/status` → execute `nextStep` (incl. `bankr-build-transfer` if `needs_transfer`) → `finalizeDeposit` → `POST /api/list/dual` → site listing URL | "Create NFT first" without `phase`; "go to Doppler"; "I hit my step limit"; OpenSea-only with no site list; guidance-only with no status call |
 | R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |
-| R9 | "@bankrbot claim fees for CTO" (public tweet, X↔Bankr linked) | **`hybrid-claim-autopilot.md`** → `GET /api/claim/hybrid-status` → submit `nextStep.data` (all holders) → plain English reply | Ask user for wallet; `collectFees`; `tokenId=12` for TMPR #12; tell user to paste use_skill / hybrid-status / serial=; single-recipient tx |
+| R9 | "@bankrbot claim fees for 0xb6fB… for all" (public tweet) | **`hybrid-claim-autopilot.md`** → hybrid-status → submit all holders | "Doppler not Clanker → use claimtokenfees"; collectFees; tokenId=12; wasn't able to complete without API |
 
 **Minimum telemetry per state-changing run (internal):**
 - intent, selected listing/tokenId, auth path used, tx hash(es), receipt status, post-state check result.

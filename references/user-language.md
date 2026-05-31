@@ -78,8 +78,8 @@ User message
     │     → If TMPR in wallet: dual list only
     │
     ├─ "claim fees" / "collect fees" / "claim my unit" / "claim CTO fees" / "claim fees for all"
-    │     → **Hybrid claim autopilot** — hybrid-claim-autopilot.md — GET hybrid-status → all holders
-    │     → User says token/ticker only; NOT Bankr collectFees; NOT technical API tweet
+    │     → **Hybrid claim autopilot** — hybrid-claim-autopilot.md — GET hybrid-status **before** claimtokenfees
+    │     → Doppler/Bankr launch does NOT mean claimtokenfees — unit holders use HybridClaimRouter
     │
     ├─ "buy cheapest share" / "buy 1/1000" / "buy 1 share of $t7" / "buy version 1"
     │     → **Share market buy** — share-market-buy.md — HybridShareMarketplace `0x90230B…`

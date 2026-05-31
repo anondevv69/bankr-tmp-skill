@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 57 (current)
+## 58 (current)
+
+- **`hybrid-claim-claimtokenfees-regression.md`:** Bankr replied “Doppler not Clanker → use claimtokenfees” for CTO claim tweet — wrong; hybrid-status first.
+- **`hybrid-claim-autopilot.md`:** routing table — hybrid claim before any Bankr native claim tool.
+- **`SKILL.md` § Claim policy:** forbid Doppler-vs-Clanker handoff without API.
+
+## 57
 
 - **`hybrid-claim-autopilot.md`** (repo root): claim fees = natural language only — “claim fees for CTO”; agent runs hybrid-status + all holders silently.
 - **`SKILL.md` § Claim policy** mirrors sell-list autopilot — users never paste API params, use_skill, serial=, or tokenId rules.

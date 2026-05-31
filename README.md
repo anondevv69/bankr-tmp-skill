@@ -53,7 +53,7 @@ bankr-tmp-skill/
 
 ## Version
 
-Main skill: **57** (`VERSION` at repo root). **Claim:** say “claim fees for [token]” — agent autopilot handles the rest. Bundle rebirth companion: **1**.
+Main skill: **58** (`VERSION` at repo root). **Claim:** hybrid-status **before** `claimtokenfees` — Doppler tokens can have hybrid unit sales. Bundle rebirth: **1**.
 
 ## Related
 

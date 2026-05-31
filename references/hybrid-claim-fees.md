@@ -104,15 +104,18 @@ See **`hybrid-claim-serial-not-tokenid-regression.md`** — May 2026 Bankr repli
 
 ---
 
-## P0 regression — do NOT use Bankr launch claim
+## P0 regression — do NOT use Bankr launch claim or claimtokenfees
 
 | Wrong (forbidden for hybrid units) | Right (Token Marketplace path) |
 |-----------------------------------|--------------------------------|
+| Bankr **`claimtokenfees`** because “Doppler not Clanker” | **`GET /api/claim/hybrid-status`** first — then **`claimFeesForToken`** |
 | Bankr `collectFees(poolId)` on fee manager `0xBDF938…` **from the user’s wallet** | **`HybridClaimRouter.claimFeesForToken`** |
 | Assumes user wallet is the **sole fee beneficiary** | Pulls via **`BankrSplitFeeCollector`** → pays **every ERC-1155 unit holder** |
-| Often succeeds with **0 WETH / 0 token** — misleading “✅ claimed” | Distributes ETH + pool tokens pro-rata to all holders |
+| “Wasn't able to complete — use claimtokenfees instead” | Hybrid-status → submit **`nextStep.data`** when **`canSubmitTx`** |
 
-**May 2026 regression (CTO / TMPR #12):** User held **“TMPR #12 · Unit”** on hybrid collection `0xD8e0639…`. Bankr called fee-manager `collectFees` from the Bankr smart wallet. On-chain **Collect** event showed **fees0 = 0, fees1 = 0**. Fees were **not** lost — they were never pulled from the collector vault. **Never repeat this path for unit holders.**
+**May 2026 regression (CTO tweet):** User posted `@bankrbot claim fees for 0xb6fB… for all`. Bankr replied **“deployed via Bankr (Doppler), not Clanker — use claimtokenfees”**. User holds **630 hybrid units** — must use **`hybrid-claim-autopilot.md`**, not **`claimtokenfees`**. See **`hybrid-claim-claimtokenfees-regression.md`**.
+
+**May 2026 regression (CTO / TMPR #12):** User held **“TMPR #12 · Unit”** on hybrid collection `0xD8e0639…`. Bankr called fee-manager `collectFees` from the Bankr smart wallet. On-chain **Collect** event showed **fees0 = 0, fees1 = 0**. **Never repeat this path for unit holders.**
 
 ---
 

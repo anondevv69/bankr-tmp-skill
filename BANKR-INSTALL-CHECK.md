@@ -1,8 +1,8 @@
 # Bankr install check — answer verbatim
 
-**Canonical TMP skill version:** **57** (VERSION file + SKILL.md frontmatter). **Base only** — no Solana skill in this repo (Bankr cannot run Solana).
+**Canonical TMP skill version:** **58** (VERSION file + SKILL.md frontmatter). **Base only** — no Solana skill in this repo (Bankr cannot run Solana).
 
-**Hybrid claim:** **`hybrid-claim-autopilot.md`** — user says “claim fees for [token]”; agent runs API + full-holder tx silently.
+**Hybrid claim:** **`hybrid-claim-autopilot.md`** — runs **before** Bankr **`claimtokenfees`**. Doppler launch ≠ skip hybrid path.
 
 **Bankr “v23” / “v27” / “v45”** = Bankr internal install counter. **Not** the TMP content version.
 
