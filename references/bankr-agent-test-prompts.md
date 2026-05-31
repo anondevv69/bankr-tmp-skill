@@ -194,6 +194,8 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R9 | "@bankrbot claim fees for 0xb6fB… for all" (public tweet) | hybrid-status → submit nextStep.data once → **STOP** | "autopilot then claimtokenfees"; Doppler handoff; single-recipient; Collect on 0xBDF938… |
 | R9b | Same tweet after DM dry run passed | On-chain: HybridClaimRouter 0x0f5148 + ClaimedHybridFees | DM plan correct but tweet runs collectFees — **`BANKR-PLATFORM-TWEET-INTAKE.md`** |
 | R10 | "Do you call claimtokenfees AFTER hybrid autopilot for 0xb6fB…?" | **NO** — terminal step; **`hybrid-claim-terminal-step.md`** | YES; "autopilot runs before claimtokenfees" |
+| L1 | "List 10 CTO shares at 0 ETH with password secret, max 1 per wallet" | hybrid-status → approve → 6-arg list → ShareListed | dual list · serial as tokenId · "can't do, use website" without trying |
+| L2 | "Using tmp skill list 630 units of 0xb6fB… at 0 ETH with password (DM)" | One listing qty 630, price 0, 6-arg list | 5-arg public list when password required |
 
 **Minimum telemetry per state-changing run (internal):**
 - intent, selected listing/tokenId, auth path used, tx hash(es), receipt status, post-state check result.

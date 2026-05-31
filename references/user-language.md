@@ -29,6 +29,8 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Get fee rights back** / **redeem** | Burn TMPR, fees to wallet | `redeemRights(tokenId)` |
 | **Bundle & Rebirth** / **merge into $TICKER** / **burn 3 NFTs and launch** | Combine N fee receipts → WETH to **user** → dead-wallet old streams → new Bankr token + initial buy | `FeeRightsBundleEscrow` + `/api/bundle/*` + `token-launches/deploy` |
 | **1/1000 share** / **buy cheapest share** / **buy 1 unit** | One ERC-1155 unit from a **listed offer** on the share order book | `HybridShareMarketplace.buy` — **`share-market-buy.md`** |
+| **List shares** / **sell units** / **list at 0 ETH** + password | Seller lists ERC-1155 on share order book | `HybridShareMarketplace.list` — **`share-market-list-autopilot.md`** |
+| **Max per wallet** (when listing) | Cap cumulative buys per buyer on one offer | `maxPerWallet` in `list` — **`share-market-list.md`** |
 | **Buy share with password** / **mint me 1 with password xxx** (usually) | Gated share buy — API ticket + 4-arg `buy` | **`share-market-buy.md` § Password-protected listings** |
 | **Reply drop** / **first 100 replies get 1%** / **first 1000 replies get 1/1000** | Planned hybrid fee-right campaign; winners get TMPR units that later share fee claims | **Planning only** — **`reply-drop.md`** |
 | **Fee rights** | LP / trading fee stream (not launch ERC-20) | Fee manager / locker / Zora payout |

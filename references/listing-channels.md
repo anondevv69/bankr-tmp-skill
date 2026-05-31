@@ -8,6 +8,7 @@
 | **Sell 5%** (keep 95%) for X ETH | `GroupBuyEscrowV2.createPartialListing` | **My profile** → partial sale — **one buyer** pays full price | **No** — do not use dual API | **Not integrated today** |
 | **Private partial** (5% for one wallet only) | `GroupBuyEscrowV3.createPrivatePartialListing` | **My profile** — checkbox + buyer `0x…` | No | No — not public browse |
 | **Group buy** (many wallets, 100% slice) | `createListing` | Group buy tab | No | Not integrated |
+| **List 1/1000 shares** (ERC-1155 units) | `HybridShareMarketplace.list` | Share order book / vault **List shares** | **No** — on-chain calldata only | No |
 | **Crowdsource** | `createCrowdsource` | Group buy tab | No | Not integrated |
 
 **Bankr / agents:** For **100%**, call **`POST https://www.tokenmarketplace.shop/api/list/dual`**. For **partial %**, use **on-chain** `createPartialListing` (or site UI) — there is **no** dual-list API yet.

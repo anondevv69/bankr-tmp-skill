@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v65. Tweet intake must auto-load skill before claim tools — users never say use_skill."
-tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 65
-tmp_skill_version: "65"
+description: "TMP skills v66. Share market list autopilot — 0 ETH, password, maxPerWallet on HybridShareMarketplace."
+tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market]
+version: 66
+tmp_skill_version: "66"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 30
+reference_file_count: 32
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -23,7 +23,7 @@ metadata:
 
 **Bankr install quirk:** agents often **cannot read repo-root `SKILL.md`** — only `references/`. If SKILL.md missing, read **`references/AGENT-ROUTING-CLAIM-FEES.md`** first (same content as this section).
 
-**MINIMUM CONTENT VERSION:** `65` — check `VERSION` file + frontmatter `version:`. If installed version **< 65**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
+**MINIMUM CONTENT VERSION:** `66` — check `VERSION` file + frontmatter `version:`. If installed version **< 66**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
 
 | | |
 |--|--|
@@ -48,7 +48,7 @@ Full spec: **`BANKR-AGENT-REQUIREMENTS.md`** · **`references/AGENT-ROUTING-CLAI
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 65
+TMP skills version 66
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -165,7 +165,7 @@ Guidance for agents helping users with **creator fee rights** custody (ERC721 **
 **Autopilot rule:** if user gives enough intent (token + action + price/password/qty), execute full flow end-to-end in one conversation. Do not stop at “prepared”, and do not hand off to manual website actions unless a real runtime blocker remains after receipt/state checks.
 **Mint visibility rule:** after any successful mint/finalize, do not rely on profile indexing alone. Confirm ownership on-chain and return direct token/item links immediately so users can find the NFT even if profile is delayed.
 
-**Other references (load as needed):** **`hybrid-claim-autopilot.md`** (root — claim fees natural language), **`hybrid-id-vocabulary.md`**, `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`hybrid-claim-fees.md`** (**claim edge cases**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
+**Other references (load as needed):** **`hybrid-claim-autopilot.md`** (root — claim fees natural language), **`hybrid-id-vocabulary.md`**, `listing-channels.md` (site vs OpenSea), **`share-market-buy.md`** (**buy 1/1000 shares**), **`share-market-list-autopilot.md`** + **`share-market-list.md`** (**list/sell units — 0 ETH, password, maxPerWallet**), **`hybrid-claim-fees.md`** (**claim edge cases**), `reply-drop.md`, `redeem-rights-playbook.md`, `partial-sale-resolve-token.md`, **`mint-pending-deposit.md`**, `dm-intents.md`, `bankr-agent-test-prompts.md` (QA).
 
 ---
 
@@ -218,7 +218,7 @@ When user says **first 100 replies get 1% each**, **first 1000 get 1/1000**, **f
 | **Bundle & Rebirth** / **merge into $TICKER** | Install **tmp-bundle-rebirth** skill — see companion skills § above |
 | **Buy a 1/1000 share** / **cheapest share** / **buy 1 unit of $t7** | **`HybridShareMarketplace.buy`** on hybrid stack — see **`references/share-market-buy.md`** |
 | **Buy N shares with password `…`** / **password-protected share** | Read `accessKeyHash` → **`POST …/api/listings/access-authorize`** → **`buy(listingId, qty, authDeadline, signature)`** — **`share-market-buy.md` § Password-protected listings** |
-| **List shares with password** / **free gated share listing** | Seller: site **List shares** (6-arg `list`) or fixed-sale **`POST /api/list/dual`** with `"password"` for whole TMPR — **`share-market-buy.md`** |
+| **List shares with password** / **free gated share listing** / **list units at 0 ETH** | **`HybridShareMarketplace.list`** — **`share-market-list-autopilot.md`** + **`share-market-list.md`** |
 | **Reply drop** / **first 100 replies** / **first 1000 replies get 1/1000** | **Planned** hybrid fee-right campaign — explain as units, capture params, do **not** claim live execution |
 
 Full intent router, portfolio steps, and **which option** table: **`references/user-language.md`** + **`references/all-escrow-options.md`**.
@@ -250,6 +250,8 @@ Users speak in **tickers, token names, and ETH prices** — not fee managers or 
 | “@bankr sell 5% of this token for X” (tweet/DM) | Same as partial sale | Ask token/TMPR + wallet; link **tokenmarketplace.shop**; **cannot** list without signatures |
 | “**Buy the cheapest** 1/1000 share of **$t7**” / “buy **1** share at best price” | **Share market buy** — **not** fixed sale, **not** partial pool | Sort offers by price → `buy(listingId, qty)` — **`share-market-buy.md`** |
 | “**Buy 1** share of **$CTO** with password **`xxx`**” / “mint me 1 with password xxx” | **Gated share buy** (usually **buy**, not mint) | `access-authorize` + 4-arg `buy` — **`share-market-buy.md` § Password-protected listings** |
+| “**List** my **units** / **1/1000 shares** at **0 ETH** with **password**” / “sell shares on hybrid marketplace” | **Share market list** — **not** dual list | **`share-market-list-autopilot.md`** → hybrid-status → approve → 6-arg `list` |
+| “**max 1 per wallet**” + list shares | Per-buyer cap on share offer | `maxPerWallet = 1` in `list` — **`share-market-list.md`** |
 | “Buy **version 2**” / “**second cheapest** offer” | **Offer rank #2** (after sort) | Same — pick `offers[1]` if it exists |
 | “I'll seed 0.1 ETH, raise 0.1 from 10 people” | **Crowdsource** | `msg.value=0.1`, `targetRaise=0.1` — fee % = ETH / (seed+raised) |
 | “Convert my fee rights for t7 to an NFT” | Same as Create NFT | Never treat a random `0x…` as fee manager |

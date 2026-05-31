@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 65 (current)
+## 66 (current)
+
+- **`share-market-list.md`** + **`share-market-list-autopilot.md`:** list ERC-1155 units — **0 ETH**, password, `maxPerWallet`; no dual-list API.
+- Routing updates in SKILL.md, user-language, listing-channels, bankr-agent-test-prompts (L1, L2).
+
+## 65
 
 - **`BANKR-PLATFORM-TWEET-INTAKE.md`:** Bankr engineering spec — tweet must auto-load skill before claim tools; users must not say “use TMP skill”.
 - Documents DM vs tweet context split; cites wrong txs 0xd21b0de7… and 0xb5a59970…

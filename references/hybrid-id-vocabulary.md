@@ -58,6 +58,8 @@ Bankr agents confuse these constantly. Users will **not** use correct jargon.
 |----------|-------------------|
 | `balanceOf(wallet, tokenId)` | **`hybridTokenId`** from API |
 | `claimFeesForToken(tokenId, recipients, …)` | **`hybridTokenId`** from API |
+| `HybridShareMarketplace.list(…, tokenId, …)` | **`hybridTokenId`** from API |
+| `balanceOf(wallet, tokenId)` on share buy | **`hybridTokenId`** from listing / API |
 | `canClaimFees(tokenId)` | **`hybridTokenId`** from API — **only after API**, never `serial` |
 | `serialOf(tokenId)` | Pass **`hybridTokenId`** → returns **12** for TMPR #12 |
 

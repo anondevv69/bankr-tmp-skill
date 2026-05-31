@@ -6,7 +6,7 @@
 
 ## Plain-text answer template
 
-TMP skills version 65
+TMP skills version 66
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -19,4 +19,4 @@ BANKR-AGENT-REQUIREMENTS.md
 
 ## Reference file count
 
-**30** under references/
+**32** under references/

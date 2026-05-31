@@ -197,15 +197,19 @@ chain: Base (8453)
 
 ### List shares with password (seller)
 
-There is **no** `POST /api/list/dual` for ERC-1155 share listings today. Sellers use **tokenmarketplace.shop** (vault → List shares) or you build calldata:
+**Full seller spec:** **`share-market-list.md`** + **`share-market-list-autopilot.md`**.
+
+There is **no** `POST /api/list/dual` for ERC-1155 share listings. Sellers use **tokenmarketplace.shop** (vault → List shares) or agent builds calldata:
 
 ```text
 list(collection, tokenId, quantity, pricePerUnitWei, maxPerWallet, accessKeyHash)
+# pricePerUnitWei = 0 for free listings
+# maxPerWallet: 0 = no cap, 1 = one unit per buyer
 # accessKeyHash = keccak256(encodePacked(password, marketplace, collection, tokenId, seller, pricePerUnitWei, maxPerWallet))
-# Use 6-arg overload — selector 0xea46bcdc… (not 0xb8bf029b… public 5-arg list)
+# Use 6-arg overload when password set
 ```
 
-**Fixed sale (whole TMPR)** password list: `POST /api/list/dual` with optional `"password"` in body — see `listing-channels.md`.
+**Fixed sale (whole TMPR)** password list: `POST /api/list/dual` with optional `"password"` — see `listing-channels.md`.
 
 ### Protected-buy errors
 
