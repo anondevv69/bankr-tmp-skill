@@ -2,7 +2,9 @@
 
 **Load with skill install.** Canonical spec for routing — overrides default “Doppler → claimtokenfees” behavior.
 
-**MINIMUM CONTENT VERSION:** `62` (`VERSION` file must match `SKILL.md` frontmatter). If lower → tell user to reinstall from GitHub.
+**MINIMUM CONTENT VERSION:** `63` (`VERSION` file). If lower → tell user to reinstall from GitHub.
+
+> **Bankr quirk:** repo-root `SKILL.md` may not mount. Use **`references/AGENT-ROUTING-CLAIM-FEES.md`** + **`references/BANKR-AGENT-REQUIREMENTS.md`**.
 
 ---
 

@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 63 (current)
+## 64 (current)
+
+- **`hybrid-claim-tweet-wrong-tx-regression.md`:** self-check NO but tweet ran Collect on 0xBDF938 (tx 0xd21b0de7…) — POST-TX verification required.
+- **`AGENT-ROUTING-CLAIM-FEES.md`:** must see ClaimedHybridFees + HybridClaimRouter 0x0f5148, not Collect-only.
+
+## 63
 
 - **`references/AGENT-ROUTING-CLAIM-FEES.md`:** SKILL.md routing guard duplicated for Bankr installs that only mount `references/` (not repo root).
 - Document Bankr quirk: SKILL.md body often missing from agent context.

@@ -4,7 +4,7 @@
 
 ## AGENT ROUTING — claim fees (same as SKILL.md top)
 
-**MINIMUM CONTENT VERSION:** `63`
+**MINIMUM CONTENT VERSION:** `64`
 
 | | |
 |--|--|
@@ -70,7 +70,9 @@ if user says "claim fees" / "collect fees":
 | 3 | If **`proof.canSubmitTx`** → **`bankr.tx.prepare(nextStep.data)`** unchanged |
 | 4 | Verify **`ClaimedHybridFees`** → plain English reply → **STOP** |
 
-**There is no step 5.** **Never** `claimtokenfees` or `collectFees` after a successful hybrid claim.
+**POST-TX (mandatory):** Receipt must show **`HybridClaimRouter`** `0x0f5148…` + **`ClaimedHybridFees`** with ≥2 recipients. If only **`Collect`** on fee manager `0xBDF938…` → **fail** — do not reply “claimed 0 WETH / 0 CTO”. See **`hybrid-claim-tweet-wrong-tx-regression.md`**.
+
+**There is no step 5.**
 
 ---
 

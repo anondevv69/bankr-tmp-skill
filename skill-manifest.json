@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 63,
+  "skillVersion": 64,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
@@ -12,7 +12,7 @@
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 27,
+  "referenceFileCount": 29,
   "mandatoryListingFilesAtRepoRoot": [
     "sell-list-autopilot.md",
     "runtime-contract.md",
@@ -32,6 +32,7 @@
     "references/dm-intents.md",
     "references/flows-reference.md",
     "references/hybrid-claim-claimtokenfees-regression.md",
+    "references/hybrid-claim-tweet-wrong-tx-regression.md",
     "references/hybrid-claim-terminal-step.md",
     "references/hybrid-claim-autopilot.md",
     "references/hybrid-claim-fees.md",
