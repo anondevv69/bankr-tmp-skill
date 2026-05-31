@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 62 (current)
+## 63 (current)
+
+- **`references/AGENT-ROUTING-CLAIM-FEES.md`:** SKILL.md routing guard duplicated for Bankr installs that only mount `references/` (not repo root).
+- Document Bankr quirk: SKILL.md body often missing from agent context.
+
+## 62
 
 - **`BANKR-AGENT-REQUIREMENTS.md`:** full hybrid claim spec for Bankr routing owners.
 - **`SKILL.md` top:** AGENT ROUTING block (TRIGGER, MANDATORY FIRST STEP, FORBIDDEN, routing guard) — loads before default claimtokenfees.

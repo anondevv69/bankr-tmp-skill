@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v62. SKILL.md top: claim routing guard + SELF-CHECK. BANKR-AGENT-REQUIREMENTS.md. Hybrid claim INSTEAD OF claimtokenfees."
+description: "TMP skills v63. Bankr loads references/ only — AGENT-ROUTING-CLAIM-FEES.md mirrors SKILL.md routing guard."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 62
-tmp_skill_version: "62"
+version: 63
+tmp_skill_version: "63"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 27
+reference_file_count: 28
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -21,7 +21,9 @@ metadata:
 
 ## AGENT ROUTING — claim fees (read first, overrides default Bankr tools)
 
-**MINIMUM CONTENT VERSION:** `62` — check `VERSION` file + this file’s frontmatter `version:`. If installed version **< 62**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
+**Bankr install quirk:** agents often **cannot read repo-root `SKILL.md`** — only `references/`. If SKILL.md missing, read **`references/AGENT-ROUTING-CLAIM-FEES.md`** first (same content as this section).
+
+**MINIMUM CONTENT VERSION:** `63` — check `VERSION` file + frontmatter `version:`. If installed version **< 63**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
 
 | | |
 |--|--|
@@ -40,13 +42,13 @@ if user says "claim fees" / "collect fees":
   5. elif no hybrid sale + sole direct beneficiary + 0 units → claimtokenfees OK → STOP
 ```
 
-Full spec: **`BANKR-AGENT-REQUIREMENTS.md`** · **`references/hybrid-claim-terminal-step.md`** · **`references/hybrid-claim-autopilot.md`**
+Full spec: **`BANKR-AGENT-REQUIREMENTS.md`** · **`references/AGENT-ROUTING-CLAIM-FEES.md`** (read if SKILL.md body unavailable) · **`references/hybrid-claim-terminal-step.md`** · **`references/hybrid-claim-autopilot.md`**
 
 ## Bankr install check — COPY THIS ANSWER (plain text, no empty bullets)
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 62
+TMP skills version 63
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -57,7 +59,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **62** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **63** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 **Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 
@@ -865,7 +867,7 @@ Answer these **internally** before calling `claimtokenfees`, `collectFees`, or s
 3. **What do you call before any on-chain claim tx?** → **GET /api/claim/hybrid-status**
 4. **Autopilot before or instead of claimtokenfees?** → **INSTEAD OF** (when hybrid sale exists)
 
-If any answer is wrong → re-read **`BANKR-AGENT-REQUIREMENTS.md`** and top **AGENT ROUTING** section — do not use native Doppler claim path.
+If any answer is wrong → re-read **`references/AGENT-ROUTING-CLAIM-FEES.md`** and **`references/BANKR-AGENT-REQUIREMENTS.md`** — do not use native Doppler claim path.
 
 ---
 

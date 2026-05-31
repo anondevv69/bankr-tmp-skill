@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 62,
+  "skillVersion": 63,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
@@ -24,6 +24,7 @@
     "references/t7-list-failure-regression.md"
   ],
   "allReferences": [
+    "references/AGENT-ROUTING-CLAIM-FEES.md",
     "references/BANKR-AGENT-REQUIREMENTS.md",
     "references/all-escrow-options.md",
     "references/bankr-agent-test-prompts.md",

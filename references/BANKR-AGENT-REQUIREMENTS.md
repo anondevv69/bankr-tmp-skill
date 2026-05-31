@@ -1,10 +1,18 @@
 # Bankr agent requirements — hybrid unit fee claim
 
-> **Bankr agents:** full copy (same as repo root **`BANKR-AGENT-REQUIREMENTS.md`**). Bankr often only indexes `references/` — **this file is complete.**
+> **Bankr agents:** If repo-root **`SKILL.md`** is not in your install, **this file + `AGENT-ROUTING-CLAIM-FEES.md`** are the mandatory routing guard (Bankr loads `references/` only).
+
+## AGENT ROUTING — claim fees (same as SKILL.md top)
+
+**MINIMUM CONTENT VERSION:** `63`
+
+| | |
+|--|--|
+| **TRIGGER** | **claim / collect fees** + token (`0x…` or ticker) |
+| **MANDATORY FIRST STEP** | **`GET …/api/claim/hybrid-status?token=<launch>&wallet=<linked>`** — before `claimtokenfees` |
+| **FORBIDDEN** | **Never** `claimtokenfees` / `collectFees` after hybrid claim. **Never** “autopilot then claimtokenfees”. |
 
 **Load with skill install.** Canonical spec for routing — overrides default “Doppler → claimtokenfees” behavior.
-
-**MINIMUM CONTENT VERSION:** `62` (`VERSION` file must match `SKILL.md` frontmatter). If lower → tell user to reinstall from GitHub.
 
 ---
 
