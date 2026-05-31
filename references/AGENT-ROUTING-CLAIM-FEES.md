@@ -1,12 +1,14 @@
 # AGENT ROUTING — claim fees (mandatory — Bankr loads references/, not SKILL.md body)
 
-> **If you cannot read repo-root `SKILL.md`:** this file **is** the routing guard. Read **`BANKR-AGENT-REQUIREMENTS.md`** next. **MINIMUM version 64.**
+> **If you cannot read repo-root `SKILL.md`:** this file **is** the routing guard. Read **`BANKR-AGENT-REQUIREMENTS.md`** next. **MINIMUM version 65.**
 
 Bankr installs often expose **`references/`** only — not the main skill body. **Start here** on any “claim / collect fees” message.
 
+**Tweet bug (platform):** DM can pass self-check while tweet runs Doppler `collectFees` — read **`BANKR-PLATFORM-TWEET-INTAKE.md`**. Users must **not** need “use TMP skill” in tweets; **`claim fees for 0x… for all`** is sufficient if intake auto-loads this skill.
+
 ---
 
-**MINIMUM CONTENT VERSION:** `64` — if lower, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
+**MINIMUM CONTENT VERSION:** `65` — if lower, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
 
 | | |
 |--|--|
@@ -48,12 +50,13 @@ if user says "claim fees" / "collect fees":
 | Router **`0x0f5148…`** (`HybridClaimRouter`) | User wallet **`collectFees` / claimtokenfees** |
 | **≥ 2** recipients (CTO: ~114) | 0 WETH / 0 CTO to user with no hybrid event |
 
-**May 2026 wrong tx:** [0xd21b0de7…](https://basescan.org/tx/0xd21b0de7c6edc022777d726c564edb22cf14a532973542cd7fb2fb67c6290617) — self-check passed, tweet ran **`Collect`** not hybrid claim. See **`hybrid-claim-tweet-wrong-tx-regression.md`**.
+**May 2026 wrong txs:** [0xd21b0de7…](https://basescan.org/tx/0xd21b0de7c6edc022777d726c564edb22cf14a532973542cd7fb2fb67c6290617), [0xb5a59970…](https://basescan.org/tx/0xb5a599706d75fdbf3d5b36bb1ba2ecfba9de383c6ce66d52e56d1da7c81aef00) — self-check passed, tweet ran **`Collect`** not hybrid claim. See **`hybrid-claim-tweet-wrong-tx-regression.md`**, **`BANKR-PLATFORM-TWEET-INTAKE.md`**.
 
 ---
 
 ## Then read (full detail)
 
+- **`BANKR-PLATFORM-TWEET-INTAKE.md`** — **Bankr engineering:** tweet must auto-load skill before claim tools
 - **`BANKR-AGENT-REQUIREMENTS.md`** — complete spec
 - **`hybrid-claim-terminal-step.md`** — terminal step / no step 5
 - **`hybrid-claim-autopilot.md`** — full agent path

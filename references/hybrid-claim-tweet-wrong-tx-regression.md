@@ -13,6 +13,10 @@
 > claimed fees … **0.000000 WETH / 0.000000 CTO**  
 > tx: [0xd21b0de7…](https://basescan.org/tx/0xd21b0de7c6edc022777d726c564edb22cf14a532973542cd7fb2fb67c6290617)
 
+**Repeat (May 31, after correct DM dry run):** "Doppler fees claimed" 0/0 — [0xb5a59970…](https://basescan.org/tx/0xb5a599706d75fdbf3d5b36bb1ba2ecfba9de383c6ce66d52e56d1da7c81aef00)
+
+**Root cause:** tweet intake skips skill load — **`BANKR-PLATFORM-TWEET-INTAKE.md`**. Users must **not** need "use TMP skill" in tweets.
+
 ---
 
 ## What the tx actually did
@@ -73,5 +77,6 @@ Do **not** say “no accumulated fees” when **`Collect`** pulled tokens but us
 ## Cross-links
 
 - **`AGENT-ROUTING-CLAIM-FEES.md`** — POST-TX verification
+- **`BANKR-PLATFORM-TWEET-INTAKE.md`** — platform fix (tweet auto-load skill)
 - **`hybrid-claim-claimtokenfees-regression.md`**
 - **`hybrid-claim-single-recipient-regression.md`**

@@ -191,7 +191,8 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
 | R7 | "@bankrbot list my t7 fee rights for 0.01 ETH on marketplace" (public tweet) | `GET /api/mint/status` → execute `nextStep` (incl. `bankr-build-transfer` if `needs_transfer`) → `finalizeDeposit` → `POST /api/list/dual` → site listing URL | "Create NFT first" without `phase`; "go to Doppler"; "I hit my step limit"; OpenSea-only with no site list; guidance-only with no status call |
 | R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |
-| R9 | "@bankrbot claim fees for 0xb6fB… for all" (public tweet) | hybrid-status → submit nextStep.data once → **STOP** | "autopilot then claimtokenfees"; Doppler handoff; single-recipient |
+| R9 | "@bankrbot claim fees for 0xb6fB… for all" (public tweet) | hybrid-status → submit nextStep.data once → **STOP** | "autopilot then claimtokenfees"; Doppler handoff; single-recipient; Collect on 0xBDF938… |
+| R9b | Same tweet after DM dry run passed | On-chain: HybridClaimRouter 0x0f5148 + ClaimedHybridFees | DM plan correct but tweet runs collectFees — **`BANKR-PLATFORM-TWEET-INTAKE.md`** |
 | R10 | "Do you call claimtokenfees AFTER hybrid autopilot for 0xb6fB…?" | **NO** — terminal step; **`hybrid-claim-terminal-step.md`** | YES; "autopilot runs before claimtokenfees" |
 
 **Minimum telemetry per state-changing run (internal):**

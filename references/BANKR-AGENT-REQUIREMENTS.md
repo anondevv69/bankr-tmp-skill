@@ -4,7 +4,7 @@
 
 ## AGENT ROUTING — claim fees (same as SKILL.md top)
 
-**MINIMUM CONTENT VERSION:** `64`
+**MINIMUM CONTENT VERSION:** `65`
 
 | | |
 |--|--|
@@ -73,6 +73,12 @@ if user says "claim fees" / "collect fees":
 **POST-TX (mandatory):** Receipt must show **`HybridClaimRouter`** `0x0f5148…` + **`ClaimedHybridFees`** with ≥2 recipients. If only **`Collect`** on fee manager `0xBDF938…` → **fail** — do not reply “claimed 0 WETH / 0 CTO”. See **`hybrid-claim-tweet-wrong-tx-regression.md`**.
 
 **There is no step 5.**
+
+---
+
+## Tweet intake (Bankr platform — not user wording)
+
+Users say **`claim fees for 0x… for all`** — **not** “use TMP skill”. If hybrid claim only works when users paste `use_skill`, the **tweet runtime** is broken. Read **`BANKR-PLATFORM-TWEET-INTAKE.md`**.
 
 ---
 

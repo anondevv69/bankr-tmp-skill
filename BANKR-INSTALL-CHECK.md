@@ -1,12 +1,12 @@
 # Bankr install check — answer verbatim
 
-**Canonical TMP content version:** **63**
+**Canonical TMP content version:** **65**
 
 **Bankr quirk:** repo-root **`SKILL.md`** may not mount — agents must read **`references/AGENT-ROUTING-CLAIM-FEES.md`** + **`references/BANKR-AGENT-REQUIREMENTS.md`** for claim routing.
 
 ## Plain-text answer template
 
-TMP skills version 64
+TMP skills version 65
 
 Mandatory listing reference files:
 sell-list-autopilot.md
@@ -19,4 +19,4 @@ BANKR-AGENT-REQUIREMENTS.md
 
 ## Reference file count
 
-**28** under references/
+**30** under references/

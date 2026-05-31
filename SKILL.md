@@ -1,14 +1,14 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v64. POST-TX verify HybridClaimRouter 0x0f5148 — tweet must not run Collect on 0xBDF938 after self-check."
+description: "TMP skills v65. Tweet intake must auto-load skill before claim tools — users never say use_skill."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 64
-tmp_skill_version: "64"
+version: 65
+tmp_skill_version: "65"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
-reference_file_count: 29
+reference_file_count: 30
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -23,7 +23,7 @@ metadata:
 
 **Bankr install quirk:** agents often **cannot read repo-root `SKILL.md`** — only `references/`. If SKILL.md missing, read **`references/AGENT-ROUTING-CLAIM-FEES.md`** first (same content as this section).
 
-**MINIMUM CONTENT VERSION:** `64` — check `VERSION` file + frontmatter `version:`. If installed version **< 64**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
+**MINIMUM CONTENT VERSION:** `65` — check `VERSION` file + frontmatter `version:`. If installed version **< 65**, tell user: `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill`
 
 | | |
 |--|--|
@@ -48,7 +48,7 @@ Full spec: **`BANKR-AGENT-REQUIREMENTS.md`** · **`references/AGENT-ROUTING-CLAI
 
 When asked for TMP version or mandatory listing files, reply **exactly** (filenames are at **repo root**, Bankr may not list files inside references/):
 
-TMP skills version 64
+TMP skills version 65
 
 Mandatory listing reference files:
 sell-list-autopilot.md

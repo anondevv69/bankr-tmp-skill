@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 64 (current)
+## 65 (current)
+
+- **`BANKR-PLATFORM-TWEET-INTAKE.md`:** Bankr engineering spec — tweet must auto-load skill before claim tools; users must not say “use TMP skill”.
+- Documents DM vs tweet context split; cites wrong txs 0xd21b0de7… and 0xb5a59970…
+
+## 64
 
 - **`hybrid-claim-tweet-wrong-tx-regression.md`:** self-check NO but tweet ran Collect on 0xBDF938 (tx 0xd21b0de7…) — POST-TX verification required.
 - **`AGENT-ROUTING-CLAIM-FEES.md`:** must see ClaimedHybridFees + HybridClaimRouter 0x0f5148, not Collect-only.
