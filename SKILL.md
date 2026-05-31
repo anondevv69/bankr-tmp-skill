@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v60. Hybrid claim ENDS at claimFeesForToken — INSTEAD OF claimtokenfees, never after. hybrid-claim-terminal-step.md."
+description: "TMP skills v61. Full claim docs in references/ (not stubs). Hybrid claim ENDS at claimFeesForToken — INSTEAD OF claimtokenfees."
 tags: [bankr, base, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim]
-version: 60
-tmp_skill_version: "60"
+version: 61
+tmp_skill_version: "61"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
@@ -34,7 +34,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **60** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
+Bankr internal install counter may differ; content version is **61** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companion: **tmp-bundle-rebirth** (see README). Solana is **not** supported on Bankr — use the website only for Solana CTO / claims.
 
 **Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 
