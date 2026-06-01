@@ -11,6 +11,7 @@ Goal: when user says **"sell this token rights for 0.01"**, the agent should com
 Applies to:
 - mint + list 100% fee rights
 - **fixed-sale buy** (`/listing/sale/{id}`) — **`GET /api/list/buy-status`** then `buy` on **`FeeRightsFixedSale` `0xe2A1…`**
+- **fractionalize / split 1000** — **`fractionalize-autopilot.md`**: silent **`mint/status`** → mint until **`ready`** → V6 split; **never** Doppler dashboard handoff
 - share-market buy/list (including password-gated)
 - any flow with multiple dependent transactions
 
@@ -200,6 +201,14 @@ A **fixed-sale (100%) buy** passes only if:
 - no "inactive on HybridShareMarketplace" when URL was **`/listing/sale/`**
 
 Spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-regression.md`**
+
+A **fractionalize** flow passes only if:
+- user was **not** asked to paste APIs or fix Doppler
+- **`GET /api/mint/status`** was called by the agent before any mint tx
+- if **`platformBlocker`**, user got plain English ops message (`hybrid-escrow-mint-blocker.md`)
+- after success, **1000 units** verified via hybrid-status (or clear blocker)
+
+Spec: **`fractionalize-autopilot.md`**
 
 ---
 

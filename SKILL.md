@@ -1,20 +1,21 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v79. Fixed-sale buy routing (/listing/sale/); dual list default; buy-status API."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale]
-version: 79
-tmp_skill_version: "79"
+description: "TMP skills v80. Fractionalize autopilot (mint+split, no Doppler handoff); buy-status; dual list."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, fractionalize, split-1000]
+version: 80
+tmp_skill_version: "80"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
   - sell-list-autopilot.md
   - buy-fixed-sale-autopilot.md
+  - fractionalize-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
   - buy-url-routing-regression.md
-reference_file_count: 42
+reference_file_count: 44
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -32,7 +33,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | User says | You do |
 |-----------|--------|
 | **Sell / list $t7 for 0.01 eth** | Flow **A**: **dual** site + OpenSea (default). Site only if password / max-per-wallet |
-| **Split t7 into 1000** / **1000 nfts** | Flow **C**: V6 hybrid split → **1000 units** (not 1000 ERC-721s, not `list/dual`) |
+| **Split / fractionalize into 1000** / **keep all units** | Flow **C**: **`fractionalize-autopilot.md`** — mint/status silently → V6 split (user never pastes APIs) |
 | **Sell 5% keep 95%** | Flow **B**: partial sale on GroupBuyEscrowV2 |
 | **Buy /listing/sale/1** or buy listing on shop | Flow **F**: **`GET /api/list/buy-status`** → `buy` on **`0xe2A1…`** — **not** share `0x9023…` |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
@@ -103,6 +104,24 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · **`buy-url-routing-regression.md
 
 ---
 
+## AGENT ROUTING — fractionalize / split 1000 (read on split, fractionalize, 1000 nfts)
+
+**Bankr install quirk:** read **`references/fractionalize-autopilot.md`** on any **split / fractionalize / 1000 shares / keep all units** message (including right after deploy).
+
+| | |
+|--|--|
+| **TRIGGER** | **fractionalize** · **split … into 1000** · **1000 nfts** · **keep all units** · deploy + split in one message |
+| **MANDATORY FIRST STEP** | **`GET /api/mint/status?tokens=<launch>&wallet=<linked>`** — user never calls this |
+| **THEN** | Mint loop until **`phase: ready`** → V6 split → verify **hybrid-status** |
+| **FORBIDDEN** | Doppler dashboard · beneficiary to escrow before **`prepareDeposit`** · ask user to paste mint/status · “simulation failed, fix Doppler” |
+| **IF `platformBlocker`** | **`hybrid-escrow-mint-blocker.md`** — plain English ops block |
+
+**User example (sufficient):** `@bankrbot fractionalize my $dntfbuy fee rights into 1000 shares — keep all units in my wallet`
+
+Full spec: **`fractionalize-autopilot.md`** · On-chain split: **`split-1000-autopilot.md`**
+
+---
+
 ## AGENT ROUTING — list / sell / for sale (default = Token Marketplace site)
 
 **Bankr install quirk:** read **`references/AGENT-ROUTING-LISTINGS.md`** on any list/sell/for-sale message if SKILL.md body unavailable.
@@ -160,7 +179,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **79** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companions: **tmp-bundle-rebirth**, **tmp-solana-cto** (see README). Solana buy/claim → install **tmp-solana-cto** + call `/api/solana/buy-status` or `/api/solana/claim-status`.
+Bankr internal install counter may differ; content version is **80** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companions: **tmp-bundle-rebirth**, **tmp-solana-cto** (see README). Solana buy/claim → install **tmp-solana-cto** + call `/api/solana/buy-status` or `/api/solana/claim-status`.
 
 **Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 

@@ -2,7 +2,14 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 79 (current)
+## 80 (current)
+
+- **`fractionalize-autopilot.md`**, **`hybrid-escrow-mint-blocker.md`** — users say plain “fractionalize into 1000”; agent runs mint/status + split silently; **forbidden** Doppler dashboard / “paste API” handoffs.
+- **`split-1000-autopilot.md`** — post-mint V6 steps only; points to fractionalize autopilot.
+- **`t7-list-failure-regression.md`** — extended to fractionalize / deploy+split.
+- Site API: **`mint/status`** returns **`platformBlocker`** when hybrid escrow `prepareDeposit` reverts.
+
+## 79
 
 - **`buy-fixed-sale-autopilot.md`**, **`buy-url-routing-regression.md`** — `/listing/sale/{id}` → **`GET /api/list/buy-status`** → `buy` on **`FeeRightsFixedSale` `0xe2A1…`**; forbid share `list-status` / **`0x9023…`** for same numeric id.
 - **`ONE-LINE-INTENTS.md`** Flow F, **`AGENT-ROUTING-LISTINGS.md`**, **`runtime-contract.md`**, test prompts **B1–B3**.

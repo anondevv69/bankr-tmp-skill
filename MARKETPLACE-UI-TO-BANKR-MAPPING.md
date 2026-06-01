@@ -11,7 +11,7 @@
 | **Create NFT** | `@bankrbot create nft for $t7` or `@bankrbot mint receipt for my t7 token` | TMPR minted, ready to sell | ✅ **Working** | None — depends on escrow type |
 | **Sell 100%** | `@bankrbot sell $t7 for 0.01 eth` or `@bankrbot list t7 on tokenmarketplace for 0.01 eth` | Approve + list on site + OpenSea | ⚠️ **Blocked (custodial)** | `0xe2A1…` unverified scanner on Bankr wallet |
 | **Buy 100%** | `buy https://www.tokenmarketplace.shop/listing/sale/1` or `@bankrbot buy this listing` (sale URL) | **`GET /api/list/buy-status`** → `buy(id)` on **`0xe2A1…`** | ✅ **Working** | **Never** use share `list-status` / **`0x9023…`** for `/listing/sale/` |
-| **Split 1000** | `@bankrbot split $t7 into 1000 shares` or `@bankrbot fractionalize my t7 fee rights` | 1000 ERC-1155 units on hybrid | ✅ **Working** | None |
+| **Split 1000** | `@bankrbot fractionalize $dntfbuy into 1000 shares — keep all units` (no APIs needed) | Mint + 1000 ERC-1155 units | ⚠️ **Mint blocked if hybrid escrow broken** | Agent must use **`fractionalize-autopilot.md`** — never Doppler dashboard |
 | **List units** (after split) | `@bankrbot list 10 $t7 shares at 0.01 eth each` or `@bankrbot list 100 t7 units with password Test, max 1 per wallet` | Units on share order book (`0x9023…`) | ✅ **Working** | None — different contract |
 | **Partial sale** | `@bankrbot sell 30% of $t7 fees for 0.05 eth, keep 70%` or `@bankrbot list 30% partial for 0.05 eth` | Group buy pool for the sold % | ✅ **Working** | None |
 | **CTO / Group buy** | `@bankrbot raise 1 eth for $t7 with cto` or `@bankrbot group buy $t7 — target 1 eth over 48 hours` | Public pool on Group buy tab | ✅ **Working** | None |

@@ -9,8 +9,10 @@
 - “Can you try again and list it for 0.01 ETH?”
 - “List the rights to this token for 0.01 eth”
 - “@bankrbot using the tmp skill can you list my token $t7 for sale for 0.01 eth?”
+- “Fractionalize my $dntfbuy into 1000 shares” / “split into 1000 and keep all units”
+- “I just deployed $XXX — fractionalize fee rights”
 
-**Agent must run `sell-list-autopilot.md` end-to-end.** User does **not** need to mention skill version or paste API URLs.
+**Agent must run the matching autopilot end-to-end** (`sell-list-autopilot.md` or **`fractionalize-autopilot.md`**). User does **not** need skill version, API URLs, escrow addresses, or “don’t use Doppler.”
 
 ---
 
@@ -24,6 +26,8 @@
 | “Update Doppler beneficiary to `0x6238…` manually” | **Never** point beneficiary at escrow **before** `prepareDeposit` |
 | “You still hold 95% on Doppler” → give up | Normal **before** mint; run mint/status phases |
 | “Simulation failed” → manual Doppler | Retry with correct **phase**, **signerMustBe**, **feeManager** |
+| **“prepareDeposit failed… update fee recipient on Doppler to escrow 0x047B…”** (fractionalize / mint) | **`fractionalize-autopilot.md`** + **`hybrid-escrow-mint-blocker.md`** — if **`platformBlocker`**, ops issue; **never** dashboard |
+| “Call GET /api/mint/status first” to the user | **Forbidden** — agent calls it silently |
 | **“Minting’s stuck… fee rights ready in escrow, but `finalizeDeposit` reverted. Update fee recipient on Doppler, then say finalize t7 listing”** (May 2026, @Rayblancoeth) | **Forbidden.** Escrow holding shares is **expected** before finalize. Call **`GET /api/mint/status`** — if `needs_finalize`, run **`finalizeDeposit` from `signerMustBe`** (often Bankr `0x374D…`); if `needs_transfer`, run **`POST /api/bankr-build-transfer`** then finalize. **Never** send user to Doppler dashboard. Then **`POST /api/list/dual`** in the **same** conversation. |
 | **“I hit my step limit… try breaking it into smaller steps”** | **Forbidden.** The skill is already the step breakdown. In constrained Twitter mode, call `mint/status`; execute the current `nextStep` if possible; otherwise report the exact `phase` + next signer/tx. |
 | **“Your t7 fee rights haven’t been converted into an NFT yet”** without `mint/status` evidence | **Forbidden.** It may be true, but only say it after reading `phase`. Use the API phrase: `needs_prepare`, `needs_transfer`, `needs_finalize`, or `ready`. |

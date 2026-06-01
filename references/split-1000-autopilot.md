@@ -1,37 +1,42 @@
-# Split fee rights to 1000 units (share market autopilot)
+# Split fee rights to 1000 units (on-chain steps after mint)
 
-**Trigger:** User wants to **split** / **fractionalize** / **“1000 nfts”** / sell **1/1000** of fee rights.
+> **Start here for user messages:** **`fractionalize-autopilot.md`** (mint + split, plain English, no user-facing APIs).
 
-**Read first:** **`ONE-LINE-INTENTS.md`** — user means **1000 fee-right units** (ERC-1155), **not** 1000 ERC-721 receipts and **not** `list/dual`.
+**Trigger:** User wants **split** / **fractionalize** / **“1000 nfts”** / **1/1000** fee rights.
 
-This is **Flow C** (share market), **not** Flow 2 (sell 100% dual list).
+**Prerequisite:** **`GET /api/mint/status`** → **`phase: "ready"`** (hybrid TMPR `0xD8e0639…`). If not ready, **`fractionalize-autopilot.md`** runs mint first.
+
+This is **Flow C** — **not** `POST /api/list/dual` (sell 100%).
 
 ---
 
-## Order of operations
+## V6 split (keep all 1000 units)
 
-1. TMPR must exist (`mint/status` → `phase: ready` or finish mint first).
-2. **`POST /api/share/prepare`** (or hybrid prepare API) with token + units.
-3. Execute on-chain steps from API `nextStep` / `site.steps[]`.
-4. List shares via **`HybridShareMarketplace`** — see `share-market-list-autopilot.md`.
+| Step | Contract | Action |
+|------|----------|--------|
+| 1 | Hybrid TMPR `0xD8e0639…` | `approve` → **GroupBuyEscrowV6** `0x56bd948671955D0Ed82a88f136779cB76f551e0C` |
+| 2 | V6 | `createListing` — self-fund listing (you contribute full target) |
+| 3 | V6 | `contribute(listingId)` with `msg.value` = target |
+| 4 | V6 | `finalize(listingId)` → **1000** ERC-1155 units to seller |
+
+**Verify:** `GET /api/claim/hybrid-status?token=<launch>&wallet=<linked>` → **`unitsHeld`** = 1000 (or expected).
+
+**List units later:** `share-market-list-autopilot.md`.
 
 ---
 
 ## Agent must not
 
-- Call `POST /api/list/dual` for a 1000-way split (that is whole-NFT fixed sale).
-- Create 1000 separate OpenSea listings (OpenSea indexes poorly; site uses one book, cheapest first).
-
----
-
-## Verification
-
-`GET /api/share/list-status?wallet=…&hybridTokenId=…` before telling user shares are live.
+- `POST /api/list/dual` (whole NFT fixed sale)
+- 1000 separate OpenSea listings
+- Split before mint **`ready`**
+- Mint on **legacy** escrow `0x6238…` then expect 1000-unit split (legacy receipt `0xCD66…` is wrong collection)
 
 ---
 
 ## Cross-links
 
-- `share-market-list-autopilot.md`
-- `share-market-list.md`
+- **`fractionalize-autopilot.md`** — user phrases + mint loop  
+- **`hybrid-escrow-mint-blocker.md`** — hybrid `prepareDeposit` platform block  
+- `TOKEN-SETUP-COMPLETE-GUIDE.md` Flow C  
 - `product-rules.md`

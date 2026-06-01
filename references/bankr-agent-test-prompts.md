@@ -194,6 +194,8 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | B1 | `buy https://www.tokenmarketplace.shop/listing/sale/1` | **`GET /api/list/buy-status?url=…`** → `buy(1)` on **`0xe2A1…`** with exact **`priceWei`** | **`GET /api/share/list-status?listingId=1`** · “inactive on 0x9023…” |
 | B2 | `buy listing 1 on token marketplace` (no path) | buy-status **`?listingId=1`** (fixed sale id space) | Share market **`buy(1)`** on **`0x9023…`** |
 | B3 | `buy 1 share of t7` | **`share-market-buy.md`** + share list-status | Fixed-sale buy-status / **`0xe2A1…`** |
+| F1 | `fractionalize my $dntfbuy into 1000 shares — keep all units` | **`fractionalize-autopilot.md`** — silent mint/status → mint → V6 split | Doppler dashboard · ask user to paste API · stop at prepare without platformBlocker message |
+| F2 | Same after fresh deploy (no “using TMP v79” in message) | Same — compound mint + split one thread | “Update fee recipient on Doppler to 0x047B…” |
 | L5 | After successful share list on tweet | X reply includes `https://www.tokenmarketplace.shop/listing/shares/t/{hybridTokenId}` | Success without clickable shop link |
 | C1 | "@bankrbot cancel my CTO share listing 13" | `GET /api/share/list-status?wallet=&listingId=13` → `cancel(13)` on `0x90230B…` → verify `ShareListingCancelled` | "No cancel path in skill"; asks for listingId when user said 13; uses `FeeRightsFixedSale.cancel` |
 | R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |

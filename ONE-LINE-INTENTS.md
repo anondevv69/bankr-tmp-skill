@@ -32,8 +32,9 @@
 | **List my $t7 for 0.01** | Same as above | **A** | `sell-list-autopilot.md` | `0x935e…` ($TMP) |
 | **Create NFT for t7** | Mint TMPR only (no sale yet) | **1** | `mint-pending-deposit.md` | List before mint done |
 | **Create NFT and list for 0.01 eth** | Mint if needed → dual list | **1→A** | mint + `sell-list-autopilot.md` | Stop after mint |
-| **Split [ticker] into 1000** / **1000 nfts** / **fractionalize** | **1000 fee-right units** (ERC-1155), not 1000 ERC-721s | **C** | `split-1000-autopilot.md` | `POST /api/list/dual` |
-| **Split into 1000 and keep them all** | V6 finalize → user holds 1000 units | **C** | `split-1000-autopilot.md` | 1000 separate listings |
+| **Split [ticker] into 1000** / **1000 nfts** / **fractionalize** | **1000 fee-right units** (ERC-1155), not 1000 ERC-721s | **C** | **`fractionalize-autopilot.md`** | `POST /api/list/dual` · Doppler dashboard |
+| **Split into 1000 and keep them all** | Mint if needed → V6 finalize → 1000 units | **C** | **`fractionalize-autopilot.md`** | User pastes mint/status URLs |
+| **Just deployed $XXX — fractionalize 1000** | Same as Flow C (compound mint + split) | **C** | **`fractionalize-autopilot.md`** | Stop after deploy without mint |
 | **Sell 5% keep 95% for 0.005 eth** | Partial sale forever | **B** | `flows-reference.md` Flow 3 | Dual list |
 | **Group buy** / **let people pool** | Many wallets fund 100% | **D** | `flows-reference.md` Flow 4 | Dual list |
 | **Give dev 10% for 30 days** | Timed grant, no payment | **E** | `flows-reference.md` Flow 6 | Partial sale |
@@ -74,25 +75,17 @@ Listed t7 fee rights at 0.01 ETH on Token Marketplace. [full shop URL]
 
 ## Flow C — “Split into 1000 NFTs” (fractionalize)
 
-**User:** `Split t7 into 1000` · `Make 1000 nfts for my token` · `Fractionalize my fee rights`
+**User:** `Split t7 into 1000` · `Fractionalize my $dntfbuy into 1000 shares` · `I just deployed $XXX — keep all units` · `Make 1000 nfts for my token`
 
-**You interpret:** User wants **1000 tradeable fee-right units** (one hybrid sale, ERC-1155), **not** minting 1000 separate ERC-721 NFTs and **not** `list/dual`.
+**User does NOT need to say:** TMP skill version · `GET /api/mint/status` · escrow `0x047B` · “don’t use Doppler” — **you** know that from **`fractionalize-autopilot.md`**.
 
-**You run:**
+**You run (full spec):** **`fractionalize-autopilot.md`**
 
-1. `mint/status` → **`ready`** (mint TMPR first if not).
-2. **GroupBuyEscrowV6** path: approve TMPR → create listing → fund (user or buyers) → **finalize** → user receives **units** on hybrid collection `0xD8e0639…`.
-3. `GET /api/claim/hybrid-status?token=0x9021…&wallet=<linked>` → confirm **`unitsHeld`**.
-4. If user said **keep all**: allocate 1000 units to linked wallet on finalize.
-5. Optional: list some units → `share-market-list-autopilot.md`.
+1. **`GET /api/mint/status`** silently → mint until **`ready`** (never Doppler dashboard; never beneficiary transfer before `prepareDeposit`).
+2. If **`platformBlocker`** → **`hybrid-escrow-mint-blocker.md`** plain English.
+3. **GroupBuyEscrowV6** split → 1000 units on `0xD8e0639…` · verify **`hybrid-status`**.
 
-**Clarify once if user says “1000 nfts”:**
-
-```text
-Splitting into 1000 fee-right units (1/1000 shares of trading fees), not 1000 separate receipt NFTs. Starting now.
-```
-
-Then **execute** — do not wait for confirmation unless they have **no** TMPR and mint will take multiple signatures.
+**Clarify once if user says “1000 nfts”** — then execute without waiting.
 
 ---
 
