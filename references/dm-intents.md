@@ -2,7 +2,7 @@
 
 Ask the user for **facts in one message** so you never guess chain, addresses, or order.
 
-**Plain-language mapping:** see **`user-language.md`** (Create NFT vs Sell rights vs Get fee rights back).
+**Plain-language mapping:** see **`ONE-LINE-INTENTS.md`** (one sentence → full flow, no interview).
 
 **All flows:** see **`all-escrow-options.md`** (partial, group buy, crowdsource, employee grant, loan, platform matrix).
 

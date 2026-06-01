@@ -1,8 +1,10 @@
 # Split fee rights to 1000 units (share market autopilot)
 
-**Trigger:** User wants to **split** / **fractionalize** / sell **1/1000** / **partial units** of fee rights on Token Marketplace.
+**Trigger:** User wants to **split** / **fractionalize** / **“1000 nfts”** / sell **1/1000** of fee rights.
 
-This is **Flow 3** (share market), **not** Flow 2 (sell 100% dual list).
+**Read first:** **`ONE-LINE-INTENTS.md`** — user means **1000 fee-right units** (ERC-1155), **not** 1000 ERC-721 receipts and **not** `list/dual`.
+
+This is **Flow C** (share market), **not** Flow 2 (sell 100% dual list).
 
 ---
 

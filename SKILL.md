@@ -1,16 +1,17 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v74. t7 launch-token trap, linked-wallet seller, escrowMismatch when ready, Solana claim UX."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block]
-version: 74
-tmp_skill_version: "74"
+description: "TMP skills v75. One-line intents — sell for X ETH and split 1000 run full autopilot with no interview questions."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents]
+version: 75
+tmp_skill_version: "75"
 mandatory_listing_files:
+  - ONE-LINE-INTENTS.md
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
-reference_file_count: 37
+reference_file_count: 39
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -20,6 +21,23 @@ metadata:
 ---
 
 # TMP skills — Token Marketplace fee rights (Base)
+
+## ONE-LINE INTENTS — read `ONE-LINE-INTENTS.md` first
+
+User gives **one sentence** → you run the **full flow** without asking “which marketplace?” or “site or OpenSea?”.
+
+| User says | You do |
+|-----------|--------|
+| **Sell / list $t7 for 0.01 eth** | Flow **A**: `mint/status` → mint if needed → `list/dual` → approve + list → shop URL |
+| **Split t7 into 1000** / **1000 nfts** | Flow **C**: V6 hybrid split → **1000 units** (not 1000 ERC-721s, not `list/dual`) |
+| **Sell 5% keep 95%** | Flow **B**: partial sale on GroupBuyEscrowV2 |
+| **Create NFT and list 0.01** | Flow **1→A** in one thread |
+
+**Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.
+
+Full table + templates: **`ONE-LINE-INTENTS.md`** · Steps: **`TOKEN-SETUP-COMPLETE-GUIDE.md`**
+
+---
 
 ## UNAMBIGUOUS INTENT — “list for X ETH” (read before anything else)
 
