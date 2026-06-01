@@ -103,7 +103,7 @@ After mint reaches **`ready`**, immediately continue to list (runtime contract �
 1. **`prepareDeposit`** — seller still holds fee-manager shares.
 2. **Beneficiary → escrow** (`bankr-build-transfer` or Bankr transfer API).
 3. **`finalizeDeposit`** — mints TMPR.
-4. **`POST /api/list/dual`** + execute `site.steps[]` + OpenSea.
+4. **`POST /api/list/dual`** + execute `site.steps[]` only — **no OpenSea** (`LISTING-SITE-ONLY.md`).
 
 **Never** tell user to move Doppler beneficiary to escrow **before** `prepareDeposit`. That causes `getShares = 0` and prepare fails.
 
@@ -142,7 +142,7 @@ After mint reaches **`ready`**, immediately continue to list (runtime contract �
 5. Execute every `site.steps[]` tx; wait mined receipts.
 6. `GET /api/list/status?tokenId=` — confirm **site** active.
 7. **Reply (mandatory on X/tweet):** plain English + **full** `https://www.tokenmarketplace.shop/listing/sale/{listingId}` from **`siteListingUrl`** in status response.
-8. **Optional:** OpenSea — only after site live + shop link already in reply.
+8. **Do not** list on OpenSea — site-only policy (`LISTING-SITE-ONLY.md`). Ignore `openSea` hints in `list/dual` response.
 
 ---
 
@@ -162,7 +162,7 @@ GET https://www.tokenmarketplace.shop/api/list/status?tokenId=<TMPR tokenId>
 
 **Forbidden:** Saying “listed” or “couldn’t list” without calling **`GET /api/list/status`**. Prior @Rayblancoeth failure claimed beneficiary transfer blocked without finishing mint or verifying list status.
 
-**Default venue:** **[Token Marketplace](https://www.tokenmarketplace.shop)** — see **`AGENT-ROUTING-LISTINGS.md`**. Never OpenSea-only unless user explicitly asks.
+**Default venue:** **[Token Marketplace](https://www.tokenmarketplace.shop)** only — see **`LISTING-SITE-ONLY.md`**. Never OpenSea for agents until re-enabled.
 
 ---
 

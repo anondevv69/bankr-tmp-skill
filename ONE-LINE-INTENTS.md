@@ -49,7 +49,7 @@
 
 **User:** `Sell t7 for 0.01 eth` · `List $t7 for 0.01` · `Can you sell my token for 0.01 eth on tokenmarketplace`
 
-**You interpret:** Dual-list **entire** TMPR receipt on **https://www.tokenmarketplace.shop** at **0.01 ETH** (+ OpenSea after site succeeds).
+**You interpret:** List **entire** TMPR on **https://www.tokenmarketplace.shop** at **0.01 ETH** — **site only** (see **`LISTING-SITE-ONLY.md`** — no OpenSea).
 
 **You run (same thread, no stops):**
 
@@ -63,7 +63,7 @@
 **Success reply (template):**
 
 ```text
-Listed t7 fee rights at 0.01 ETH on Token Marketplace. [full shop URL] OpenSea listing next if you want it.
+Listed t7 fee rights at 0.01 ETH on Token Marketplace. [full shop URL]
 ```
 
 **Forbidden replies:** “Which marketplace?” · “Phase needs_prepare” without calling mint/status on **0x9021…** · “Update Doppler manually” · “Scanner blocked, list manually at .” (always include **https://www.tokenmarketplace.shop**)
@@ -112,8 +112,8 @@ Then **execute** — do not wait for confirmation unless they have **no** TMPR a
 |-------|---------|
 | Chain | Base (8453) |
 | List venue | **tokenmarketplace.shop** |
-| Sell 100% | Dual list API + site txs |
-| OpenSea | After site succeeds, optional |
+| Sell 100% | `list/dual` API + site txs only |
+| OpenSea | **Disabled** — do not call OpenSea skills (ghosting listings) |
 | Wallet | Bankr linked wallet |
 | TMPR seller for `list/dual` | On-chain **ownerOf(tokenId)** |
 | t7 token | `0x9021F7eDd729F39b6F6637d5AE3A7185634C3ba3` |

@@ -21,7 +21,7 @@ or in one line: `Create NFT for t7 and list for 0.0069 eth`.
 
 Only ask the user for: **wallet** (if unknown), **which token** (if ambiguous among several launches), **ETH price** (if listing and not stated). **Do not** ask site vs OpenSea — **dual list** is the default.
 
-**Listing (agents): dual** — `POST https://www.tokenmarketplace.shop/api/list/dual` after mint, confirm `site.steps`, then [OpenSea skills](https://github.com/BankrBot/skills/tree/main/opensea).
+**Listing (agents): site only** — `POST https://www.tokenmarketplace.shop/api/list/dual` after mint, confirm `site.steps`, verify `list/status`. **No OpenSea** — `LISTING-SITE-ONLY.md`.
 
 ## Portfolio questions (no tx until user picks an action)
 
@@ -43,7 +43,7 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path A — Create NFT only:** mint TMPR; no sale. (UI: **Create NFT**.)
 
-**Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps + OpenSea skills. Contract: `FeeRightsFixedSale` `0xe2A1…aA66`.
+**Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps only. Contract: `FeeRightsFixedSale` `0xe2A1…aA66`. **No OpenSea.**
 
 **Autopilot execution rule:** If user says "sell/list for X ETH" and provides enough info, complete the full flow in one run: mint (if needed) -> list API -> execute steps -> wait receipts -> verify listing status -> return URL. Do not pause at intermediate steps.
 
@@ -67,7 +67,7 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path L — Tweet / @bankr hybrid claim:** Same as **Path K**. Natural language only — e.g. `@bankrbot claim fees for CTO`.
 
-**Path J — Tweet / @bankr social (list):** Same execution as DM when intent is clear (**sell/list 100% for X ETH**, token or ticker, **on marketplace** / **on tokenmarketplace**). Run **`sell-list-autopilot.md`** (`GET /api/mint/status` → all `nextStep` → `POST /api/list/dual` → site txs → OpenSea). **Do not** stop at “link the site” or “Create NFT tutorial” if wallet + `bankr.tx.prepare` / custodial sign are available. **Guidance-only** only when a real blocker remains (missing wallet, unsigned external EOA with no prepare path, API down) — report **`phase`** + next signer, never “I hit my step limit.” Partial sale / group buy / password share buys on public tweets: route to DM for signing. **Claim hybrid unit fees on tweet:** use **Path L** / **Path K** when wallet available — same as DM.
+**Path J — Tweet / @bankr social (list):** Same execution as DM when intent is clear (**sell/list 100% for X ETH**, token or ticker, **on marketplace** / **on tokenmarketplace**). Run **`sell-list-autopilot.md`** (`GET /api/mint/status` → all `nextStep` → `POST /api/list/dual` → site txs → verify shop URL). **Do not** stop at “link the site” or “Create NFT tutorial” if wallet + `bankr.tx.prepare` / custodial sign are available. **Guidance-only** only when a real blocker remains (missing wallet, unsigned external EOA with no prepare path, API down) — report **`phase`** + next signer, never “I hit my step limit.” Partial sale / group buy / password share buys on public tweets: route to DM for signing. **Claim hybrid unit fees on tweet:** use **Path L** / **Path K** when wallet available — same as DM.
 
 User should send something like:
 

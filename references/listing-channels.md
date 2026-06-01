@@ -10,14 +10,14 @@ Users do **not** need to say “on the site” — assume it. **Never** ask “s
 | Rule | Detail |
 |------|--------|
 | **Primary** | Token Marketplace — fixed sale, share order book, group buy, password listings |
-| **OpenSea** | Optional **follow-up** for **sell 100%** after site list succeeds — not default, not for shares/partial |
+| **OpenSea** | **Disabled for agents** — ghosting listings; site-only (`LISTING-SITE-ONLY.md`) |
 | **Password** | Site only (`POST /api/list/dual` or share 6-arg `list`) — not OpenSea |
 
 ---
 
 | User wants | Mechanism | Site | `POST /api/list/dual` | OpenSea |
 |------------|-----------|------|----------------------|---------|
-| **Sell 100%** for X ETH | `FeeRightsFixedSale.list` | Fixed-price buy | **Yes** — returns approve + list calldata + OS hints | **Yes** — via OpenSea skills after dual API |
+| **Sell 100%** for X ETH | `FeeRightsFixedSale.list` | Fixed-price buy | **Yes** — approve + list calldata (ignore `openSea` in JSON) | **No** — site-only for agents |
 | **Sell 5%** (keep 95%) for X ETH | `GroupBuyEscrowV2.createPartialListing` | **My profile** → partial sale — **one buyer** pays full price | **No** — do not use dual API | **Not integrated today** |
 | **Private partial** (5% for one wallet only) | `GroupBuyEscrowV3.createPrivatePartialListing` | **My profile** — checkbox + buyer `0x…` | No | No — not public browse |
 | **Group buy** (many wallets, 100% slice) | `createListing` | Group buy tab | No | Not integrated |
@@ -30,7 +30,7 @@ Users do **not** need to say “on the site” — assume it. **Never** ask “s
 
 ## Does Bankr need an API to list on the marketplace?
 
-**Sell 100%:** Yes — **`POST /api/list/dual`** with `{ tokenId, priceEth, seller }` so the agent gets correct **approve** + **list** calldata for `FeeRightsFixedSale` and OpenSea orchestration hints. Status: **`GET /api/list/status?tokenId=`**.
+**Sell 100%:** Yes — **`POST /api/list/dual`** with `{ tokenId, priceEth, seller }` for **approve** + **list** calldata. Status: **`GET /api/list/status?tokenId=`**. **No OpenSea** agent step.
 
 **Partial sale (5%):** Today **no** agent API. The agent (or user on site) must:
 

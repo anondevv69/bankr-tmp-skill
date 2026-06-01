@@ -113,15 +113,11 @@ POST /api/list/dual {
 - Your NFT is **live on Token Marketplace**.
 - URL: `https://www.tokenmarketplace.shop/listing/sale/LISTING_ID`
 
-### Step 5: Optional — List on OpenSea Too
+### Step 5: OpenSea — disabled for agents
 
-**Agent does** (separate OpenSea skill):
-- Calls OpenSea Seaport API to list your receipt on OpenSea.
-- You may sign an `approve` for OpenSea separately.
+**Do not** list on OpenSea. Site-only policy (`LISTING-SITE-ONLY.md`) — OpenSea has been ghosting listings.
 
-**What to expect:**
-- OpenSea listing appears in 10–30 minutes (indexing delay).
-- Price can be different from Token Marketplace (your choice).
+**Success ends at Step 4** when `listedOnSite: true` and you have the shop URL.
 
 ---
 

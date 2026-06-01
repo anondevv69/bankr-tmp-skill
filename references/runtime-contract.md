@@ -58,7 +58,7 @@ The runtime must do all of this in one conversation:
    - success state
    - **full** tokenmarketplace listing URL (`siteListingUrl` from list/status or constructed path)
    - tx hash
-   - OpenSea status (optional, **after** shop link — never instead of shop link on X)
+   - **Do not** require OpenSea — site-only (`LISTING-SITE-ONLY.md`)
 
 **Public @bankrbot tweet:** success reply **must** include clickable `https://www.tokenmarketplace.shop/...` — see **`AGENT-ROUTING-LISTINGS.md` § X / Twitter reply**.
 
@@ -147,7 +147,7 @@ Applies to **tweet**, **DM**, and **Ask Bankr** when the user asked to **sell/li
 
 **Tweet / X:** Same autopilot as DM for clear sell-100% intent. Guidance-only is allowed only after a **real** blocker (no wallet, no signing capability, API error with no retry path) — not because the channel is public.
 
-**Priority:** If user said **“on the marketplace”** only, finish **Token Marketplace** (`list/dual` + site steps) before treating OpenSea as required for success.
+**Priority:** **Token Marketplace only** — `list/dual` + site steps + shop URL. **Never** OpenSea for agents (`LISTING-SITE-ONLY.md`).
 
 ---
 
