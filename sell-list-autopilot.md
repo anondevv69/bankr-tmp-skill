@@ -56,6 +56,35 @@ Or `POST /api/mint/status` with `{ "tokens": ["0x…"], "wallet": "0x…" }`.
 
 Read **`phase`** and execute **`nextStep`** from the JSON. Do **not** improvise dashboard steps.
 
+See **`t7-wrong-token-935e-trap.md`** when user says **$t7** — never use `0x935e…` ($TMP) as the launch token.
+
+### Critical guard: `escrowMismatch === true`
+
+Before calling `POST /api/list/dual`, check each token row from `mint/status`.
+
+If `escrowMismatch === true` **and** `phase !== "ready"`:
+
+1. **STOP** listing flow for that token (do **not** call `list/dual`).
+2. **Do not** report "custodial scanner cold-start" (wrong diagnosis for this case).
+3. Report exact mismatch:
+   - `bankrEscrow` (where token is actually escrowed)
+   - `configuredBankrEscrow` (what current mint path expects)
+4. Escalate backend/contract fix for mint alignment.
+
+If `escrowMismatch === true` **and** `phase === "ready"` (TMPR already minted):
+
+- **Proceed to list** — `FeeRightsFixedSale.list` only moves the TMPR NFT; it does not re-check escrow address.
+- Use **`tmprTokenId`** from mint/status and pass **`seller`** = on-chain TMPR owner (`nextStep.tmprOwner` or custodial Bankr wallet if NFT not transferred yet).
+- **Do not** restart `prepareDeposit` because of escrow mismatch alone.
+
+Template (mint blocked):
+
+> "Mint blocked by escrow mismatch (not scanner): token is escrowed on `<bankrEscrow>`, but configured path expects `<configuredBankrEscrow>`. Backend escrow alignment is required before mint can proceed."
+
+Template (ready — list with correct seller):
+
+> "TMPR is ready. Listing with seller `<tmprOwner>` on legacy collection if needed. Escrow mismatch is informational only at this stage."
+
 | `phase` | What it means | Agent does next (same conversation) |
 |---------|----------------|-------------------------------------|
 | `ready` | TMPR exists in wallet | Skip mint → `POST /api/list/dual` → site steps → OpenSea |

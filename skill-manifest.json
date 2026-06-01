@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 72,
+  "skillVersion": 74,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
@@ -17,16 +17,18 @@
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 34,
+  "referenceFileCount": 37,
   "mandatoryListingFilesAtRepoRoot": [
     "sell-list-autopilot.md",
     "runtime-contract.md",
-    "t7-list-failure-regression.md"
+    "t7-list-failure-regression.md",
+    "t7-wrong-token-935e-trap.md"
   ],
   "mandatoryListingReferences": [
     "references/sell-list-autopilot.md",
     "references/runtime-contract.md",
-    "references/t7-list-failure-regression.md"
+    "references/t7-list-failure-regression.md",
+    "references/t7-wrong-token-935e-trap.md"
   ],
   "allReferences": [
     "references/AGENT-ROUTING-CLAIM-FEES.md",
@@ -64,6 +66,9 @@
     "references/share-market-list.md",
     "references/skill-install-verification.md",
     "references/t7-list-failure-regression.md",
+    "references/t7-wrong-token-935e-trap.md",
+    "references/linked-wallet.md",
+    "references/split-1000-autopilot.md",
     "references/tmpr-collection-address-trap.md",
     "references/user-language.md"
   ],

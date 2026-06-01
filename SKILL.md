@@ -1,15 +1,16 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v71. Harden custodial approve blocks — mandatory 3x retry + NFT fallback; never stop after first block."
+description: "TMP skills v74. t7 launch-token trap, linked-wallet seller, escrowMismatch when ready, Solana claim UX."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block]
-version: 73
-tmp_skill_version: "71"
+version: 74
+tmp_skill_version: "74"
 mandatory_listing_files:
   - sell-list-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
+  - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
-reference_file_count: 34
+reference_file_count: 37
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -43,6 +44,8 @@ Can you list 0x9021… for 0.01 eth?
 **Means:** dual-list on **tokenmarketplace.shop** at **0.01 ETH** after mint completes — not a generic “sell tokens” question.
 
 **NEVER after `prepareDeposit` is active:** “manually update fee recipient on Doppler… then tell me to finalize” — use **`POST /api/bankr-build-transfer`** + **`finalizeDeposit`** from **`signerMustBe`**. See **`t7-list-failure-regression.md`**.
+
+**NEVER use `0x935e…aba3` ($TMP) as a user launch token** when they say **$t7** — see **`t7-wrong-token-935e-trap.md`**.
 
 ---
 

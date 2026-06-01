@@ -122,10 +122,9 @@ Before declaring failure, agent must run these checks:
 2. Did target state already change (ownership/listing active/balance)?
 3. Is this a stale retry error (e.g. `ListingInactive` after fill)?
 4. For gated flows, is auth ticket expired and refreshable?
-5. For sell/list flows, does `mint/status` report `escrowMismatch === true`? If yes:
-   - stop before `POST /api/list/dual`
-   - classify as **backend escrow alignment issue**
-   - do not classify as scanner block.
+5. For sell/list flows, does `mint/status` report `escrowMismatch === true`?
+   - If **`phase !== "ready"`**: stop before mint/list txs; classify as **backend escrow alignment**; do not classify as scanner block.
+   - If **`phase === "ready"`**: escrow mismatch is **informational** for listing — proceed with `list/dual` using correct TMPR owner as `seller` (see `linked-wallet.md`).
 
 Only after these checks can agent return a failure.
 
