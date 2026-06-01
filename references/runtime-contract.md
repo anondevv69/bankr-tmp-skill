@@ -122,6 +122,10 @@ Before declaring failure, agent must run these checks:
 2. Did target state already change (ownership/listing active/balance)?
 3. Is this a stale retry error (e.g. `ListingInactive` after fill)?
 4. For gated flows, is auth ticket expired and refreshable?
+5. For sell/list flows, does `mint/status` report `escrowMismatch === true`? If yes:
+   - stop before `POST /api/list/dual`
+   - classify as **backend escrow alignment issue**
+   - do not classify as scanner block.
 
 Only after these checks can agent return a failure.
 

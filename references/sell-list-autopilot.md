@@ -56,6 +56,26 @@ Or `POST /api/mint/status` with `{ "tokens": ["0x…"], "wallet": "0x…" }`.
 
 Read **`phase`** and execute **`nextStep`** from the JSON. Do **not** improvise dashboard steps.
 
+### Critical guard: `escrowMismatch === true`
+
+Before calling `POST /api/list/dual`, check each token row from `mint/status`.
+
+If `escrowMismatch === true`:
+
+1. **STOP** listing flow for that token (do **not** call `list/dual`).
+2. **Do not** report "custodial scanner cold-start" (wrong diagnosis for this case).
+3. Report exact mismatch:
+   - `bankrEscrow` (where token is actually escrowed)
+   - `configuredBankrEscrow` (what current listing path expects)
+4. Escalate backend/contract fix:
+   - accept both escrows, or
+   - migrate token escrow, or
+   - update registry/config for this token.
+
+Template:
+
+> "Listing blocked by escrow mismatch (not scanner): token is escrowed on `<bankrEscrow>`, but marketplace path expects `<configuredBankrEscrow>`. Backend escrow alignment is required before listing can proceed."
+
 | `phase` | What it means | Agent does next (same conversation) |
 |---------|----------------|-------------------------------------|
 | `ready` | TMPR exists in wallet | Skip mint → `POST /api/list/dual` → site steps → OpenSea |
