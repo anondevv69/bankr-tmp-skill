@@ -10,7 +10,7 @@ Users do **not** need to say “on the site” — assume it. **Never** ask “s
 | Rule | Detail |
 |------|--------|
 | **Primary** | Token Marketplace — fixed sale, share order book, group buy, password listings |
-| **OpenSea** | **Disabled for agents** — ghosting listings; site-only (`LISTING-SITE-ONLY.md`) |
+| **OpenSea** | Optional for **sell 100%** after site, or OpenSea-only if user asks (`LISTING-VENUES.md`) |
 | **Password** | Site only (`POST /api/list/dual` or share 6-arg `list`) — not OpenSea |
 
 ---
@@ -30,7 +30,7 @@ Users do **not** need to say “on the site” — assume it. **Never** ask “s
 
 ## Does Bankr need an API to list on the marketplace?
 
-**Sell 100%:** Yes — **`POST /api/list/dual`** with `{ tokenId, priceEth, seller }` for **approve** + **list** calldata. Status: **`GET /api/list/status?tokenId=`**. **No OpenSea** agent step.
+**Sell 100%:** Yes — **`POST /api/list/dual`** for site calldata + OpenSea hints. Status: **`GET /api/list/status?tokenId=`**. OpenSea via skills when user wants it.
 
 **Partial sale (5%):** Today **no** agent API. The agent (or user on site) must:
 

@@ -37,7 +37,7 @@ Bankr installs often expose **`references/`** only. **Start here** on any “lis
 | “Sell for 0.01 ETH” | **Token Marketplace** fixed sale first |
 | “Put on marketplace” | **Token Marketplace** (not OpenSea) |
 
-**OpenSea is OFF for agents (June 2026).** Listings ghost on OpenSea — **site-only** policy. See **`LISTING-SITE-ONLY.md`**. Do **not** call OpenSea skills after `list/dual`. Success = shop URL only.
+**OpenSea is supported again.** Default: **site first**, then **OpenSea** optional (or OpenSea-only if user says so). See **`LISTING-VENUES.md`**.
 
 ---
 
@@ -70,7 +70,7 @@ if user says list / sell / for sale (any wording):
        → GET /api/mint/status → POST /api/list/dual (optional "password")
        → execute site.steps[] on FeeRightsFixedSale
        → verify GET /api/list/status — listedOnSite: true + siteListingUrl BEFORE “listed” reply
-       → NO OpenSea step — site-only (`LISTING-SITE-ONLY.md`)
+       → OpenSea after site if user wants both or says OpenSea (`LISTING-VENUES.md`)
 
      list 1/1000 shares / ERC-1155 units / list units at 0 ETH:
        → share-market-list-autopilot.md

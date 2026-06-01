@@ -1,3 +1,3 @@
-# Listing policy — site only (no OpenSea)
+# Deprecated — use LISTING-VENUES.md
 
-Read repo root **`LISTING-SITE-ONLY.md`** — OpenSea disabled for agents; success = shop URL only.
+Read **`LISTING-VENUES.md`** (repo root) — site and OpenSea both supported.

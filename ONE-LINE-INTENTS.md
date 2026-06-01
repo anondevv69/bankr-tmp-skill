@@ -49,7 +49,7 @@
 
 **User:** `Sell t7 for 0.01 eth` · `List $t7 for 0.01` · `Can you sell my token for 0.01 eth on tokenmarketplace`
 
-**You interpret:** List **entire** TMPR on **https://www.tokenmarketplace.shop** at **0.01 ETH** — **site only** (see **`LISTING-SITE-ONLY.md`** — no OpenSea).
+**You interpret:** List **entire** TMPR at **0.01 ETH** — default **tokenmarketplace.shop**, then **OpenSea** if user wants both or says OpenSea (see **`LISTING-VENUES.md`**).
 
 **You run (same thread, no stops):**
 
@@ -112,8 +112,8 @@ Then **execute** — do not wait for confirmation unless they have **no** TMPR a
 |-------|---------|
 | Chain | Base (8453) |
 | List venue | **tokenmarketplace.shop** |
-| Sell 100% | `list/dual` API + site txs only |
-| OpenSea | **Disabled** — do not call OpenSea skills (ghosting listings) |
+| Sell 100% | `list/dual` API + site txs |
+| OpenSea | Optional after site, or **only** if user says OpenSea |
 | Wallet | Bankr linked wallet |
 | TMPR seller for `list/dual` | On-chain **ownerOf(tokenId)** |
 | t7 token | `0x9021F7eDd729F39b6F6637d5AE3A7185634C3ba3` |

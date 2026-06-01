@@ -21,7 +21,7 @@ or in one line: `Create NFT for t7 and list for 0.0069 eth`.
 
 Only ask the user for: **wallet** (if unknown), **which token** (if ambiguous among several launches), **ETH price** (if listing and not stated). **Do not** ask site vs OpenSea — **dual list** is the default.
 
-**Listing (agents): site only** — `POST https://www.tokenmarketplace.shop/api/list/dual` after mint, confirm `site.steps`, verify `list/status`. **No OpenSea** — `LISTING-SITE-ONLY.md`.
+**Listing (agents):** `POST /api/list/dual` → site steps → verify shop URL → **OpenSea** if user wants (`LISTING-VENUES.md`).
 
 ## Portfolio questions (no tx until user picks an action)
 
@@ -43,7 +43,7 @@ Goal: portfolio_for_sale | portfolio_my_nfts | portfolio_can_create_nft
 
 **Path A — Create NFT only:** mint TMPR; no sale. (UI: **Create NFT**.)
 
-**Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps only. Contract: `FeeRightsFixedSale` `0xe2A1…aA66`. **No OpenSea.**
+**Path B — Sell 100% for ETH:** TMPR exists → **`POST /api/list/dual`** → site steps + optional OpenSea. Contract: `FeeRightsFixedSale` `0xe2A1…aA66`.
 
 **Autopilot execution rule:** If user says "sell/list for X ETH" and provides enough info, complete the full flow in one run: mint (if needed) -> list API -> execute steps -> wait receipts -> verify listing status -> return URL. Do not pause at intermediate steps.
 

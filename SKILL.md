@@ -1,11 +1,11 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v76. Site-only listing (no OpenSea — ghosting). One-line intents for sell/split without back-and-forth."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, site-only]
-version: 76
-tmp_skill_version: "76"
+description: "TMP skills v77. List on tokenmarketplace.shop and/or OpenSea. One-line intents for sell/split without back-and-forth."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea]
+version: 77
+tmp_skill_version: "77"
 mandatory_listing_files:
-  - LISTING-SITE-ONLY.md
+  - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
   - sell-list-autopilot.md
   - runtime-contract.md

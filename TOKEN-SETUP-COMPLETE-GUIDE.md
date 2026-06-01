@@ -113,11 +113,15 @@ POST /api/list/dual {
 - Your NFT is **live on Token Marketplace**.
 - URL: `https://www.tokenmarketplace.shop/listing/sale/LISTING_ID`
 
-### Step 5: OpenSea — disabled for agents
+### Step 5: Optional — List on OpenSea
 
-**Do not** list on OpenSea. Site-only policy (`LISTING-SITE-ONLY.md`) — OpenSea has been ghosting listings.
+**When:** User asked for OpenSea, or default dual visibility after site list succeeds.
 
-**Success ends at Step 4** when `listedOnSite: true` and you have the shop URL.
+**Agent does:** **opensea-marketplace** skills using `openSea` hints from `list/dual`.
+
+**What to expect:** OpenSea item may take a few minutes to index. Give **item URL** from API or `https://opensea.io/item/base/0xcd6634…/<tokenId>`.
+
+**Site-only success:** If user said **tokenmarketplace only**, Step 4 shop URL is enough — skip this step.
 
 ---
 
