@@ -4,7 +4,7 @@
 
 ## UNAMBIGUOUS INTENT — “list for X ETH”
 
-**Any** message with **list … for [price]**, **sell … for [price]**, or **@bankrbot list my $TICKER for sale** maps **only** to **tokenmarketplace.shop** dual listing — **never** OpenSea-only, **never** “which marketplace?”
+**Any** message with **list … for [price]**, **sell … for [price]**, or **@bankrbot list my $TICKER for sale** maps to **dual listing** (site + OpenSea) by default — see **`LISTING-VENUES.md`**. **Site only** if password, max-per-wallet, or user said site only.
 
 **When to load this file:** Any user message that matches **list / sell fee rights / sell 100%** with a **price in ETH** and optional **ticker or launch token `0x…`**. Examples:
 
@@ -162,7 +162,7 @@ GET https://www.tokenmarketplace.shop/api/list/status?tokenId=<TMPR tokenId>
 
 **Forbidden:** Saying “listed” or “couldn’t list” without calling **`GET /api/list/status`**. Prior @Rayblancoeth failure claimed beneficiary transfer blocked without finishing mint or verifying list status.
 
-**Venues:** **[Token Marketplace](https://www.tokenmarketplace.shop)** default; **OpenSea** when user asks or after site (`LISTING-VENUES.md`).
+**Venues:** **Dual default** (site + OpenSea). **Site only** if password, maxPerWallet, or user override (`LISTING-VENUES.md`).
 
 ---
 

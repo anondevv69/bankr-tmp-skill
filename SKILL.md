@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v77. List on tokenmarketplace.shop and/or OpenSea. One-line intents for sell/split without back-and-forth."
+description: "TMP skills v78. Default dual list (site + OpenSea); site-only for password or max-per-wallet."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea]
-version: 77
-tmp_skill_version: "77"
+version: 78
+tmp_skill_version: "78"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -29,7 +29,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 
 | User says | You do |
 |-----------|--------|
-| **Sell / list $t7 for 0.01 eth** | Flow **A**: `mint/status` → mint if needed → `list/dual` → approve + list → **shop URL only** (no OpenSea) |
+| **Sell / list $t7 for 0.01 eth** | Flow **A**: **dual** site + OpenSea (default). Site only if password / max-per-wallet |
 | **Split t7 into 1000** / **1000 nfts** | Flow **C**: V6 hybrid split → **1000 units** (not 1000 ERC-721s, not `list/dual`) |
 | **Sell 5% keep 95%** | Flow **B**: partial sale on GroupBuyEscrowV2 |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
@@ -46,10 +46,10 @@ Any user message containing **list … for [price]**, **sell … for [price]**, 
 
 | Rule | Detail |
 |------|--------|
-| **Venue** | **[Token Marketplace](https://www.tokenmarketplace.shop)** — **always** |
-| **Never ask** | “Which marketplace?” · “Site or OpenSea?” · “Do you mean tokenmarketplace?” |
-| **Never default** | OpenSea-only · manual Doppler dashboard · “go set fee recipient yourself” |
-| **Skill path** | **`sell-list-autopilot.md`** → `mint/status` → mint if needed → `list/dual` → site txs → **`list/status`** (see **`LISTING-SITE-ONLY.md`** — no OpenSea) |
+| **Venue** | **Dual default:** [Token Marketplace](https://www.tokenmarketplace.shop) **+ OpenSea** — see **`LISTING-VENUES.md`** |
+| **Never ask** | “Which marketplace?” · “Site or OpenSea?” · “Want dual?” |
+| **Never default** | OpenSea-only (unless user said OpenSea only) · manual Doppler dashboard |
+| **Skill path** | **`sell-list-autopilot.md`** → `mint/status` → `list/dual` → site txs → **`list/status`** → **OpenSea** (skip OS if password / max-per-wallet) |
 | **Same conversation** | If `phase !== "ready"`, **finish mint in THIS turn/thread** — do **not** hand off to website-only or Doppler |
 
 **Examples (sufficient — no “TMP skill” required):**
@@ -148,7 +148,7 @@ Bankr internal install counter may differ; content version is **69** (`VERSION` 
 
 **Bankr branding:** Refer to this skill pack as **TMP skills** (Token Marketplace skills) in chat — e.g. “Using TMP skills to create your NFT…” Install from this repo’s root: `https://github.com/anondevv69/bankr-tmp-skill`.
 
-Guidance for agents helping users with **creator fee rights** custody (ERC721 **TMPR** receipts) and **BankrEscrowV3** on **Base (chain id 8453)**. **Listing venue: [Token Marketplace](https://www.tokenmarketplace.shop) only** — **no OpenSea** for agents (`LISTING-SITE-ONLY.md`). See **`AGENT-ROUTING-LISTINGS.md`**.
+Guidance for agents helping users with **creator fee rights** custody (ERC721 **TMPR** receipts) and **BankrEscrowV3** on **Base (chain id 8453)**. **Listing:** **[Token Marketplace](https://www.tokenmarketplace.shop)** and/or **OpenSea** (`LISTING-VENUES.md`). See **`AGENT-ROUTING-LISTINGS.md`**.
 
 ## Listing policy (read first — autopilot, no special user prompt)
 
