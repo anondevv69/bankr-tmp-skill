@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v80. Fractionalize autopilot (mint+split, no Doppler handoff); buy-status; dual list."
+description: "TMP skills v81. Mint unblocked when mint/status preflight ok on 0xf288; no stale blocker replies."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, fractionalize, split-1000]
-version: 80
-tmp_skill_version: "80"
+version: 81
+tmp_skill_version: "81"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
