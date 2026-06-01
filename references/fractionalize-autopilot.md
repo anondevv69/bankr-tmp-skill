@@ -44,13 +44,17 @@ Then **execute** — do not wait for confirmation unless mint will take multiple
 - Ticker (`$dntfbuy`) or launch `0x972f…` → **`get_token_launch_info`** / Bankr token-fees.
 - **Never** use `0x935e…` ($TMP marketplace token) for user launches.
 
-### Step 1 — Mint status (silent)
+### Step 1 — Mint status (silent, every time — ignore prior chat)
 
 ```http
 GET https://www.tokenmarketplace.shop/api/mint/status?tokens=<launch_0x>&wallet=<linked_bankr_wallet>
 ```
 
-Read **`phase`**, **`signerMustBe`**, **`nextStep`**, **`platformBlocker`**, **`agentMustNot`**.
+Example (dntfbuy): `?tokens=0x972f66770a4Bc44Afd91d004F290354864ff3ba3`
+
+Read **`phase`**, **`signerMustBe`**, **`nextStep`**, **`platformBlocker`**, **`nextStep.preflight.ok`**, **`mintEscrow`**.
+
+**If `mintEscrow` is `0xf2880E4BC798FFF7AF14542DB9ae2980a0D14B86` and `preflight.ok === true` and no `platformBlocker`:** mint is **live** — execute **`prepareDeposit`** immediately. **Do not** say “platform issue / retry later” (that was only for broken `0x047B…`).
 
 | `phase` | You do (same thread) |
 |---------|----------------------|

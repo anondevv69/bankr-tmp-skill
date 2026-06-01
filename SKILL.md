@@ -114,7 +114,8 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · **`buy-url-routing-regression.md
 | **MANDATORY FIRST STEP** | **`GET /api/mint/status?tokens=<launch>&wallet=<linked>`** — user never calls this |
 | **THEN** | Mint loop until **`phase: ready`** → V6 split → verify **hybrid-status** |
 | **FORBIDDEN** | Doppler dashboard · beneficiary to escrow before **`prepareDeposit`** · ask user to paste mint/status · “simulation failed, fix Doppler” |
-| **IF `platformBlocker`** | **`hybrid-escrow-mint-blocker.md`** — plain English ops block |
+| **IF `platformBlocker`** (fresh API only) | **`hybrid-escrow-mint-blocker.md`** — plain English ops block |
+| **IF `preflight.ok` + `0xf288…` mintEscrow** | **Execute mint now** — **never** reuse blocker text from earlier in thread |
 
 **User example (sufficient):** `@bankrbot fractionalize my $dntfbuy fee rights into 1000 shares — keep all units in my wallet`
 

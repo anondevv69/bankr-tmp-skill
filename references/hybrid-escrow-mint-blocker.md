@@ -1,6 +1,24 @@
 # Hybrid escrow mint blocker — agent + user messaging
 
-**When:** `GET /api/mint/status` returns **`platformBlocker`** with code **`HYBRID_ESCROW_PREPARE_REVERT`**, or **`nextStep.preflight.ok === false`** on hybrid Bankr escrow `0x047B292FF5e3abDFFfed08C151729BB0999aDFFA` while user wants **fractionalize / split 1000**.
+## STOP — read API first (Jun 2026)
+
+**Do NOT load this file** or send the “temporary platform issue / retry in a day” reply unless a **fresh** call to:
+
+`GET https://www.tokenmarketplace.shop/api/mint/status?tokens=<launch>&wallet=<linked>`
+
+returns **`platformBlocker` non-null** OR **`nextStep.preflight.ok === false`**.
+
+If the **current** response has:
+
+- **`mintEscrow`** = `0xf2880E4BC798FFF7AF14542DB9ae2980a0D14B86` (fixed hybrid escrow)
+- **`preflight.ok`** = **`true`**
+- **`platformBlocker`** = **absent**
+
+→ **Mint is NOT blocked.** Run **`fractionalize-autopilot.md`** — submit **`nextStep`** on `0xf288…` now. **Forbidden:** recycling old blocker text from chat history or retired `0x047B…`.
+
+---
+
+**When this file applies:** `platformBlocker` present, or preflight false on **current** API response (usually retired escrow `0x047B292FF5e3abDFFfed08C151729BB0999aDFFA`).
 
 **Users never see:** revert selectors, `needs_prepare`, or escrow hex (unless tx link).
 
@@ -9,10 +27,12 @@
 ## What happened
 
 - Launch token and **95% fee share** on Bankr wallet are usually **fine**.
-- **`prepareDeposit`** on the **hybrid** mint escrow **reverts** on simulation (often `ReentrancyGuardReentrantCall` / `0x3ee5aeb5`).
-- **Legacy** escrow `0x6238698212D91845cD1c004DE85951055bB5b292` may simulate OK but mints **legacy** receipt `0xCD66…` — **cannot** complete **1000-unit** fractionalize (needs hybrid `0xD8e0639…`).
+- **`prepareDeposit`** on deployed **`BankrEscrowV3Hybrid`** `0x047B292FF5e3abDFFfed08C151729BB0999aDFFA` **always reverts** `ReentrancyGuardReentrantCall` (`0x3ee5aeb5`) — **contract bug**: two nested `nonReentrant` overloads (fixed in repo source; needs **new escrow deploy**).
+- **Legacy** escrow `0x6238…` simulates OK but mints **legacy** receipt `0xCD66…` — **cannot** do **1000-unit** fractionalize (needs hybrid `0xD8e0639…`).
 
-This is a **platform ops** issue, not user error.
+**Ops fix:** see **`fee-rights-exchange/HYBRID_MINT_ESCROW_FIX.md`** (redeploy + Safe authorize + Vercel env).
+
+This is a **platform deploy** issue, not user error.
 
 ---
 
