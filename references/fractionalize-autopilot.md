@@ -66,6 +66,24 @@ Read **`phase`**, **`signerMustBe`**, **`nextStep`**, **`platformBlocker`**, **`
 
 **Loop:** Re-fetch mint/status after each mined tx until **`phase === "ready"`**.
 
+---
+
+## Autopilot rule — never stop after one tx (critical)
+
+After **`prepareDeposit`** mines, the user must **not** say “okay”, “please continue”, or “what’s next?” — **you** continue in the **same turn** (or immediate next assistant message) without waiting.
+
+| After this mines | You do next (same conversation) | Forbidden |
+|------------------|----------------------------------|---------|
+| `prepareDeposit` success | `GET /api/mint/status` → expect **`needs_transfer`** → run **`POST /api/bankr-build-transfer`** from `nextStep.post` → then **`finalizeDeposit`** | “I’ll continue with beneficiary transfer now” then **stop** · ask user to confirm · Doppler dashboard |
+| `bankr-build-transfer` / beneficiary moved | Re-fetch mint/status → **`needs_finalize`** → **`finalizeDeposit`** | Stop for user “okay” |
+| `finalizeDeposit` success | Re-fetch → **`phase: ready`** → **Step 2 split** (V6) | “Mint done, tell me when you want to split” |
+
+**Status messages are OK** (“Beneficiary transfer submitted…”) only if the **next tx is already in flight** in the same turn. Never end the turn with only a plan.
+
+**If user says “okay” / “please continue”:** treat as resume signal — `GET /api/mint/status` and execute **current** `nextStep` (do not re-explain or restart prepareDeposit unless phase says `needs_prepare` again).
+
+**PrepareDeposit already done (dntfbuy example):** tx `0x7889889892c585cd2be1aff33f9642c18911f12c9fd1bec1ae3d83ab8db79ef7` → skip prepare → beneficiary transfer → finalize → split 1000.
+
 ### Step 2 — Split into 1000 (V6, keep all)
 
 1. **GroupBuyEscrowV6** `0x56bd948671955D0Ed82a88f136779cB76f551e0C`: approve hybrid TMPR → `createListing` (self-fund) → `contribute` with target ETH → `finalize`.
@@ -94,6 +112,8 @@ Done — $dntfbuy fee rights are split into 1000 units in your wallet. You can l
 | Skip mint and run split | Split requires **`phase: ready`** |
 | `POST /api/list/dual` | That is sell-100%, not fractionalize |
 | Stop after failed `prepareDeposit` without re-fetching mint/status | May already be `needs_transfer` |
+| End turn after `prepareDeposit` waiting for user “okay please” | **Autopilot rule** — continue beneficiary + finalize + split |
+| “I’ll continue with beneficiary transfer now” with no tx | Must submit transfer in same turn |
 
 ---
 

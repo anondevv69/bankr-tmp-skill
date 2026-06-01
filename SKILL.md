@@ -116,6 +116,7 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · **`buy-url-routing-regression.md
 | **FORBIDDEN** | Doppler dashboard · beneficiary to escrow before **`prepareDeposit`** · ask user to paste mint/status · “simulation failed, fix Doppler” |
 | **IF `platformBlocker`** (fresh API only) | **`hybrid-escrow-mint-blocker.md`** — plain English ops block |
 | **IF `preflight.ok` + `0xf288…` mintEscrow** | **Execute mint now** — **never** reuse blocker text from earlier in thread |
+| **After each mint tx mines** | **Same turn:** re-fetch mint/status → next tx — **never** wait for user “okay please” |
 
 **User example (sufficient):** `@bankrbot fractionalize my $dntfbuy fee rights into 1000 shares — keep all units in my wallet`
 

@@ -134,12 +134,13 @@ Only after these checks can agent return a failure.
 
 ## 7b) Step limit and interrupted runs
 
-Applies to **tweet**, **DM**, and **Ask Bankr** when the user asked to **sell/list 100% for X ETH** (or equivalent).
+Applies to **tweet**, **DM**, and **Ask Bankr** when the user asked to **sell/list 100% for X ETH**, **fractionalize / split 1000**, or equivalent.
 
 **Forbidden replies:**
 - “I hit my step limit” / “try breaking it into smaller steps”
 - “Your fee rights haven’t been converted to an NFT yet” **without** `GET /api/mint/status` → `phase`
 - “Go update fee recipient on Doppler” when `phase` is `needs_transfer` or `needs_finalize` (use **`POST /api/bankr-build-transfer`** + **`finalizeDeposit`** per `nextStep`)
+- After **`prepareDeposit`** mines: “I’ll continue with beneficiary transfer now” then **stop** until user says “okay” / “please continue” (**fractionalize-autopilot.md** autopilot rule)
 
 **When the turn ends before listing is live:**
 1. Report **`phase`** from mint/status (e.g. `needs_transfer`, `needs_finalize`, `ready`).
