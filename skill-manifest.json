@@ -76,7 +76,10 @@
     "references/t7-list-failure-regression.md",
     "references/t7-wrong-token-935e-trap.md",
     "references/linked-wallet.md",
+    "references/fractionalize-autopilot.md",
+    "references/hybrid-escrow-mint-blocker.md",
     "references/split-1000-autopilot.md",
+    "references/split-custodial-approve-block.md",
     "references/tmpr-collection-address-trap.md",
     "references/user-language.md"
   ],

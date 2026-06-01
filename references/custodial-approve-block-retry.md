@@ -2,7 +2,7 @@
 
 > **Version:** 1.0 (May 2026)  
 > **Incident:** @Rayblancoeth TMP skill v70 failure — t7 list → approve blocked by custodial security scanner  
-> **Load this file:** When user hits "unverified_contract" / "dangerous" / "malicious" error on **`approve`** to **`FeeRightsFixedSale`** during marketplace listing
+> **Load this file:** When user hits "unverified_contract" / "dangerous" / "malicious" error on **`approve`** to **`FeeRightsFixedSale`** during marketplace listing **or** to **GroupBuyEscrowV6** `0x56bd…` during **split 1000** (see **`split-custodial-approve-block.md`**)
 
 ---
 

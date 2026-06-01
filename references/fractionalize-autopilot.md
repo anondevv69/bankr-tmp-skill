@@ -86,7 +86,7 @@ After **`prepareDeposit`** mines, the user must **not** say “okay”, “pleas
 
 ### Step 2 — Split into 1000 (V6, keep all)
 
-1. **GroupBuyEscrowV6** `0x56bd948671955D0Ed82a88f136779cB76f551e0C`: approve hybrid TMPR → `createListing` (self-fund) → `contribute` with target ETH → `finalize`.
+1. **GroupBuyEscrowV6** `0x56bd948671955D0Ed82a88f136779cB76f551e0C`: approve hybrid TMPR → `createPartialSale` (private self-split) → `contribute` → `finalize`. If custodial **`approve`** blocked → **`split-custodial-approve-block.md`** (do not stop at “wait hours”).
 2. User receives **1000 units** on hybrid collection.
 3. **`GET /api/claim/hybrid-status?token=<launch>&wallet=<linked>`** — confirm **`unitsHeld`** ≈ 1000.
 

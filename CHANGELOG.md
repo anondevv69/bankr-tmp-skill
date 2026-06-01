@@ -2,7 +2,16 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 80 (current)
+## 83 (current)
+
+- **`split-custodial-approve-block.md`** — after mint `ready`, if custodial blocks `approve` to GroupBuyEscrowV6: 3× retry, then transfer hybrid TMPR to user EOA + site “Split into 1000”; user bypass may still fail.
+- **`split-1000-autopilot.md`** — `createPartialSale` self-split (matches site wizard); links custodial doc.
+
+## 82
+
+- **`fractionalize-autopilot.md`**, **`runtime-contract.md`** — no pause after `prepareDeposit`; same-turn mint loop through finalize.
+
+## 80
 
 - **`fractionalize-autopilot.md`**, **`hybrid-escrow-mint-blocker.md`** — users say plain “fractionalize into 1000”; agent runs mint/status + split silently; **forbidden** Doppler dashboard / “paste API” handoffs.
 - **`split-1000-autopilot.md`** — post-mint V6 steps only; points to fractionalize autopilot.

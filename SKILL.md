@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v82. Fractionalize: no pause after prepareDeposit; auto beneficiary+finalize+split."
+description: "TMP skills v83. Split 1000: custodial V6 approve block retries + EOA fallback."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, fractionalize, split-1000]
-version: 82
-tmp_skill_version: "82"
+version: 83
+tmp_skill_version: "83"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -117,6 +117,7 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · **`buy-url-routing-regression.md
 | **IF `platformBlocker`** (fresh API only) | **`hybrid-escrow-mint-blocker.md`** — plain English ops block |
 | **IF `preflight.ok` + `0xf288…` mintEscrow** | **Execute mint now** — **never** reuse blocker text from earlier in thread |
 | **After each mint tx mines** | **Same turn:** re-fetch mint/status → next tx — **never** wait for user “okay please” |
+| **Split: custodial approve blocked on V6** | **`split-custodial-approve-block.md`** — 3 retries → transfer hybrid TMPR to user EOA → site “Split into 1000” |
 
 **User example (sufficient):** `@bankrbot fractionalize my $dntfbuy fee rights into 1000 shares — keep all units in my wallet`
 
