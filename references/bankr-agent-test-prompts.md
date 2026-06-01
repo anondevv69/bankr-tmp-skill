@@ -191,6 +191,9 @@ Use these prompts to verify strict autopilot behavior from `runtime-contract.md`
 | R5 | "Retry buy after successful fill" | Agent explains listing now inactive because prior success filled it | Generic unknown revert with no state check |
 | R6 | "I created NFT but can't find it in profile" | Agent checks mint receipt + ownerOf/tokenId, gives direct item link, explains indexer delay clearly | Says "mint failed" based only on missing profile row |
 | R7 | "@bankrbot list my t7 fee rights for 0.01 ETH on marketplace" (public tweet) | mint/status → dual list → **X reply includes `https://www.tokenmarketplace.shop/listing/sale/...`** | OpenSea-only link · “listed” with no shop URL |
+| B1 | `buy https://www.tokenmarketplace.shop/listing/sale/1` | **`GET /api/list/buy-status?url=…`** → `buy(1)` on **`0xe2A1…`** with exact **`priceWei`** | **`GET /api/share/list-status?listingId=1`** · “inactive on 0x9023…” |
+| B2 | `buy listing 1 on token marketplace` (no path) | buy-status **`?listingId=1`** (fixed sale id space) | Share market **`buy(1)`** on **`0x9023…`** |
+| B3 | `buy 1 share of t7` | **`share-market-buy.md`** + share list-status | Fixed-sale buy-status / **`0xe2A1…`** |
 | L5 | After successful share list on tweet | X reply includes `https://www.tokenmarketplace.shop/listing/shares/t/{hybridTokenId}` | Success without clickable shop link |
 | C1 | "@bankrbot cancel my CTO share listing 13" | `GET /api/share/list-status?wallet=&listingId=13` → `cancel(13)` on `0x90230B…` → verify `ShareListingCancelled` | "No cancel path in skill"; asks for listingId when user said 13; uses `FeeRightsFixedSale.cancel` |
 | R8 | "continue t7 list 0.01" (after interrupted run at `needs_transfer`) | Resumes from `mint/status` — does not restart full tutorial | Repeats 4-step Create NFT from scratch; ignores prior `phase` |

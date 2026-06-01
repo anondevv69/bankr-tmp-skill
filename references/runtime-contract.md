@@ -10,6 +10,7 @@ Goal: when user says **"sell this token rights for 0.01"**, the agent should com
 
 Applies to:
 - mint + list 100% fee rights
+- **fixed-sale buy** (`/listing/sale/{id}`) — **`GET /api/list/buy-status`** then `buy` on **`FeeRightsFixedSale` `0xe2A1…`**
 - share-market buy/list (including password-gated)
 - any flow with multiple dependent transactions
 
@@ -189,6 +190,16 @@ A share buy flow passes only if:
 - receipt mined
 - holder balance increased or transfer event confirms
 - no false "failed" message after successful tx
+
+A **fixed-sale (100%) buy** passes only if:
+- agent called **`GET /api/list/buy-status`** with full **`/listing/sale/`** URL (or explicit sale `listingId`)
+- agent did **not** call **`GET /api/share/list-status`** for the same numeric id
+- tx targets **`0xe2A13499292D43254026DAf0C4F75988242BaA66`** (or `marketplace` from buy-status), not **`0x90230B…`**
+- `msg.value` equals **`priceWei`** from buy-status exactly
+- receipt mined; **`ownerOf(tokenId)`** on collection = buyer
+- no "inactive on HybridShareMarketplace" when URL was **`/listing/sale/`**
+
+Spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-regression.md`**
 
 ---
 

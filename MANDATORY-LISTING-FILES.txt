@@ -1,4 +1,6 @@
-TMP_SKILL_VERSION=49
+TMP_SKILL_VERSION=79
 sell-list-autopilot.md
+buy-fixed-sale-autopilot.md
 runtime-contract.md
 t7-list-failure-regression.md
+buy-url-routing-regression.md

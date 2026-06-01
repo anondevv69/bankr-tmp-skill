@@ -26,6 +26,7 @@ Users who **split** fee rights into **1,000 tradeable units** (hybrid TMPR / Gro
 
 | Phrase | Wrong flow | Right flow |
 |--------|------------|------------|
+| URL **`/listing/sale/{id}`** | **`share/list-status`** or **`0x9023…`** | **`buy-fixed-sale-autopilot.md`** + **`GET /api/list/buy-status`** |
 | Buy **cheapest share** | `FeeRightsFixedSale.buy` (whole TMPR) | **HybridShareMarketplace.buy** |
 | Buy **5% of fees** / group pool | Partial sale `contribute` | Share market only if **units** are listed |
 | **OpenSea** buy TMPR | Seaport | On-chain share market is **only** on Token Marketplace |

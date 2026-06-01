@@ -2,7 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 72 (current)
+## 79 (current)
+
+- **`buy-fixed-sale-autopilot.md`**, **`buy-url-routing-regression.md`** — `/listing/sale/{id}` → **`GET /api/list/buy-status`** → `buy` on **`FeeRightsFixedSale` `0xe2A1…`**; forbid share `list-status` / **`0x9023…`** for same numeric id.
+- **`ONE-LINE-INTENTS.md`** Flow F, **`AGENT-ROUTING-LISTINGS.md`**, **`runtime-contract.md`**, test prompts **B1–B3**.
+- Site API: **`GET /api/list/buy-status`** (fee-rights-exchange `bankr-app`).
+
+## 72
 
 - **`share-market-cancel-autopilot.md`** — @bankrbot cancel/delist ERC-1155 share listings via **`GET /api/share/list-status`** + **`HybridShareMarketplace.cancel`**.
 - Site API: **`GET /api/share/list-status`** returns active seller listings + cancel calldata (`nextStep.data`).

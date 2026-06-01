@@ -10,6 +10,7 @@
 |---------|-------------------|-----------------|--------|----------|
 | **Create NFT** | `@bankrbot create nft for $t7` or `@bankrbot mint receipt for my t7 token` | TMPR minted, ready to sell | ✅ **Working** | None — depends on escrow type |
 | **Sell 100%** | `@bankrbot sell $t7 for 0.01 eth` or `@bankrbot list t7 on tokenmarketplace for 0.01 eth` | Approve + list on site + OpenSea | ⚠️ **Blocked (custodial)** | `0xe2A1…` unverified scanner on Bankr wallet |
+| **Buy 100%** | `buy https://www.tokenmarketplace.shop/listing/sale/1` or `@bankrbot buy this listing` (sale URL) | **`GET /api/list/buy-status`** → `buy(id)` on **`0xe2A1…`** | ✅ **Working** | **Never** use share `list-status` / **`0x9023…`** for `/listing/sale/` |
 | **Split 1000** | `@bankrbot split $t7 into 1000 shares` or `@bankrbot fractionalize my t7 fee rights` | 1000 ERC-1155 units on hybrid | ✅ **Working** | None |
 | **List units** (after split) | `@bankrbot list 10 $t7 shares at 0.01 eth each` or `@bankrbot list 100 t7 units with password Test, max 1 per wallet` | Units on share order book (`0x9023…`) | ✅ **Working** | None — different contract |
 | **Partial sale** | `@bankrbot sell 30% of $t7 fees for 0.05 eth, keep 70%` or `@bankrbot list 30% partial for 0.05 eth` | Group buy pool for the sold % | ✅ **Working** | None |
@@ -57,6 +58,21 @@
 | **Workarounds** | 1. **Retry 3x** (scanner may update) 2. **Transfer TMPR to user EOA** (MetaMask/Rabby) — then list from there 3. **Escalate to Bankr** to whitelist `0xe2A1…` 4. **Use split + list units** on `0x9023…` (share order book works) |
 | **Fix needed** | Skill v78 expects 3 retries + fallback; Bankr v45 may give up after 1 block. Reinstall or escalate. |
 | **Notes** | Do **not** say "list manually at ." — always include `https://www.tokenmarketplace.shop` in reply. Default is **dual list** (site + OpenSea). |
+
+---
+
+### 2b. BUY 100% (Fixed sale listing)
+
+| | |
+|---------|---------|
+| **UI button** | Listing page → "Buy" on `/listing/sale/{id}` |
+| **User intent** | Purchase entire TMPR at listed price |
+| **Bankr phrase** | `buy https://www.tokenmarketplace.shop/listing/sale/1` · `buy listing 1 on token marketplace` (whole receipt) |
+| **Expected Bankr flow** | 1. **`GET /api/list/buy-status?url=<full sale url>`** (mandatory) 2. If password: access-authorize + 3-arg `buy` 3. Else `buy(listingId)` with **`msg.value = priceWei` exactly** 4. Verify `ownerOf(tokenId)` = buyer |
+| **On-chain path** | **`FeeRightsFixedSale` `0xe2A1…`** — same contract as sell 100% |
+| **Status** | ✅ **Working** (buyer `buy` usually passes custodial scanner even when seller `approve` failed) |
+| **Blocker** | **Wrong routing:** agent checks share listing id **N** on **`0x9023…`** when URL is **`/listing/sale/N`** — fixed in v79 + buy-status API |
+| **Notes** | Skill: **`buy-fixed-sale-autopilot.md`**. Share buys use **`/listing/shares/…`** + **`share-market-buy.md`**. |
 
 ---
 

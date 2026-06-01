@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 78,
+  "skillVersion": 79,
   "companionSkills": [
     {
       "id": "tmp-bundle-rebirth",
@@ -64,6 +64,8 @@
     "references/reply-drop.md",
     "references/runtime-contract.md",
     "references/sell-list-autopilot.md",
+    "references/buy-fixed-sale-autopilot.md",
+    "references/buy-url-routing-regression.md",
     "references/share-market-buy.md",
     "references/share-market-cancel-autopilot.md",
     "references/share-market-list-autopilot.md",

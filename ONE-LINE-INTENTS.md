@@ -40,7 +40,9 @@
 | **Loan my fees for 0.5 eth for 2 weeks** | Paid time loan | **G** | `dm-intents.md` Path G | Grant |
 | **Get my fees back** / **redeem** | Burn TMPR, restore beneficiary | **H** | `redeem-rights-playbook.md` | List |
 | **Claim fees for [ticker]** | Hybrid unit claim OR native claim | **K** | `hybrid-claim-autopilot.md` | Skip hybrid-status |
-| **Buy cheapest 1/1000 of t7** | Buy share on order book | **I** | `share-market-buy.md` | Dual list |
+| **Buy cheapest 1/1000 of t7** | Buy share on order book | **I** | `share-market-buy.md` | Dual list · `/listing/sale/` |
+| **Buy /listing/sale/1** or **buy listing 1** (shop URL) | Buy **100%** fixed sale | **F** | `buy-fixed-sale-autopilot.md` | `share/list-status` · `0x9023…` |
+| **Buy this listing** + `tokenmarketplace.shop/listing/sale/…` | Same — whole TMPR | **F** | `buy-fixed-sale-autopilot.md` | Share market |
 | **Cancel my share listing** | Cancel ERC-1155 listing | **J** | `share-market-cancel-autopilot.md` | Fixed sale cancel |
 
 ---
@@ -91,6 +93,26 @@ Splitting into 1000 fee-right units (1/1000 shares of trading fees), not 1000 se
 ```
 
 Then **execute** — do not wait for confirmation unless they have **no** TMPR and mint will take multiple signatures.
+
+---
+
+## Flow F — “Buy 100%” (`/listing/sale/{id}`)
+
+**User:** `buy https://www.tokenmarketplace.shop/listing/sale/1` · `buy listing 1 on token marketplace` · `purchase the full fee rights at this link`
+
+**You interpret:** **Fixed sale buy** — **not** “buy 1 share” · **not** `GET /api/share/list-status`.
+
+**You run:**
+
+1. **`GET https://www.tokenmarketplace.shop/api/list/buy-status?url=<full shop url>`** (or `?listingId=` only if user gave sale id explicitly).
+2. If **`canBuy: false`** → say fixed sale inactive (sold/cancelled) — **do not** cite `0x9023…` share market.
+3. If **`passwordProtected`** → `POST /api/listings/access-authorize` then 3-arg `buy`.
+4. Else execute **`nextStep`**: `buy(listingId)` on **`0xe2A1…`** with **`value = priceWei` exactly**.
+5. Verify buyer owns receipt `tokenId` on `collection` from API response.
+
+**Forbidden:** “Listing inactive on HybridShareMarketplace 0x9023…” when URL contains **`/listing/sale/`**.
+
+Full spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-regression.md`**
 
 ---
 

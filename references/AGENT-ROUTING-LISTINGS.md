@@ -58,9 +58,35 @@ Bankr installs often expose **`references/`** only. **Start here** on any “lis
 
 ---
 
+## Buy 100% (fixed sale) — mandatory routing
+
+**TRIGGER:** **buy / purchase** + **`/listing/sale/`** URL or **buy listing N** on token marketplace (whole receipt)
+
+| | |
+|--|--|
+| **File** | **`buy-fixed-sale-autopilot.md`** |
+| **API (first step)** | **`GET /api/list/buy-status?url=…`** or **`?listingId=`** |
+| **Contract** | **`FeeRightsFixedSale` `0xe2A13499292D43254026DAf0C4F75988242BaA66`** |
+| **FORBIDDEN** | **`GET /api/share/list-status`** for same numeric id · **`HybridShareMarketplace` `0x90230B…`** when URL is `/listing/sale/` |
+
+**Example:** `buy https://www.tokenmarketplace.shop/listing/sale/1` → buy-status → `buy(1)` with exact `priceWei` from API.
+
+**NOT this path:** `buy 1 share` / `/listing/shares/` → **`share-market-buy.md`**
+
+---
+
 ## Routing guard (pick ONE path)
 
 ```
+if user says buy / purchase:
+  if url contains /listing/sale/ or "buy listing" for 100% / "full fee rights" + sale link:
+    → buy-fixed-sale-autopilot.md
+    → GET /api/list/buy-status?url=...
+    → NEVER share/list-status for that listingId
+  if buy share / 1/1000 / cheapest share / /listing/shares/:
+    → share-market-buy.md
+    → HybridShareMarketplace 0x9023…
+
 if user says list / sell / for sale (any wording):
   1. DEFAULT venue = tokenmarketplace.shop — say so in reply
   2. Route by product:

@@ -1,18 +1,20 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v78. Default dual list (site + OpenSea); site-only for password or max-per-wallet."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea]
-version: 78
-tmp_skill_version: "78"
+description: "TMP skills v79. Fixed-sale buy routing (/listing/sale/); dual list default; buy-status API."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale]
+version: 79
+tmp_skill_version: "79"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
   - sell-list-autopilot.md
+  - buy-fixed-sale-autopilot.md
   - runtime-contract.md
   - t7-list-failure-regression.md
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
-reference_file_count: 39
+  - buy-url-routing-regression.md
+reference_file_count: 42
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -32,6 +34,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Sell / list $t7 for 0.01 eth** | Flow **A**: **dual** site + OpenSea (default). Site only if password / max-per-wallet |
 | **Split t7 into 1000** / **1000 nfts** | Flow **C**: V6 hybrid split → **1000 units** (not 1000 ERC-721s, not `list/dual`) |
 | **Sell 5% keep 95%** | Flow **B**: partial sale on GroupBuyEscrowV2 |
+| **Buy /listing/sale/1** or buy listing on shop | Flow **F**: **`GET /api/list/buy-status`** → `buy` on **`0xe2A1…`** — **not** share `0x9023…` |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.
@@ -80,6 +83,23 @@ Can you list 0x9021… for 0.01 eth?
 | **FORBIDDEN** | `FeeRightsFixedSale.cancel` for ERC-1155 shares · ask user for listingId when API returned **`nextStep`** · “no cancel in skill” |
 
 Full spec: **`share-market-cancel-autopilot.md`**
+
+---
+
+## AGENT ROUTING — buy 100% (`/listing/sale/`) — read on any buy + shop URL
+
+**Bankr install quirk:** read **`references/buy-fixed-sale-autopilot.md`** when user says **buy** + **`tokenmarketplace.shop/listing/sale/…`**.
+
+| | |
+|--|--|
+| **TRIGGER** | **buy / purchase** + **`/listing/sale/{id}`** or **buy listing N** (whole receipt) |
+| **MANDATORY FIRST STEP** | **`GET …/api/list/buy-status?url=<full url>`** |
+| **ON-CHAIN** | **`FeeRightsFixedSale.buy(listingId)`** on **`0xe2A13499292D43254026DAf0C4F75988242BaA66`** — **`msg.value = priceWei` exactly** |
+| **FORBIDDEN** | **`GET /api/share/list-status`** for that id · saying inactive on **`0x90230B…`** when URL was **`/listing/sale/`** |
+
+**Buy 1 share:** **`share-market-buy.md`** only.
+
+Full spec: **`buy-fixed-sale-autopilot.md`** · **`buy-url-routing-regression.md`**
 
 ---
 
@@ -140,7 +160,7 @@ t7-list-failure-regression.md
 
 Also readable from MANDATORY-LISTING-FILES.txt and BANKR-INSTALL-CHECK.md at repo root.
 
-Bankr internal install counter may differ; content version is **69** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companions: **tmp-bundle-rebirth**, **tmp-solana-cto** (see README). Solana buy/claim → install **tmp-solana-cto** + call `/api/solana/buy-status` or `/api/solana/claim-status`.
+Bankr internal install counter may differ; content version is **79** (`VERSION` file + `SKILL.md` frontmatter must match). Optional companions: **tmp-bundle-rebirth**, **tmp-solana-cto** (see README). Solana buy/claim → install **tmp-solana-cto** + call `/api/solana/buy-status` or `/api/solana/claim-status`.
 
 **Bankr loads `references/`:** claim autopilot + terminal-step are **full copies** in `references/` — not stubs. Read **`references/hybrid-claim-terminal-step.md`** for STOP rule (no claimtokenfees after hybrid claim).
 
