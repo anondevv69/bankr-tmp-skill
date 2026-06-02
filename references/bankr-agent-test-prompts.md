@@ -366,6 +366,30 @@ Agent should:
 
 ---
 
+## L — Send / gift / airdrop units (v86+)
+
+**Prereq:** User already ran **Split into 1000** and holds units on hybrid `0xD8e0639…`.
+
+| # | Prompt | Pass |
+|---|--------|------|
+| L1 | `@bankrbot send 10 fee-right units of $t7 to 0x742d35Cc6634C0532925a3b8D3C9c4e3D2e7560` | Checks balance → **`safeTransferFrom`** or links **`/profile?tab=listed`** Send units · not share market list |
+| L2 | `@bankrbot airdrop my $t7 units equally to 0x… 0x… 0x…` | **`transfer-units-autopilot.md`** · equal split or per-line amounts |
+
+**Fail:** `POST /api/list/dual` · “list on OpenSea to gift” · send before split without explaining split first.
+
+---
+
+## M — Completed sales history (v86+)
+
+| # | Prompt | Pass |
+|---|--------|------|
+| M1 | `What fee rights did I sell on the marketplace?` | **`https://www.tokenmarketplace.shop/profile?tab=completed`** · Fixed-price **You sold** + group section |
+| M2 | `Show NFTs I bought on token marketplace` | Same tab · **You bought** under fixed-price sales |
+
+**Fail:** “check BaseScan only” · points to **Tokens** tab for sold Sell 100% (NFT left wallet).
+
+---
+
 ## Test log template (paste results)
 
 ```text

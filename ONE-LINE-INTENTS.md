@@ -45,6 +45,9 @@
 | **Buy /listing/sale/1** or **buy listing 1** (shop URL) | Buy **100%** fixed sale | **F** | `buy-fixed-sale-autopilot.md` | `share/list-status` · `0x9023…` |
 | **Buy this listing** + `tokenmarketplace.shop/listing/sale/…` | Same — whole TMPR | **F** | `buy-fixed-sale-autopilot.md` | Share market |
 | **Cancel my share listing** | Cancel ERC-1155 listing | **J** | `share-market-cancel-autopilot.md` | Fixed sale cancel |
+| **Send / gift / airdrop N units** to `0x…` | Move ERC-1155 fee-right units (gift) | **L** | `transfer-units-autopilot.md` | Share market list · dual list |
+| **Airdrop units equally** to many wallets | Batch unit transfer | **L** | `transfer-units-autopilot.md` | Mint 1000 NFTs |
+| **What did I sell** / **purchases on shop** | Completed sales history | **M** | `profile-completed-sales.md` | Tokens tab only |
 
 ---
 

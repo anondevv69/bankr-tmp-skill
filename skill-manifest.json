@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 85,
+  "skillVersion": 86,
   "companionSkills": [
     {
       "id": "tmp-listing",
@@ -27,7 +27,7 @@
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 45,
+  "referenceFileCount": 47,
   "mandatoryBuyFilesAtRepoRoot": [
     "buy-marketplace-autopilot.md",
     "buy-fixed-sale-autopilot.md",
@@ -97,7 +97,9 @@
     "references/split-1000-autopilot.md",
     "references/split-custodial-approve-block.md",
     "references/tmpr-collection-address-trap.md",
-    "references/user-language.md"
+    "references/user-language.md",
+    "references/transfer-units-autopilot.md",
+    "references/profile-completed-sales.md"
   ],
   "bankrInstallCheckFile": "BANKR-INSTALL-CHECK.md",
   "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion in VERSION and SKILL.md. Solana: install tmp-solana-cto + /api/solana/buy-status | claim-status. Base list tweets: BANKR-PLATFORM-TWEET-LIST-INTAKE.md."

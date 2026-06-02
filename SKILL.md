@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v85. Full site + APIs: buy, list, split, claim. Companion listing/split repos."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, cto, solana-buy]
-version: 85
-tmp_skill_version: "85"
+description: "TMP skills v86. Full site + APIs: buy, list, split, claim, send units, completed sales history. Companion listing/split repos."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy]
+version: 86
+tmp_skill_version: "86"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -15,7 +15,7 @@ mandatory_listing_files:
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
   - buy-url-routing-regression.md
-reference_file_count: 44
+reference_file_count: 46
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -140,6 +140,37 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · **`buy-url-routing-regression.md
 **User example (sufficient):** `@bankrbot fractionalize my $dntfbuy fee rights into 1000 shares — keep all units in my wallet`
 
 Full spec: **`fractionalize-autopilot.md`** · On-chain split: **`split-1000-autopilot.md`**
+
+---
+
+## AGENT ROUTING — send / gift / airdrop units (read on transfer, gift, airdrop)
+
+**Bankr install quirk:** read **`references/transfer-units-autopilot.md`** when user wants to **send**, **gift**, or **airdrop** 1/1000 fee-right **units** to other wallets.
+
+| | |
+|--|--|
+| **TRIGGER** | **send N units** · **airdrop** · **transfer 1/1000** · **gift shares** to `0x…` |
+| **PREREQ** | **`unitsFinalized(hybridTokenId)`** and sender **`balanceOf ≥ amount`** — else **split first** (`fractionalize-autopilot.md`) or **transfer whole NFT** (ERC-721) |
+| **EOA PATH** | **`https://www.tokenmarketplace.shop/profile?tab=listed`** → **Send units (gift / airdrop)** |
+| **ON-CHAIN** | **`safeTransferFrom(from, to, hybridTokenId, amount, 0x)`** on hybrid **`0xD8e0639…`** |
+| **FORBIDDEN** | Share market **`list`** for gifts · **`list/dual`** · selling ERC-20 launch token |
+
+**Custodial blocked:** **`custodial-approve-block-retry.md`** — transfer TMPR to EOA → site Send units.
+
+Full spec: **`transfer-units-autopilot.md`**
+
+---
+
+## AGENT ROUTING — completed sales history (read on “what did I sell” / past buys)
+
+| | |
+|--|--|
+| **TRIGGER** | **what did I sell** · **my past listings** · **NFTs I bought on the shop** · **sale history** |
+| **SITE** | **`https://www.tokenmarketplace.shop/profile?tab=completed`** |
+| **SECTIONS** | **Fixed-price sales** (Sell 100% sold/bought) · **Completed group sales** (CTO finalize) |
+| **NOT INDEXED YET** | Share-market unit fills only — whole NFT fixed sales |
+
+Full spec: **`profile-completed-sales.md`**
 
 ---
 

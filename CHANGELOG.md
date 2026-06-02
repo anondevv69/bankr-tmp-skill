@@ -2,7 +2,14 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 85 (current)
+## 86 (current)
+
+- **`transfer-units-autopilot.md`** — gift / airdrop / send ERC-1155 units (1/1000) after split; site **Profile → Listed → Send units**; Bankr `safeTransferFrom` path.
+- **`profile-completed-sales.md`** — **Profile → Completed sales** — fixed Sell 100% **You sold** / **You bought** + group sales.
+- **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, **`SKILL.md`** routing for flows **L** (transfer) and **M** (history).
+- Site: `bankr-app` agent.md updated (Jun 2026).
+
+## 85
 
 - **`buy-marketplace-autopilot.md`** — all buy paths: fixed sale, shares, CTO contribute, Solana, OpenSea TMP.
 - **Skill hub** — companion repos [TMP-Skill-Listing](https://github.com/anondevv69/TMP-Skill-Listing) and [TMP-Skill-Split-1000](https://github.com/anondevv69/TMP-Skill-Split-1000); main repo = full site + APIs.
