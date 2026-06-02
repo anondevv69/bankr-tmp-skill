@@ -1,8 +1,18 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 80,
+  "skillVersion": 85,
   "companionSkills": [
+    {
+      "id": "tmp-listing",
+      "installCommand": "install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing",
+      "repoUrl": "https://github.com/anondevv69/TMP-Skill-Listing"
+    },
+    {
+      "id": "tmp-split-1000",
+      "installCommand": "install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000",
+      "repoUrl": "https://github.com/anondevv69/TMP-Skill-Split-1000"
+    },
     {
       "id": "tmp-bundle-rebirth",
       "path": "tmp-bundle-rebirth",
@@ -17,7 +27,12 @@
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 44,
+  "referenceFileCount": 45,
+  "mandatoryBuyFilesAtRepoRoot": [
+    "buy-marketplace-autopilot.md",
+    "buy-fixed-sale-autopilot.md",
+    "buy-url-routing-regression.md"
+  ],
   "mandatoryListingFilesAtRepoRoot": [
     "LISTING-VENUES.md",
     "ONE-LINE-INTENTS.md",
@@ -66,6 +81,7 @@
     "references/reply-drop.md",
     "references/runtime-contract.md",
     "references/sell-list-autopilot.md",
+    "references/buy-marketplace-autopilot.md",
     "references/buy-fixed-sale-autopilot.md",
     "references/buy-url-routing-regression.md",
     "references/share-market-buy.md",

@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 84 (current)
+## 85 (current)
+
+- **`buy-marketplace-autopilot.md`** — all buy paths: fixed sale, shares, CTO contribute, Solana, OpenSea TMP.
+- **Skill hub** — companion repos [TMP-Skill-Listing](https://github.com/anondevv69/TMP-Skill-Listing) and [TMP-Skill-Split-1000](https://github.com/anondevv69/TMP-Skill-Split-1000); main repo = full site + APIs.
+
+## 84
 
 - **`hybrid-claim-autopilot.md`** — step 4b: X/Telegram fires automatically after claim; ops replay via `POST /api/alerts/from-tx` with tx hash.
 

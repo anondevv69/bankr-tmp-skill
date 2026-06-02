@@ -1,65 +1,89 @@
 # TMP skills monorepo (Bankr)
 
-[BankrBot/skills](https://github.com/BankrBot/skills)-style layout: **one folder = one installable skill**, same GitHub repo.
+[BankrBot/skills](https://github.com/BankrBot/skills)-style layout: **one folder = one installable skill**, plus **focused repos** for listing and split.
 
-**Scope:** Base (chain 8453) in the main skill. **Solana** (Pump / SPL receipts): install companion **`tmp-solana-cto`** + use `/api/solana/buy-status` and `/api/solana/claim-status`.
+**Site:** https://www.tokenmarketplace.shop · **Agent guide:** https://www.tokenmarketplace.shop/agent.md
+
+---
 
 ## Install (pick what you need)
 
-### 1. Main — Base marketplace (mint, list, buy, partial, group, grant, loan)
-
-**Repo root** = this skill (backward compatible):
+### 1. Main hub — buy, claim, APIs, full site (recommended)
 
 ```text
 install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 ```
 
-Covers: create NFT · list/sell 100% · buy 1/1000 share · **claim hybrid unit fees** · partial · group buy · grants · loans · redeem.
+**Buy flows:** fixed sale · 1/1000 shares · CTO participate · Solana · OpenSea TMP → **`buy-marketplace-autopilot.md`**
 
-Root files: `SKILL.md`, `sell-list-autopilot.md`, `hybrid-claim-autopilot.md`, `runtime-contract.md`, `t7-list-failure-regression.md`, `references/`.
+Also: hybrid claim · redeem · grants · loans · mint/status.
 
-### 2. Bundle & Rebirth (optional)
+### 2. Listing only
 
 ```text
-install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth
+install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing
 ```
 
-Use with main skill for mint/status. Folder: [tmp-bundle-rebirth/](tmp-bundle-rebirth/).
+Dual list (site + OpenSea) · password · CTO/partial list · list share units · mint-before-list.
 
-### 3. OpenSea (official)
+Repo: [TMP-Skill-Listing](https://github.com/anondevv69/TMP-Skill-Listing)
+
+### 3. Split 1000 only
+
+```text
+install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000
+```
+
+Fractionalize fee rights → 1000 ERC-1155 units (V6 self-split).
+
+Repo: [TMP-Skill-Split-1000](https://github.com/anondevv69/TMP-Skill-Split-1000)
+
+### 4. Solana CTO (buy + claim on Solana listings)
+
+```text
+install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto
+```
+
+### 5. OpenSea (official)
 
 ```text
 install opensea skills at https://github.com/BankrBot/skills
 ```
 
-Dual list step for Base listings.
+Used with dual list and for buying TMPR on OpenSea.
+
+### 6. Bundle & Rebirth (optional)
+
+```text
+install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth
+```
 
 ---
 
 ## Layout
 
 ```text
-bankr-tmp-skill/
-├── SKILL.md                 ← tmp-fee-rights (main, repo root)
-├── sell-list-autopilot.md
+bankr-tmp-skill/                    ← hub (this repo)
+├── SKILL.md
+├── buy-marketplace-autopilot.md    ← all purchase paths
+├── sell-list-autopilot.md          ← also in TMP-Skill-Listing
+├── fractionalize-autopilot.md      ← also in TMP-Skill-Split-1000
 ├── hybrid-claim-autopilot.md
-├── runtime-contract.md
-├── references/              ← Base playbooks (24 files)
-├── tmp-bundle-rebirth/
-│   ├── SKILL.md
-│   └── references/
-└── README.md                ← this file
+├── references/
+├── tmp-solana-cto/
+└── tmp-bundle-rebirth/
+
+TMP-Skill-Listing/                  ← separate repo
+TMP-Skill-Split-1000/               ← separate repo
 ```
+
+---
 
 ## Version
 
-Main skill: **59** (`VERSION` at repo root). **Hybrid claim:** API-enforced all-holders rule. Cannot proceed if `proof.canSubmitTx` false or `recipientCount < 2`. Bundle rebirth: **1**.
+Main skill: **`VERSION`** file (currently **85**). Re-run install in Bankr after `git pull`.
 
 ## Related
 
 - [anondevv69/bankrtokennft](https://github.com/anondevv69/bankrtokennft) — contracts + bankr-app
 - [BankrBot/skills](https://github.com/BankrBot/skills) — official Bankr skills
-
-## Updating
-
-Re-run the install line(s) in Bankr after `git pull`.

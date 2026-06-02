@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v84. Hybrid claim tweets auto + /api/alerts/from-tx replay for ops."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, fractionalize, split-1000]
-version: 84
-tmp_skill_version: "84"
+description: "TMP skills v85. Full site + APIs: buy, list, split, claim. Companion listing/split repos."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, cto, solana-buy]
+version: 85
+tmp_skill_version: "85"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -26,6 +26,21 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
+**Public agent guide:** https://www.tokenmarketplace.shop/agent.md
+
+## Skill packs (install one or all — same behavior)
+
+| Pack | Install line | Scope |
+|------|--------------|--------|
+| **Hub (this repo)** | `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill` | **Buy** · claim · APIs · Solana companion path · everything on site |
+| **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List / sell · dual OpenSea · CTO list · password · list shares |
+| **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 ERC-1155 units |
+| **Solana CTO** | `install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto` | Solana buy + claim |
+
+**Buy anything on the site** (fixed sale, 1 share, CTO contribute, Solana, OpenSea TMP): read **`buy-marketplace-autopilot.md`** first.
+
+---
+
 ## ONE-LINE INTENTS — read `ONE-LINE-INTENTS.md` first
 
 User gives **one sentence** → you run the **full flow** without asking “which marketplace?” or “site or OpenSea?”.
@@ -35,7 +50,10 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Sell / list $t7 for 0.01 eth** | Flow **A**: **dual** site + OpenSea (default). Site only if password / max-per-wallet |
 | **Split / fractionalize into 1000** / **keep all units** | Flow **C**: **`fractionalize-autopilot.md`** — mint/status silently → V6 split (user never pastes APIs) |
 | **Sell 5% keep 95%** | Flow **B**: partial sale on GroupBuyEscrowV2 |
-| **Buy /listing/sale/1** or buy listing on shop | Flow **F**: **`GET /api/list/buy-status`** → `buy` on **`0xe2A1…`** — **not** share `0x9023…` |
+| **Buy /listing/sale/1** or buy listing on shop | Flow **F**: **`buy-marketplace-autopilot.md`** → **`GET /api/list/buy-status`** — **not** share `0x9023…` |
+| **Buy 1 share / cheapest unit** | Flow **I**: **`share-market-buy.md`** |
+| **Buy / participate in CTO** | Flow **D**: **`flows-reference.md`** — `contribute` on group escrow |
+| **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.
