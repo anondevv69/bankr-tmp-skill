@@ -11,7 +11,7 @@ Same idea as Base **Send shares** — gift SPL fee-receipt units (0 decimals, 1 
 | Rule | Value |
 |------|--------|
 | Max recipients per batch | **25** |
-| Wallets per Phantom tx | **10** (fewer confirmations than one-tx-per-wallet) |
+| Wallets per Phantom tx | **Up to 25 in one tx** when simulation passes; else ~10 per tx |
 | Total units | ≤ SPL balance; cancel share listings if units are in escrow |
 
 **Formats:** one address + amount, or textarea `base58, units` per line, or **equal split** across pasted addresses.

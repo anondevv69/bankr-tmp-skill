@@ -91,7 +91,7 @@ On each **Your fee-rights units** card:
 | Max lines parsed | 80 (UI still caps at 25 per send) |
 | Total units per batch | ≤ `balanceOf` (cannot send more than you hold) |
 | Sender in recipient list | **Rejected** |
-| Tx pattern | **One `safeTransferFrom` per recipient** — user confirms **N times** for N wallets |
+| Tx pattern | **One Multicall3 tx** for ≤25 recipients (site); fallback one tx per wallet |
 
 After send: show **total units** and **recipient count**; suggest BaseScan **TransferSingle** on `0xD8e0639…`.
 
@@ -125,12 +125,9 @@ Sign via Bankr **`prepare:transaction`** on Base (8453). **Do not** use raw `/wa
 
 ### B2 — Batch airdrop (many recipients)
 
-**Default (same as site):** loop **`safeTransferFrom`** — one tx per recipient.
+**Default (site + agent):** **one Base transaction** via **Multicall3** (`0xcA11…`) bundling up to **25** `safeTransferFrom` calls — **one wallet confirmation**.
 
-```text
-Transfer 1 of 8 — confirm in wallet…
-Transfer 2 of 8 — confirm in wallet…
-```
+**Fallback:** loop **`safeTransferFrom`** one tx per recipient if simulation fails (very large batches or wallet limits).
 
 **Parsing user lists:**
 
