@@ -28,6 +28,7 @@ Base mint/list/claim lives in the **main** skill (`bankr-fee-rights`). This comp
 | Purchase `/listing/sol/…` | **`solana-buy-autopilot.md`** |
 | Claim fees for all on Solana / Pump token | **`solana-claim-autopilot.md`** |
 | Solana CTO / batch SPL claim | **`solana-claim-autopilot.md`** |
+| Gift / airdrop SPL receipt units | **`solana-transfer-units-autopilot.md`** (site + Phantom; Bankr cannot sign yet) |
 
 **User does not need:** “use_skill”, “Solana skill”, or pasted API URLs.
 
