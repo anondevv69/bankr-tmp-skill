@@ -29,7 +29,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Get fee rights back** / **redeem** | Burn TMPR, fees to wallet | `redeemRights(tokenId)` |
 | **Bundle & Rebirth** / **merge into $TICKER** / **burn 3 NFTs and launch** | Combine N fee receipts → WETH to **user** → dead-wallet old streams → new Bankr token + initial buy | `FeeRightsBundleEscrow` + `/api/bundle/*` + `token-launches/deploy` |
 | **1/1000 share** / **buy cheapest share** / **buy 1 unit** | One ERC-1155 unit from a **listed offer** on the share order book | `HybridShareMarketplace.buy` — **`share-market-buy.md`** |
-| **Send units** / **gift shares** / **airdrop units** / **transfer 1/1000 to 0x…** | Move ERC-1155 units to another wallet (no ETH sale) | `safeTransferFrom` on hybrid `0xD8e0639…` — **`transfer-units-autopilot.md`** · site **Profile → Listed → Send units** |
+| **Send shares** / **batch airdrop** / **split equally** / **gift units** | Move ERC-1155 units (1…balance); batch ≤25 wallets | **`transfer-units-autopilot.md`** · **Profile → NFTs → Send shares** · loop `safeTransferFrom` |
 | **List shares** / **sell units** / **list at 0 ETH** + password | Seller lists ERC-1155 on share order book (for ETH) | `HybridShareMarketplace.list` — **`share-market-list-autopilot.md`** |
 | **Completed sales** / **what did I sell** / **NFTs I bought** | Profile history for Sell 100% + group finalize | **`profile-completed-sales.md`** · `/profile?tab=completed` |
 | **Max per wallet** (when listing) | Cap cumulative buys per buyer on one offer | `maxPerWallet` in `list` — **`share-market-list.md`** |

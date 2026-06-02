@@ -366,16 +366,18 @@ Agent should:
 
 ---
 
-## L — Send / gift / airdrop units (v86+)
+## L — Send / gift / batch airdrop units (v87+)
 
 **Prereq:** User already ran **Split into 1000** and holds units on hybrid `0xD8e0639…`.
 
 | # | Prompt | Pass |
 |---|--------|------|
-| L1 | `@bankrbot send 10 fee-right units of $t7 to 0x742d35Cc6634C0532925a3b8D3C9c4e3D2e7560` | Checks balance → **`safeTransferFrom`** or links **`/profile?tab=listed`** Send units · not share market list |
-| L2 | `@bankrbot airdrop my $t7 units equally to 0x… 0x… 0x…` | **`transfer-units-autopilot.md`** · equal split or per-line amounts |
+| L1 | `@bankrbot send 10 fee-right units of $t7 to 0x742d35Cc6634C0532925a3b8D3C9c4e3D2e7560` | **`balanceOf`** → **`safeTransferFrom`** or **`/profile?tab=nfts`** → **Send shares** |
+| L2 | `@bankrbot airdrop my $t7 units equally to 0x… 0x… 0x…` | Equal-split math · **≤25** recipients · **N `safeTransferFrom`** txs |
+| L3 | `Send 5 units to 0xA, 20 to 0xB from my $t7 shares` | Per-line amounts · `sum ≤ balance` · not share market list |
+| L4 | `How many units do I hold on $t7?` | **`balanceOf` / 1000** + link **NFTs** tab if they want to send |
 
-**Fail:** `POST /api/list/dual` · “list on OpenSea to gift” · send before split without explaining split first.
+**Fail:** `POST /api/list/dual` · one `safeBatchTransferFrom` without user asking · >25 recipients in one promise · send before split.
 
 ---
 

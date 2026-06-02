@@ -46,7 +46,8 @@
 | **Buy this listing** + `tokenmarketplace.shop/listing/sale/…` | Same — whole TMPR | **F** | `buy-fixed-sale-autopilot.md` | Share market |
 | **Cancel my share listing** | Cancel ERC-1155 listing | **J** | `share-market-cancel-autopilot.md` | Fixed sale cancel |
 | **Send / gift / airdrop N units** to `0x…` | Move ERC-1155 fee-right units (gift) | **L** | `transfer-units-autopilot.md` | Share market list · dual list |
-| **Airdrop units equally** to many wallets | Batch unit transfer | **L** | `transfer-units-autopilot.md` | Mint 1000 NFTs |
+| **Airdrop / batch send** to many wallets | Multi-recipient `safeTransferFrom` (≤25) | **L** | `transfer-units-autopilot.md` § B2 | `safeBatchTransferFrom` unless user asks one tx |
+| **Split 334 units equally** to 5 wallets | Equal-split math + 5 txs | **L** | `transfer-units-autopilot.md` § Batch parsing | Mint 1000 NFTs |
 | **What did I sell** / **purchases on shop** | Completed sales history | **M** | `profile-completed-sales.md` | Tokens tab only |
 
 ---

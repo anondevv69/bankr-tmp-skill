@@ -36,7 +36,7 @@ Under “Fixed-price sales” you’ll see Sell 100% you sold and NFTs you bough
 
 - History scans **recent Base blocks** (~2.5M by default on server). Very old sales may be missing — use BaseScan or `POST /api/alerts/from-tx` with tx hash for proof.
 - **Share market** fills (bought/sold units) are **not** in this table yet — only **whole NFT** fixed sales.
-- **Active** listings stay on **Profile → Listed**, not Completed.
+- **Active** listings stay on **Profile → NFTs**, not Completed.
 
 ---
 

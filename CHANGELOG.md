@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 86 (current)
+## 87 (current)
+
+- **`transfer-units-autopilot.md`** — **batch / equal-split airdrop**: ≤25 recipients, `0x…, units` lines, **N `safeTransferFrom`** txs, balance preflight; site **NFTs → Send shares**.
+- **`SKILL.md`**, **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, test prompts **L3–L4**.
+
+## 86
 
 - **`transfer-units-autopilot.md`** — gift / airdrop / send ERC-1155 units (1/1000) after split; site **Profile → Listed → Send units**; Bankr `safeTransferFrom` path.
 - **`profile-completed-sales.md`** — **Profile → Completed sales** — fixed Sell 100% **You sold** / **You bought** + group sales.

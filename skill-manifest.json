@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 86,
+  "skillVersion": 87,
   "companionSkills": [
     {
       "id": "tmp-listing",

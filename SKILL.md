@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v86. Full site + APIs: buy, list, split, claim, send units, completed sales history. Companion listing/split repos."
+description: "TMP skills v87. Full site + APIs: buy, list, split, claim, batch send ERC-1155 units, completed sales. Companion listing/split repos."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy]
-version: 86
-tmp_skill_version: "86"
+version: 87
+tmp_skill_version: "87"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -149,13 +149,14 @@ Full spec: **`fractionalize-autopilot.md`** · On-chain split: **`split-1000-aut
 
 | | |
 |--|--|
-| **TRIGGER** | **send N units** · **airdrop** · **transfer 1/1000** · **gift shares** to `0x…` |
-| **PREREQ** | **`unitsFinalized(hybridTokenId)`** and sender **`balanceOf ≥ amount`** — else **split first** (`fractionalize-autopilot.md`) or **transfer whole NFT** (ERC-721) |
-| **EOA PATH** | **`https://www.tokenmarketplace.shop/profile?tab=listed`** → **Send units (gift / airdrop)** |
-| **ON-CHAIN** | **`safeTransferFrom(from, to, hybridTokenId, amount, 0x)`** on hybrid **`0xD8e0639…`** |
+| **TRIGGER** | **send N units** · **airdrop** · **batch send** · **split equally** · **gift shares** to `0x…` |
+| **PREREQ** | **`unitsFinalized(hybridTokenId)`** and **`balanceOf ≥ sum(amounts)`** — report **X / 1000 units** |
+| **EOA PATH** | **`https://www.tokenmarketplace.shop/profile?tab=nfts`** → **Send shares** → One wallet or **Batch / airdrop** |
+| **ON-CHAIN** | **`safeTransferFrom` per recipient** (max **25**/session); optional **`safeBatchTransferFrom`** if user wants one tx |
+| **BATCH** | Per line `0x…, units` OR equal split across pasted addresses — **N wallet confirmations** |
 | **FORBIDDEN** | Share market **`list`** for gifts · **`list/dual`** · selling ERC-20 launch token |
 
-**Custodial blocked:** **`custodial-approve-block-retry.md`** — transfer TMPR to EOA → site Send units.
+**Custodial blocked:** **`custodial-approve-block-retry.md`** — transfer TMPR to EOA → site **Send shares**.
 
 Full spec: **`transfer-units-autopilot.md`**
 
