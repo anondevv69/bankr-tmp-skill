@@ -2,7 +2,11 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 83 (current)
+## 84 (current)
+
+- **`hybrid-claim-autopilot.md`** — step 4b: X/Telegram fires automatically after claim; ops replay via `POST /api/alerts/from-tx` with tx hash.
+
+## 83
 
 - **`split-custodial-approve-block.md`** — after mint `ready`, if custodial blocks `approve` to GroupBuyEscrowV6: 3× retry, then transfer hybrid TMPR to user EOA + site “Split into 1000”; user bypass may still fail.
 - **`split-1000-autopilot.md`** — `createPartialSale` self-split (matches site wizard); links custodial doc.

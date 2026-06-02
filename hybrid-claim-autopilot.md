@@ -83,7 +83,8 @@ Deep glossary (agent-only): **`references/hybrid-id-vocabulary.md`**, **`referen
 | 1 | Resolve launch token (ticker → `0x…` if needed) + **linked wallet** (never ask on tweet/DM if linked) |
 | 2 | **`GET /api/claim/hybrid-status?token=0x…&wallet=0x…`** (+ `&serial=N` if TMPR #N) |
 | 3 | If **`proof.canSubmitTx`**: submit **`nextStep.data`** unchanged — full **`recipients[]`** from API |
-| 4 | Verify receipt + reply plain English — **STOP. Do not call claimtokenfees or collectFees.** |
+| 4 | Verify receipt + reply plain English with BaseScan link — **STOP. Do not call claimtokenfees or collectFees.** |
+| 4b | **X/Telegram alert** — automatic after claim (site UI, chain watcher, or replay). **Do not** ask the user to nudge. If ops needs a replay and has publish secret: `POST https://www.tokenmarketplace.shop/api/alerts/from-tx` body `{ "txHash": "0x…" }` Bearer `LISTING_PUBLISH_SECRET`. |
 
 **Branches (same conversation, still one terminal claim tx):**
 
