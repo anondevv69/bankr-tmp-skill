@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 87,
+  "skillVersion": 88,
   "companionSkills": [
     {
       "id": "tmp-listing",
@@ -22,6 +22,11 @@
       "id": "tmp-solana-cto",
       "path": "tmp-solana-cto",
       "installCommand": "install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto"
+    },
+    {
+      "id": "tmp-launch-studio",
+      "path": "tmp-launch-studio",
+      "installCommand": "install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio"
     }
   ],
   "versionFile": "VERSION",
@@ -102,5 +107,5 @@
     "references/profile-completed-sales.md"
   ],
   "bankrInstallCheckFile": "BANKR-INSTALL-CHECK.md",
-  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion in VERSION and SKILL.md. Solana: install tmp-solana-cto + /api/solana/buy-status | claim-status. Base list tweets: BANKR-PLATFORM-TWEET-LIST-INTAKE.md."
+  "bankrNote": "Bankr may report an internal install counter (e.g. v27). Canonical TMP content version is skillVersion in VERSION and SKILL.md. Solana: install tmp-solana-cto + /api/solana/buy-status | claim-status. Launch Studio: install tmp-launch-studio + x402 token-marketplace-launch (Base). Base list tweets: BANKR-PLATFORM-TWEET-LIST-INTAKE.md."
 }

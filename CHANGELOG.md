@@ -2,7 +2,12 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 87 (current)
+## 88 (current)
+
+- **`tmp-launch-studio/`** — companion skill: deploy new Bankr token + 1000 fee-right units via x402 (~$1 USDC Base); plain-English user guide + autopilot poll flow; pairs with list/claim/transfer after launch.
+- **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, **`normal-talk-only.md`**, **`skill-manifest.json`**, site **`agent.md`**.
+
+## 87
 
 - **`transfer-units-autopilot.md`** — **batch / equal-split airdrop**: ≤25 recipients, `0x…, units` lines, **N `safeTransferFrom`** txs, balance preflight; site **NFTs → Send shares**.
 - **`SKILL.md`**, **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, test prompts **L3–L4**.

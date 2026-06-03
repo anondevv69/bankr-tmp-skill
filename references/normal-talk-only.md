@@ -37,6 +37,9 @@ These are **valid** user messages. Route them without asking for technical follo
 - “Combine my Surplus, SI, and SI fee rights and launch a rebirth token.”
 - “First 100 replies get 1% of the fee rights each.”
 - “Make a free claim page for the first 1000 replies — 1 unit each.”
+- “Deploy **MOON** on Token Marketplace and give me all 1000 units.”
+- “Launch **Rocket** / **$RKT** and airdrop 100 to each of these five wallets.”
+- “Use Launch Studio — one payment, split fee rights to my team list.”
 
 **One compound message is fine.** Do not make them split into “step 1 mint, step 2 list” unless you are **executing** step 1 and will continue automatically.
 

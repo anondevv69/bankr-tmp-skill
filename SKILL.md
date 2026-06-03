@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v87. Full site + APIs: buy, list, split, claim, batch send ERC-1155 units, completed sales. Companion listing/split repos."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy]
-version: 87
-tmp_skill_version: "87"
+description: "TMP skills v88. Full site + APIs: buy, list, split, claim, Launch Studio deploy, batch send ERC-1155 units, completed sales. Companion listing/split/launch repos."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402]
+version: 88
+tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -15,7 +15,7 @@ mandatory_listing_files:
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
   - buy-url-routing-regression.md
-reference_file_count: 46
+reference_file_count: 47
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -36,6 +36,7 @@ metadata:
 | **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List / sell · dual OpenSea · CTO list · password · list shares |
 | **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 ERC-1155 units |
 | **Solana CTO** | `install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto` | Solana buy + claim |
+| **Launch Studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | **New** deploy + 1000 units via x402 (~$1 USDC) |
 
 **Buy anything on the site** (fixed sale, 1 share, CTO contribute, Solana, OpenSea TMP): read **`buy-marketplace-autopilot.md`** first.
 
@@ -54,6 +55,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Buy 1 share / cheapest unit** | Flow **I**: **`share-market-buy.md`** |
 | **Buy / participate in CTO** | Flow **D**: **`flows-reference.md`** — `contribute` on group escrow |
 | **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
+| **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`tmp-launch-studio/launch-studio-autopilot.md`** — x402 `token-marketplace-launch` → poll status |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.
@@ -354,6 +356,7 @@ This folder is **tmp-fee-rights** (Base mint, list, buy, partial, group, grant, 
 |-------|---------|----------|
 | **tmp-bundle-rebirth** | `install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth` | bundle, rebirth, merge into $TICKER, burn N NFTs + launch |
 | **tmp-solana-cto** | `install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto` | Solana `/listing/sol/…` buy (password share book) + batch fee claim |
+| **tmp-launch-studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | New Bankr deploy + mint + 1000 units (x402 Base); pairs with list/claim/transfer after |
 | **OpenSea** | [BankrBot/skills opensea](https://github.com/BankrBot/skills/tree/main/opensea) | dual list Seaport step |
 
 **Solana:** Load **tmp-solana-cto** on any Solana listing URL or “buy/claim on Pump/Solana”. Call **`GET /api/solana/buy-status`** or **`GET /api/solana/claim-status`** before tx. Until Bankr ships Solana signing, status API + **`siteListingUrl`** + Connect Solana fallback — do **not** refuse without calling the API.

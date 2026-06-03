@@ -166,6 +166,19 @@ Run these prompts specifically to verify the agent handles password-protected sh
 
 ---
 
+## Launch Studio (Flow N — x402 deploy + 1000 units)
+
+Install: `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio`
+
+| # | Prompt | Expected outcome | Hard fail |
+|---|--------|------------------|-----------|
+| N1 | "Deploy MOON on Token Marketplace — all 1000 units to my wallet" | x402 `token-marketplace-launch` · `keep_all` · poll statusUrl until completed · token + profile link | Routes to Flow C fractionalize · stops after pay without poll · asks for splitPlan |
+| N2 | "Launch Moon Token / $MOON and airdrop 400 to 0xabc…, 350 to 0xdef…, 250 to 0x123…" | `wallet_list` · sum 1000 · poll until done · plain-English recipient summary | Asks user to paste walletList API format |
+| N3 | "Split my existing t7 into 1000" | **Flow C** fractionalize — **NOT** Launch Studio x402 | Calls token-marketplace-launch for existing ticker |
+| N4 | "Launch MOON on Pump / Solana" | Site https://www.tokenmarketplace.shop/launch + Connect Solana — no fake x402 success | "Bankr can't launch" with no site link |
+
+---
+
 ## Install verification (must pass after `install TMP skills at …/bankr-tmp-skill`)
 
 | # | Prompt | Expected outcome | Hard fail |

@@ -38,13 +38,21 @@ Fractionalize fee rights → 1000 ERC-1155 units (V6 self-split).
 
 Repo: [TMP-Skill-Split-1000](https://github.com/anondevv69/TMP-Skill-Split-1000)
 
-### 4. Solana CTO (buy + claim on Solana listings)
+### 4. Launch Studio (deploy + 1000 units)
+
+```text
+install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio
+```
+
+New Bankr token on Base via x402 (~$1 USDC): deploy → mint → split → deliver or airdrop. **Solana:** https://www.tokenmarketplace.shop/launch
+
+### 5. Solana CTO (buy + claim on Solana listings)
 
 ```text
 install TMP Solana CTO at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-solana-cto
 ```
 
-### 5. OpenSea (official)
+### 6. OpenSea (official)
 
 ```text
 install opensea skills at https://github.com/BankrBot/skills
@@ -52,7 +60,7 @@ install opensea skills at https://github.com/BankrBot/skills
 
 Used with dual list and for buying TMPR on OpenSea.
 
-### 6. Bundle & Rebirth (optional)
+### 7. Bundle & Rebirth (optional)
 
 ```text
 install TMP bundle rebirth at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-bundle-rebirth
@@ -71,6 +79,7 @@ bankr-tmp-skill/                    ← hub (this repo)
 ├── hybrid-claim-autopilot.md
 ├── references/
 ├── tmp-solana-cto/
+├── tmp-launch-studio/
 └── tmp-bundle-rebirth/
 
 TMP-Skill-Listing/                  ← separate repo
@@ -81,7 +90,7 @@ TMP-Skill-Split-1000/               ← separate repo
 
 ## Version
 
-Main skill: **`VERSION`** file (currently **85**). Re-run install in Bankr after `git pull`.
+Main skill: **`VERSION`** file (currently **88**). Re-run install in Bankr after `git pull`.
 
 ## Related
 
