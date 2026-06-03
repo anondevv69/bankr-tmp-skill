@@ -20,7 +20,8 @@ This is **not** the same as splitting a token you **already** launched elsewhere
 | **1000 units** / **1000 shares** / **1000 fee-right pieces** | ERC-1155 units on hybrid TMPR (max 1000 per launch) |
 | **Keep all** / **all to my wallet** | All 1000 units → one wallet (`keep_all`) |
 | **Airdrop list** / **split to friends** | Custom amounts per address, must total **1000** (`wallet_list`) |
-| **One payment** / **pay once** | ~**$1 USDC** on Base (Bankr x402 or site x402) |
+| **One payment on Bankr** / **pay in chat** | ~**$1 USDC** on Base via **Bankr x402** (Bankr facilitator) |
+| **Launch on the website** / **Launch Studio page** | ~**$1 USDC** via **site x402** (site treasury — **separate** from Bankr x402) |
 | **Deployer** | Wallet shown in token description — on site/x402 this is the **payer**, not editable |
 
 **Not the same:**
@@ -78,7 +79,7 @@ For **wallet_list**, list each recipient and amount in plain English (short addr
 
 If user wants **Pump.fun / Solana** launch:
 
-> Solana Launch Studio is on the site — open https://www.tokenmarketplace.shop/launch, connect **Solana**, pick keep-all or your airdrop list, and pay once. Bankr x402 on chat is **Base only** today.
+> Solana Launch Studio is on the site — open https://www.tokenmarketplace.shop/launch, connect **Solana**, pick keep-all or your airdrop list, and pay on the **site** (not Bankr x402). Bankr x402 on chat is **Base only** today.
 
 Do **not** say “Bankr can’t launch” without pointing to the site.
 

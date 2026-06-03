@@ -1,7 +1,18 @@
-# Launch Studio autopilot — Bankr x402 (Base)
+# Launch Studio autopilot — Bankr x402 only (Rail A)
 
 **User language:** `launch-studio-user-language.md`  
+**Payment rails:** **`launch-studio-payment-rails.md`** — Bankr x402 ≠ website x402. This file is **Bankr chat/agents only**. Do **not** send users to site `/api/launch/concierge/run` after Bankr x402 pay.  
 **Companion install:** `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio`
+
+---
+
+## Bankr x402 vs website (one line)
+
+| | **Bankr x402 (this doc)** | **Website Launch Studio** |
+|--|---------------------------|---------------------------|
+| Payment | Bankr facilitator → Bankr payTo | Site facilitator → site treasury |
+| Agent action | `x402.bankr.bot/…/token-marketplace-launch` | User opens `/launch` in browser |
+| Site API | `async-start` + secret (`bankrX402Prepaid`) | `/concierge/run` + site x402 headers |
 
 ---
 
@@ -23,7 +34,7 @@
 |-------|--------|
 | **URL** | `https://x402.bankr.bot/0x374d91a5674fa7cf86e725093b5848b97e1e13b4/token-marketplace-launch` |
 | **Method** | POST |
-| **Payment** | ~**$1 USDC** on Base (x402 settles after successful pipeline) |
+| **Payment** | ~**$1 USDC** on Base via **Bankr x402** (Bankr facilitator — not site treasury) |
 | **Bankr CLI test** | `bankr x402 schema <url>` · `bankr x402 call <url> -i` |
 
 ---
@@ -110,7 +121,7 @@ Parse user paste (“100 to alice, 400 to bob…”) into this format silently.
 
 | Error / case | Reply |
 |--------------|-------|
-| **502 / endpoint unavailable** after x402 pay | Usually **secret mismatch**: `LAUNCH_CONCIERGE_INTERNAL_SECRET` must match on **Vercel** and **Bankr x402** (`bankr x402 env set …`). Check `GET /api/launch/concierge/config` → `bankrX402.internalAuthConfigured` must be `true`. **Workaround:** same launch at https://www.tokenmarketplace.shop/launch (Connect Base wallet, ~$1 USDC) — no shared secret needed. |
+| **502 / endpoint unavailable** after Bankr x402 pay | **Bankr rail only:** `LAUNCH_CONCIERGE_INTERNAL_SECRET` must match on Vercel + `bankr x402 env set …` (links Bankr prepaid job to site executor). Check `GET /api/launch/concierge/config` → `bankrX402.internalAuthConfigured`. **Not** a website x402 config issue. If user must launch now: **Rail B** — https://www.tokenmarketplace.shop/launch ( **new** site payment — not the same as Bankr x402). |
 | Wallet launch limit (429) | “This wallet already used its Launch Studio limit — try another wallet or https://www.tokenmarketplace.shop/launch” |
 | `walletList` sum ≠ 1000 | “Amounts must total exactly 1000 units — you have X, need Y more.” |
 | Job failed mid-pipeline | Explain step from `error`; payment usually not charged on failure |

@@ -20,7 +20,9 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 ```
 
 **Human UI (any chain):** https://www.tokenmarketplace.shop/launch  
-**Bankr agent path (Base only):** x402 `token-marketplace-launch` — see **`launch-studio-autopilot.md`**.
+**Bankr agent path (Base only):** **Bankr x402** `token-marketplace-launch` — see **`launch-studio-autopilot.md`**.
+
+**Two payment rails (mandatory):** **`launch-studio-payment-rails.md`** — Bankr x402 (chat/agents) and website x402 (Launch Studio UI) are **separate** USDC payments, facilitators, and treasuries. Same deploy pipeline after enqueue; **never** mix APIs across rails.
 
 Mint / list / claim / send units on an **existing** launch still use the **main** TMP skill (`fractionalize-autopilot.md`, `sell-list-autopilot.md`, etc.). This companion is **only** for **new deploy + split + deliver** in one concierge job.
 
@@ -67,16 +69,17 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 ## Read first (this folder)
 
-1. **`launch-studio-user-language.md`** — what users say; what you reply
-2. **`launch-studio-autopilot.md`** — x402 call, poll, success template, errors
+1. **`launch-studio-payment-rails.md`** — Bankr x402 vs website x402 (**separate payments**)
+2. **`launch-studio-user-language.md`** — what users say; what you reply
+3. **`launch-studio-autopilot.md`** — Bankr x402 only: call, poll, errors
 
 ---
 
 ## Platform notes
 
-| Chain | Bankr x402 agent | Website |
-|-------|------------------|---------|
-| **Base (Bankr deploy)** | **Live** — `token-marketplace-launch` | https://www.tokenmarketplace.shop/launch |
-| **Solana (Pump.fun)** | **Not on x402 yet** | Launch Studio UI + Solana wallet |
+| Chain | Bankr agent (Rail A) | Website (Rail B) |
+|-------|----------------------|------------------|
+| **Base (Bankr deploy)** | **Bankr x402** — `token-marketplace-launch` | https://www.tokenmarketplace.shop/launch — **site x402** (different payment) |
+| **Solana (Pump.fun)** | **Not on Bankr x402** | Launch Studio UI + Solana wallet |
 
 Do **not** refuse Solana launch — send user to **https://www.tokenmarketplace.shop/launch** with plain steps (connect Solana, choose wallet list or keep all).
