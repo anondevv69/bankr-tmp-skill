@@ -110,6 +110,7 @@ Parse user paste (“100 to alice, 400 to bob…”) into this format silently.
 
 | Error / case | Reply |
 |--------------|-------|
+| **502 / endpoint unavailable** after x402 pay | Usually **secret mismatch**: `LAUNCH_CONCIERGE_INTERNAL_SECRET` must match on **Vercel** and **Bankr x402** (`bankr x402 env set …`). Check `GET /api/launch/concierge/config` → `bankrX402.internalAuthConfigured` must be `true`. **Workaround:** same launch at https://www.tokenmarketplace.shop/launch (Connect Base wallet, ~$1 USDC) — no shared secret needed. |
 | Wallet launch limit (429) | “This wallet already used its Launch Studio limit — try another wallet or https://www.tokenmarketplace.shop/launch” |
 | `walletList` sum ≠ 1000 | “Amounts must total exactly 1000 units — you have X, need Y more.” |
 | Job failed mid-pipeline | Explain step from `error`; payment usually not charged on failure |
