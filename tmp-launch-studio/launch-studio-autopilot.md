@@ -121,7 +121,7 @@ Parse user paste (“100 to alice, 400 to bob…”) into this format silently.
 
 | Error / case | Reply |
 |--------------|-------|
-| **502 / endpoint unavailable** after Bankr x402 pay | **Bankr rail only:** `LAUNCH_CONCIERGE_INTERNAL_SECRET` must match on Vercel + `bankr x402 env set …` (links Bankr prepaid job to site executor). Check `GET /api/launch/concierge/config` → `bankrX402.internalAuthConfigured`. **Not** a website x402 config issue. If user must launch now: **Rail B** — https://www.tokenmarketplace.shop/launch ( **new** site payment — not the same as Bankr x402). |
+| **502 / endpoint unavailable** after Bankr x402 pay | **1)** `LAUNCH_API_BASE_URL` must be **`https://www.tokenmarketplace.shop`** (with **www** — apex `tokenmarketplace.shop` has no DNS → 502). **2)** `LAUNCH_CONCIERGE_INTERNAL_SECRET` must match Vercel exactly. Check config: `bankrX402.internalAuthConfigured`. Redeploy Bankr x402 after env fix. **Rail B fallback** (separate payment): https://www.tokenmarketplace.shop/launch |
 | Wallet launch limit (429) | “This wallet already used its Launch Studio limit — try another wallet or https://www.tokenmarketplace.shop/launch” |
 | `walletList` sum ≠ 1000 | “Amounts must total exactly 1000 units — you have X, need Y more.” |
 | Job failed mid-pipeline | Explain step from `error`; payment usually not charged on failure |

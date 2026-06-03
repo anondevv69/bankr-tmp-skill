@@ -33,7 +33,7 @@
 | **Site payment check** | **Skipped** — job flagged `bankrX402Prepaid: true` (Bankr already collected) |
 | **Skill file** | `launch-studio-autopilot.md` |
 
-**502 / auth errors** on this rail = fix **Bankr x402 env** + Vercel `LAUNCH_CONCIERGE_INTERNAL_SECRET` sync. **Not** website x402 env.
+| **502 / auth errors** on this rail | Fix **Bankr x402 env** + Vercel `LAUNCH_CONCIERGE_INTERNAL_SECRET` sync. **`LAUNCH_API_BASE_URL` must be `https://www.tokenmarketplace.shop`** (with **www** — apex has no DNS). **Not** website x402 env. |
 
 ---
 
