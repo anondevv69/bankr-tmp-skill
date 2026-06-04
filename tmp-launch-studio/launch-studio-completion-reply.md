@@ -1,6 +1,6 @@
 # Launch Studio — completion reply (match the website Done screen)
 
-**When:** `GET …/status/{jobId}` returns `"status": "completed"` · user pastes **Job ID** from Launch Studio Done screen · you polled after site x402 pay.
+**When:** `GET …/status/{jobId}` returns `"status": "completed"` · you polled after **Bankr x402** pay or site x402 pay · user pastes **Job ID** (Rail B only).
 
 **Forbidden:** “Launch started” / “check the site” without links · omitting BaseScan / Pump · skipping transaction log when user asks what happened.
 
@@ -15,11 +15,7 @@ GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}
 Use `result` when `status === "completed"` and `result.ok === true`.  
 Token name/symbol: `input.tokenName`, `input.tokenSymbol` on the same JSON (or from user message).
 
-**After sending a Launch Studio link**, tell the user:
-
-> When the site shows **Done**, paste the **Job ID** here (or say “launch done” + ticker) and I’ll send your full deployment receipt with links.
-
-Poll every **15–30s** if you hold the `jobId` from a 202 API response.
+Poll every **15–30s** from the **`jobId` / `statusUrl` in the Bankr x402 response** (Rail A). For site-only launches (Rail B), user may paste Job ID from Done screen.
 
 ---
 

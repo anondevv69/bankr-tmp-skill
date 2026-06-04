@@ -37,7 +37,7 @@ Users think in **website words**. Map their phrases **before** answering. **Neve
 | **Reply drop** / **first 100 replies get 1%** / **first 1000 replies get 1/1000** | Planned hybrid fee-right campaign; winners get TMPR units that later share fee claims | **Planning only** — **`reply-drop.md`** |
 | **Fee rights** | LP / trading fee stream (not launch ERC-20) | Fee manager / locker / Zora payout |
 | **Launch token** | Deployed ERC-20 (t7, …) | Token contract address |
-| **Launch Studio** / **launch on Token Marketplace** (new token) | Deploy + mint TMPR + **1000 units** in one paid flow (~$1 USDC) | **Site x402** on `/launch` with Bankr wallet (deep link from chat) — **`tmp-launch-studio/launch-studio-autopilot.md`** |
+| **Launch Studio** / **launch on Token Marketplace** (new token) | Deploy + mint TMPR + **1000 units** in one paid flow (~$1 USDC) | **`tmp-launch-studio/launch-studio-agent-autopilot.md`** — any agent, site x402, no browser |
 | **Keep all 1000** / **all units to my wallet** (at launch) | `splitPlan: keep_all` | **Not** fractionalize existing token (Flow C) |
 
 **Not the same:**

@@ -20,8 +20,8 @@ This is **not** the same as splitting a token you **already** launched elsewhere
 | **1000 units** / **1000 shares** / **1000 fee-right pieces** | ERC-1155 units on hybrid TMPR (max 1000 per launch) |
 | **Keep all** / **all to my wallet** | All 1000 units → one wallet (`keep_all`) |
 | **Airdrop list** / **split to friends** | Custom amounts per address, must total **1000** (`wallet_list`) |
-| **One payment on Bankr** / **pay in chat** | ~**$1 USDC** on Base via **Launch Studio site x402** (connect Bankr wallet on tokenmarketplace.shop) |
-| **Launch on the website** / **Launch Studio page** | Same **site x402** (~$1 USDC) — Bankr deep link pre-fills name/ticker/wallet |
+| **One payment on Bankr** / **pay in chat** / **agent deploy it** | Agent pays **~$1 USDC via x402** (site API or Bankr x402) — **no Launch Studio browser step** |
+| **Launch on the website** | **Last resort** when agent cannot sign x402 |
 | **Deployer** | Wallet shown in token description — on site/x402 this is the **payer**, not editable |
 
 **Not the same:**

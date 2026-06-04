@@ -2,7 +2,14 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 88 (current)
+## 89 (current)
+
+- **`launch-studio-agent-autopilot.md`** — **any agent**: site x402 API / CLI, poll, completion reply; browser = last resort only.
+- **`launch-studio-bankr-chat-autopilot.md`** — Bankr x402.cloud when site signing unavailable.
+- **`bankr-app/scripts/launch-concierge-x402.mjs`** — agent CLI for Base deploy without browser.
+- Updated rails, SKILL, ONE-LINE-INTENTS, `agent.md`, test prompts **N1**.
+
+## 88
 
 - **`tmp-launch-studio/`** — companion skill: deploy new Bankr token + 1000 fee-right units via x402 (~$1 USDC Base); plain-English user guide + autopilot poll flow; pairs with list/claim/transfer after launch.
 - **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, **`normal-talk-only.md`**, **`skill-manifest.json`**, site **`agent.md`**.

@@ -49,8 +49,8 @@
 | **Airdrop / batch send** to many wallets | Multi-recipient `safeTransferFrom` (≤25) | **L** | `transfer-units-autopilot.md` § B2 | `safeBatchTransferFrom` unless user asks one tx |
 | **Split 334 units equally** to 5 wallets | Equal-split math + 5 txs | **L** | `transfer-units-autopilot.md` § Batch parsing | Mint 1000 NFTs |
 | **What did I sell** / **purchases on shop** | Completed sales history | **M** | `profile-completed-sales.md` | Tokens tab only |
-| **Launch / deploy new $MOON on Token Marketplace** / **all 1000 units to me** | **New** Bankr token + mint + split + deliver (one x402 pay) | **N** | **`tmp-launch-studio/launch-studio-autopilot.md`** | Flow C fractionalize · manual site-only without poll |
-| **Launch and airdrop 100/400/500 to wallets** | Same — custom unit split | **N** | **`tmp-launch-studio/launch-studio-autopilot.md`** · `wallet_list` | User pastes API · stop after pay without poll |
+| **Launch / deploy new $MOON on Token Marketplace** / **all 1000 units to me** | **New** token + mint + split + deliver (one x402 pay, **no browser**) | **N** | **`tmp-launch-studio/launch-studio-agent-autopilot.md`** | Launch Studio link · Flow C |
+| **Launch and airdrop 100/400/500 to wallets** | Same — custom unit split | **N** | **`tmp-launch-studio/launch-studio-agent-autopilot.md`** · `wallet_list` | Manual site · stop after pay |
 
 ---
 

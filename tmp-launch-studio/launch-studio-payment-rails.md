@@ -4,73 +4,65 @@
 
 ---
 
-## Rule for agents (2026-06)
+## Rule for all agents (2026-06)
 
-| User is on | **Default payment** | Agent action |
-|------------|---------------------|--------------|
-| **Bankr chat / @bankrbot / X / terminal** | **Site x402** on Launch Studio | Open `/launch?surface=bankr&wallet=…` — user pays with **Bankr wallet** |
-| **tokenmarketplace.shop / Launch Studio UI** | **Site x402** | User pays in browser (same rail as Bankr handoff) |
-| **Agent with programmatic x402 + user wallet** | **Site x402** | `POST /api/launch/concierge/run` + poll status |
-| **Solana on site** | **Site Solana x402** | `/launch` Solana tab |
-| **Legacy ops** | Bankr x402 cloud | `x402.bankr.bot/…/token-marketplace-launch` — not default for members |
+| Agent capability | **Default** | Doc |
+|------------------|-------------|-----|
+| **Can sign site x402** (wallet, CLI, MCP) | **Site x402** → `/concierge/run` or `/solana/run` | **`launch-studio-agent-autopilot.md`** Path 1 |
+| **Bankr chat / `bankr x402 call` only** | **Bankr x402 cloud** (Base) | **`launch-studio-bankr-chat-autopilot.md`** |
+| **Cannot sign any x402** | Browser `/launch` (last resort) | Path 4 in agent autopilot |
 
-**Forbidden:**
+**Forbidden for capable agents:**
 
-- Defaulting Bankr members to **Bankr x402 cloud** when site x402 + deep link works.
-- Calling **`/concierge/run` after Bankr x402 cloud pay** (different rails).
+- Sending Launch Studio deep links when the agent can pay x402 programmatically.
+- Telling users to “open the site and connect wallet” when Path 1 or 3 is available.
+- Calling **`/concierge/run` after Bankr x402 cloud pay** (double rail).
 - Saying one payment covers both Bankr x402 cloud and site x402.
 
 ---
 
-## Primary — Site x402 (Bankr + website)
+## Primary — Site x402 (any agent with wallet · Rail B)
 
 | | |
 |--|--|
-| **Entry** | https://www.tokenmarketplace.shop/launch |
-| **Bankr handoff** | `?surface=bankr&wallet=0x…&name=…&symbol=…&split=keep_all` |
-| **API** | `POST /api/launch/concierge/run` (Base) |
-| **Who pays** | User’s wallet (**Bankr custodial or EOA**) — ~$1 USDC on Base |
-| **USDC to** | `LAUNCH_CONCIERGE_TREASURY` (site) |
-| **Facilitator** | Site (e.g. PayAI) |
+| **API** | `POST /api/launch/concierge/run` (Base) · `POST …/solana/run` (Solana) |
+| **CLI** | `node bankr-app/scripts/launch-concierge-x402.mjs` (Base) |
+| **Who pays** | Payer wallet (~$1 USDC) — agent signs EIP-3009 / Solana x402 |
+| **USDC to** | Site treasury |
 | **Settlement** | After pipeline success |
-| **Delivery** | 1000 units → `deliveryAddress` (Bankr wallet for keep_all) |
-| **Skill** | `launch-studio-autopilot.md` |
+| **Browser needed?** | **No** |
 
 ```text
-Bankr user ──► Launch Studio (site x402, Bankr wallet pays)
-                    │
-                    ▼ /concierge/run verifies payment
-              tokenmarketplace.shop executor ──► token + 1000 units → Bankr wallet
+Any agent + wallet ──► POST /concierge/run (x402 sign) ──► poll status ──► 1000 units
 ```
 
 ---
 
-## Legacy — Bankr x402 cloud (ops / future chat-native pay)
+## Bankr x402 cloud (Bankr-native · Rail A · Base only)
 
 | | |
 |--|--|
-| **Entry** | Bankr chat CLI `bankr x402 call` on `x402.bankr.bot` |
-| **USDC to** | Bankr x402 payTo |
-| **Site hook** | `async-start` + secret (`bankrX402Prepaid`) |
-| **Status** | Ops-blocked (502) until secret sync + handler redeploy |
-| **Member default?** | **No** — use site x402 handoff |
+| **Entry** | `POST x402.bankr.bot/{wallet}/token-marketplace-launch` |
+| **Who pays** | Bankr custodial wallet in chat |
+| **Site hook** | `async-start` + secret |
+| **502 fix** | Sync `LAUNCH_CONCIERGE_INTERNAL_SECRET` Vercel ↔ `bankr x402 env set` |
+
+Use when agent has Bankr x402 tools but **not** site URL signing. If agent has **both**, prefer **site x402** (Rail B) when Bankr cloud returns 502.
 
 ---
 
-## What is shared
+## Browser (Rail C — last resort)
 
-- Same **concierge executor** (deploy, mint, V6 split, deliver).
-- Same **job store** (`/api/launch/concierge/status/{jobId}`).
-- Same **TMP skills after launch**.
+Only when agent **cannot** sign x402. Deep link to `/launch`.
 
 ---
 
 ## Plain English
 
-**Good (Bankr member):**
+**Good (any capable agent):**
 
-> I’ll open **Launch Studio** on tokenmarketplace.shop. Connect your **Bankr wallet**, pay **~$1 USDC once**, and all **1000 units** land in that wallet in a few minutes.
+> I’ll pay **~$1 USDC** and launch **$BKT** — all **1000 units** to your wallet. No need to open the website; I’ll send links when it’s done.
 
 **Bad:**
 
-> Pay in Bankr chat x402 (when cloud bridge is down) · “Same payment on either rail”
+> Open Launch Studio and connect your wallet (when agent can sign x402)

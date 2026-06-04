@@ -1,131 +1,40 @@
-# Launch Studio autopilot — Bankr users → site x402 (primary)
+# Launch Studio autopilot
+
+**Any agent (default):** **`launch-studio-agent-autopilot.md`** — site x402 API or CLI, poll, full receipt. **No browser.**  
+**Bankr chat only (x402.cloud):** **`launch-studio-bankr-chat-autopilot.md`** — when agent has `bankr x402 call` but not site signing.
 
 **User language:** `launch-studio-user-language.md`  
 **Payment rails:** **`launch-studio-payment-rails.md`**  
-**Companion install:** `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio`
+**Completion reply:** **`launch-studio-completion-reply.md`**
 
 ---
 
-## Default for Bankr chat / X / terminal
+## Quick reference
 
-**Bankr members deploy by paying site x402 on Launch Studio** — same model on **Base** and **Solana**:
+| Agent type | Base deploy | Solana deploy |
+|------------|-------------|---------------|
+| Cursor / MCP / bot with wallet | `POST /concierge/run` + x402 · or `node scripts/launch-concierge-x402.mjs` | `POST /concierge/solana/run` + Solana x402 |
+| Bankr chat | Path 1 if site x402 signing · else Path 3 `x402.bankr.bot` | Site x402 (Path 1 Solana) or deep link fallback |
+| No signing | Path 4 `/launch` deep link only | Path 4 |
 
-| Chain | Wallet on site | Payment | Delivers |
-|-------|----------------|---------|----------|
-| **Base (Bankr token)** | Linked **Bankr EVM wallet** (`0x…`) | ~$1 USDC on Base (site x402) | 1000 hybrid TMPR units |
-| **Solana (Pump.fun)** | **Solana pubkey** (Phantom / Solflare — same address Bankr uses for Solana sends) | ~$1 USDC on Solana (site x402) | 1000 SPL units |
-
-Bankr can **send SOL/USDC on Solana** in chat, but Launch Studio still needs the user to **open the site**, connect that Solana wallet, and sign the x402 payment (one approval).
-
-| Step | Agent action |
-|------|----------------|
-| 1 | Resolve linked Bankr wallet (`0x…`) |
-| 2 | Map plain English → `tokenName`, `tokenSymbol`, `splitPlan` (`keep_all` or `wallet_list`) |
-| 3 | **Open Launch Studio** (deep link below) — user connects **same wallet**, pays **site x402** |
-| 4 | Wait ~1–3 min; units land on profile |
-| 5 | User pastes **Job ID** from Done screen **or** you poll `status/{jobId}` |
-| 6 | Reply with **full deployment receipt** — **`launch-studio-completion-reply.md`** (BaseScan, OpenSea, Doppler, txs, profile) |
-
-**Do not** use Bankr x402 cloud (`x402.bankr.bot/…/token-marketplace-launch`) as the default — it is a separate rail and currently ops-blocked. **Do not** call `/concierge/run` yourself unless you implement site x402 signing with the user’s wallet.
+See **`launch-studio-agent-autopilot.md`** for full steps.
 
 ---
 
-## Launch Studio deep links (Bankr handoff)
+## Deep links (Path 4 — last resort)
 
-**Base (Bankr deploy):**
+**Base:** `/launch?surface=bankr&platform=bankr&wallet=0x…&name=…&symbol=…&split=keep_all`  
+**Solana:** `/launch?surface=bankr&platform=pump&solWallet=…&name=…&symbol=…&split=keep_all`
 
-```text
-https://www.tokenmarketplace.shop/launch?surface=bankr&platform=bankr&wallet={linkedWallet}&name={tokenName}&symbol={tokenSymbol}&split=keep_all
-```
-
-**Solana (Pump.fun):**
-
-```text
-https://www.tokenmarketplace.shop/launch?surface=bankr&platform=pump&solWallet={solanaPubkey}&name={tokenName}&symbol={tokenSymbol}&split=keep_all
-```
-
-| Query | Purpose |
-|-------|---------|
-| `surface=bankr` | Bankr banner + handoff UX |
-| `platform=bankr` \| `pump` | Base Bankr vs Solana Pump (also `chain=base` \| `solana`) |
-| `wallet=0x…` | Base: connect this Bankr wallet; units deliver here for `keep_all` |
-| `solWallet=` | Solana: connect this pubkey; SPL units deliver here for `keep_all` |
-| `name` | Prefill token display name |
-| `symbol` | Prefill ticker (no `$`) |
-| `split` | `keep_all` or `wallet_list` |
-
-**Open link:** `bankr.openExternal(url)` · paste in chat · terminal **Launch** tab → Base or Solana button.
-
----
-
-## Agent steps (same thread)
-
-### Base (Bankr token)
-
-1. **Resolve** linked Bankr **EVM** wallet → `wallet=` query param.
-2. **Send Base Launch Studio link** (table above).
-3. **Tell user:** connect wallet · pay ~$1 USDC · wait on site until **Done** · **paste Job ID back in chat** for full links.
-4. **On Job ID or “launch done”:** `GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}` → format reply per **`launch-studio-completion-reply.md`**.
-
-### Solana (Pump.fun)
-
-1. **Resolve** user’s **Solana pubkey** (ask if not known — same wallet Bankr uses for Solana sends, or their Phantom address).
-2. **Send Solana Launch Studio link** with `platform=pump&solWallet=…`.
-3. **Tell user:** connect Solana wallet · pay USDC · wait until **Done** · paste **Job ID** in chat.
-4. **On Job ID:** poll status → **`launch-studio-completion-reply.md`** (Pump, Solscan, profile?tab=pump).
-
-### Both
-
-5. **Poll** `GET status/{jobId}` every 15–30s if you have jobId from 202; otherwise wait for user to paste Job ID from Done screen.
-6. **Reply** using **`launch-studio-completion-reply.md`** — same links as website Done (BaseScan, OpenSea, Doppler, Bankr, txs).
-7. **Offer next TMP actions** (list / transfer / claim).
-
-**Forbidden:** stop after sending link without explaining pay + wait · stop after pay without **completion reply + links** · claim Bankr x402 cloud works when it 502s · double-charge via Bankr x402 + site x402.
-
----
-
-## Request fields (API agents with wallet x402 signing)
-
-**Base:** `POST …/api/launch/concierge/run` · `deliveryAddress` = `0x…`
-
-**Solana:** `POST …/api/launch/concierge/solana/run` · `deliveryAddress` = base58 pubkey
-
-| Field | Required | Values |
-|-------|----------|--------|
-| `tokenName` | yes | min 2 chars |
-| `tokenSymbol` | yes | no `$`, max 12 |
-| `splitPlan` | yes | `keep_all` or `wallet_list` |
-| `deliveryAddress` | yes for `keep_all` | EVM or Solana wallet receiving 1000 units |
-| `walletList` | if `wallet_list` | multiline address + amount, **sum = 1000** |
-
-Poll `statusUrl` from 202 until `completed`.
-
----
-
-## Intent mapping
-
-| User says | Action |
-|-----------|--------|
-| Deploy MOON on Token Marketplace, 1000 to my wallet | Base link: `platform=bankr&wallet=0x…` |
-| Launch on **Solana** / **Pump.fun** | Solana link: `platform=pump&solWallet=…` |
-| Launch $RKT on Pump, keep all units | `platform=pump&name=Rocket&symbol=RKT&split=keep_all` |
-| Airdrop to wallet list | `split=wallet_list` — user fills list on site |
-| Split **existing** $t7 | **NOT this flow** → `fractionalize-autopilot.md` |
+Use only when the agent cannot sign x402 programmatically.
 
 ---
 
 ## Errors
 
-| Case | Reply |
-|------|-------|
-| User on wrong wallet on site | “Connect the same wallet you use in Bankr (Base `0x…` or Solana pubkey).” |
-| Insufficient USDC on Base | “Need ~$1 USDC on Base in your Bankr wallet.” |
-| Insufficient USDC on Solana | “Need ~$1 USDC on Solana in the wallet you connect on Launch Studio.” |
-| Wallet launch limit (429) | “This wallet hit its Launch Studio limit — try another wallet.” |
-| User asks to pay in chat only | Explain site x402 on Launch Studio is the supported path; open deep link |
-
----
-
-## Legacy: Bankr x402 cloud (ops only)
-
-`https://x402.bankr.bot/0x374d91a5674fa7cf86e725093b5848b97e1e13b4/token-marketplace-launch` — separate USDC payment, requires `async-start` secret sync + handler redeploy. **Not the default for members.** See `launch-studio-payment-rails.md`.
+| Case | Action |
+|------|--------|
+| 402 on `/concierge/run` | Expected first POST — sign and retry with payment header |
+| x402 **502** (Bankr cloud) | Secret sync · or switch to site x402 Path 1 |
+| Insufficient USDC | Need ~$1 USDC on correct chain in payer wallet |
+| 429 | Wallet launch limit — try another wallet |
