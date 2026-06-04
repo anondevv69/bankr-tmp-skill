@@ -20,9 +20,10 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 ```
 
 **Human UI (any chain):** https://www.tokenmarketplace.shop/launch  
-**Bankr agent path (Base only):** **Bankr x402** `token-marketplace-launch` — see **`launch-studio-autopilot.md`**.
+**Bankr members (chat / X / terminal):** **Site x402** on Launch Studio with **Bankr wallet** — see **`launch-studio-autopilot.md`** (deep link handoff).  
+**Legacy ops:** Bankr x402 cloud on `x402.bankr.bot` — not the default for members; see **`launch-studio-payment-rails.md`**.
 
-**Two payment rails (mandatory):** **`launch-studio-payment-rails.md`** — Bankr x402 (chat/agents) and website x402 (Launch Studio UI) are **separate** USDC payments, facilitators, and treasuries. Same deploy pipeline after enqueue; **never** mix APIs across rails.
+**Payment:** Bankr users pay **site x402** (~$1 USDC on Base) on tokenmarketplace.shop — same deploy pipeline as the website. Bankr x402 cloud is a separate rail (ops-only).
 
 Mint / list / claim / send units on an **existing** launch still use the **main** TMP skill (`fractionalize-autopilot.md`, `sell-list-autopilot.md`, etc.). This companion is **only** for **new deploy + split + deliver** in one concierge job.
 
@@ -46,11 +47,11 @@ Mint / list / claim / send units on an **existing** launch still use the **main*
 
 | User-facing (yes) | Agent-internal (never require from user) |
 |-------------------|------------------------------------------|
-| “Launch MOON on Token Marketplace” | `token-marketplace-launch` x402 POST |
-| “All 1000 units to my wallet” | `splitPlan: keep_all`, `deliveryAddress` = linked wallet |
-| “Airdrop 400 to 0xabc…, 600 to 0xdef…” | `splitPlan: wallet_list`, `walletList` multiline |
-| “~$1 USDC one payment” | x402 settle on Base |
-| “Is it done yet?” | Poll `statusUrl` every 15–30s |
+| “Launch MOON on Token Marketplace” | Launch Studio deep link + site x402 |
+| “All 1000 units to my wallet” | `split=keep_all`, `wallet=` = linked Bankr wallet |
+| “Airdrop 400 to 0xabc…, 600 to 0xdef…” | `split=wallet_list` or user fills list on site |
+| “~$1 USDC one payment” | Site x402 on `/launch` (Bankr wallet) |
+| “Is it done yet?” | User confirms on Launch Studio page, or poll `status/{jobId}` if shared |
 
 Full phrase table: **`launch-studio-user-language.md`**.
 
@@ -69,17 +70,17 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 ## Read first (this folder)
 
-1. **`launch-studio-payment-rails.md`** — Bankr x402 vs website x402 (**separate payments**)
+1. **`launch-studio-payment-rails.md`** — site x402 (primary) vs legacy Bankr x402 cloud
 2. **`launch-studio-user-language.md`** — what users say; what you reply
-3. **`launch-studio-autopilot.md`** — Bankr x402 only: call, poll, errors
+3. **`launch-studio-autopilot.md`** — Bankr handoff deep link + site x402 steps
 
 ---
 
 ## Platform notes
 
-| Chain | Bankr agent (Rail A) | Website (Rail B) |
-|-------|----------------------|------------------|
-| **Base (Bankr deploy)** | **Bankr x402** — `token-marketplace-launch` | https://www.tokenmarketplace.shop/launch — **site x402** (different payment) |
-| **Solana (Pump.fun)** | **Not on Bankr x402** | Launch Studio UI + Solana wallet |
+| Chain | Bankr member (default) | Website |
+|-------|------------------------|---------|
+| **Base (Bankr deploy)** | **Site x402** — `/launch?surface=bankr&wallet=…` | https://www.tokenmarketplace.shop/launch |
+| **Solana (Pump.fun)** | Site `/launch` Solana tab | Same |
 
 Do **not** refuse Solana launch — send user to **https://www.tokenmarketplace.shop/launch** with plain steps (connect Solana, choose wallet list or keep all).

@@ -55,7 +55,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Buy 1 share / cheapest unit** | Flow **I**: **`share-market-buy.md`** |
 | **Buy / participate in CTO** | Flow **D**: **`flows-reference.md`** — `contribute` on group escrow |
 | **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
-| **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`tmp-launch-studio/launch-studio-autopilot.md`** — x402 `token-marketplace-launch` → poll status |
+| **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`tmp-launch-studio/launch-studio-autopilot.md`** — Launch Studio **site x402** deep link (Bankr wallet) → 1000 units delivered |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.
