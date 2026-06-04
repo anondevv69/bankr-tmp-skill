@@ -6,7 +6,7 @@ description: >-
   any list, buy, claim, launch, or split on tokenmarketplace.shop. Same content as
   https://www.tokenmarketplace.shop/agent.md
 tags: [bankr, base, solana, tmp, token-marketplace, agent-guide, apis, launch-studio, x402]
-version: 1
+version: 2
 tmp_skill_version: "1"
 homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 ---
@@ -14,6 +14,8 @@ homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 # TMP site agent guide (Bankr skill)
 
 **This skill is the Bankr installable copy of the live site guide.**
+
+**Core principle:** Humans use the website forms; agents use the **same APIs and same site x402**. Only **who inputs fields** and **who signs payment** differs. See **`agent-guide.md`** § *Human vs agent*.
 
 | For Bankr | For humans / other bots |
 |-----------|-------------------------|
@@ -41,7 +43,7 @@ Then use hub autopilot files for step-by-step execution:
 | Launch new token + 1000 units | `tmp-launch-studio/launch-studio-agent-autopilot.md` |
 | Claim fees | `hybrid-claim-autopilot.md` |
 
-**Launch deploy (from agent-guide § Launch Studio):** site x402 on `POST /api/launch/concierge/run` (Base) or `/solana/run` (Solana) → poll → completion reply. **No Launch Studio deep link** when Bankr can sign site x402.
+Launch deploy: **same as `/launch` UI** — site x402 on `POST /api/launch/concierge/run` (Base) or `/solana/run` (Solana) → poll → completion reply. See **`launch-studio-website-parity.md`**. No browser handoff when agent can sign x402.
 
 ---
 

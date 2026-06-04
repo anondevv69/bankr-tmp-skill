@@ -34,7 +34,7 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 **Step 0:** Read **`tmp-site-agent/agent-guide.md`** — § Launch Studio (install TMP site agent skill).
 
-**Load:** **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`** + **`launch-studio-bankr-mirror-website.md`**
+**Load:** **`launch-studio-website-parity.md`** + **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`** + **`launch-studio-bankr-mirror-website.md`**
 
 | Do | Don't |
 |----|-------|
@@ -88,7 +88,8 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 ## Read first (this folder)
 
-1. **`launch-studio-bankr-mirror-website.md`** — poll like Launch Studio UI (mandatory for Bankr)
+1. **`launch-studio-website-parity.md`** — human vs agent: same API + x402 (read first)
+2. **`launch-studio-bankr-mirror-website.md`** — poll like Launch Studio UI (mandatory for Bankr)
 2. **`launch-studio-async-polling.md`** — poll after 202; ban “didn’t submit this turn”
 3. **`launch-studio-bankr-forbidden.md`** — hard fail replies
 3. **`launch-studio-agent-autopilot.md`** — Base site x402

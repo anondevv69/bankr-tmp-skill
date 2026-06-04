@@ -2,6 +2,8 @@
 
 **When:** Any AI agent — **Bankr**, Cursor, MCP bot, custom script — deploys a **new** token + **1000 units**.
 
+**Parity rule:** Same as a human on **`/launch`** — only **who fills JSON** and **who signs x402** differs. Read **`launch-studio-website-parity.md`** and **`tmp-site-agent/agent-guide.md`** § *Human vs agent*.
+
 **Read first:** **`tmp-site-agent/agent-guide.md`** — § Launch Studio Path A (Base) / A2 (Solana).
 
 **One payment rail:** **site x402** on `tokenmarketplace.shop`. Bankr signs the same x402 as every other agent.

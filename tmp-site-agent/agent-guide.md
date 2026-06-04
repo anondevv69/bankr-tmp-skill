@@ -19,6 +19,37 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 
 ---
 
+## Human vs agent — same APIs, same x402 (only input differs)
+
+**One product.** Humans use the website UI; agents use the **same HTTP APIs and the same site x402 payment**. The backend, executor, job queue, and status polling are **identical**.
+
+| Step | Human on `/launch` | Agent (Bankr, Cursor, bot) |
+|------|-------------------|----------------------------|
+| **1. Fill launch fields** | User types name, symbol, split plan, wallet list in the form | Agent maps user’s sentence → **same JSON body** (see Launch Studio §) |
+| **2. Config (optional)** | UI loads automatically | `GET /api/launch/concierge/config` |
+| **3. Pay** | User connects wallet → signs **~$1 USDC** site x402 | Agent signs **same x402** with user’s wallet (Bankr custodial wallet counts) |
+| **4. Enqueue** | `POST /api/launch/concierge/run` (or `/solana/run`) → **202** + `jobId` | **Same POST**, same headers, same body |
+| **5. Wait** | UI shows “Processing” (~1–3 min Base) | Agent **polls** `GET /api/launch/concierge/status/{jobId}` every 15–30s (site UI uses ~4s) |
+| **6. Done** | Done screen: token address, BaseScan, profile, all tx links | Agent replies with **same links** (`launch-studio-completion-reply.md`) |
+
+**What is NOT different:** treasury, price (~$1 USDC), facilitator, executor txs, mint/split/deliver pipeline, job store, or status API.
+
+**What IS different:** who types the fields (human vs agent) and who clicks/signs x402 (human wallet in browser vs agent signing tools). **Do not** invent a separate “Bankr launch rail” or browser handoff when the agent can sign site x402.
+
+**Website reference (copy this behavior):**
+
+| Layer | Human UI | Agent equivalent |
+|-------|----------|------------------|
+| x402 + POST | `src/lib/runConciergeLaunch.ts` → `runConciergeLaunchX402` | Same libraries or Bankr site-x402 signing |
+| Poll until done | `pollConciergeJobUntilDone` (4s interval, 8 min timeout) | **Mandatory** — see `launch-studio-bankr-mirror-website.md` |
+| Page | `src/pages/LaunchStudioPage.tsx` | Not needed if API + poll |
+
+**CLI (same rail):** `bankr-app/scripts/launch-concierge-x402.mjs`
+
+**List / buy / claim / split (existing tokens):** same rule — humans click through profile; agents call the **status APIs** in the table below (`mint/status`, `buy-status`, `hybrid-status`, etc.) and sign `nextStep` txs. No separate agent product.
+
+---
+
 ## What users can do (intent → you)
 
 | User says | Meaning | First API / path |
@@ -33,7 +64,7 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 | Send / gift / airdrop units | Move 1…1000 ERC-1155 units to other wallets (after split) | Profile → **NFTs** → **Send shares** · Bankr skill `transfer-units-autopilot.md` |
 | What did I sell / purchase history | Past Sell 100% + group finalized sales | Profile → **Completed sales** (`?tab=completed`) |
 | Redeem fees / get fees back | Burn TMPR, restore beneficiary | Redeem on mint escrow (Bankr skill Flow H) |
-| Launch / deploy new token + 1000 units | **Site x402 API** — Bankr signs in chat, no browser | **`POST /concierge/run`** or **`/solana/run`** + poll · `/launch` deep link = last resort only |
+| Launch / deploy new token + 1000 units | **Same as `/launch` UI** — site x402 + poll | **`POST /concierge/run`** or **`/solana/run`** + poll · browser only if agent cannot sign x402 |
 
 **Wrong routing (common bugs):**
 
@@ -106,43 +137,40 @@ Solana (when enabled):
 
 ## Launch Studio — deploy new token + 1000 units
 
-One paid flow per chain:
+One paid flow per chain — **human UI and agents use the same endpoints**:
 
 - **Base (Bankr):** deploy token → mint TMPR → split 1000 ERC-1155 units → deliver  
 - **Solana (Pump.fun):** deploy on Pump → split 1000 SPL units → deliver  
 
-Same **site x402** payment model on both chains (~$1 USDC); different wallet and API endpoint.
+Same **site x402** payment model on both chains (~$1 USDC); same JSON fields as the Launch Studio form.
 
-### Golden rule for agents
+### Golden rule
 
-**One rail:** **site x402** on `POST /api/launch/concierge/run` (Base) or `/solana/run` (Solana).
+**One rail for everyone:** **site x402** on `POST /api/launch/concierge/run` (Base) or `/solana/run` (Solana) → **202** → poll `GET /api/launch/concierge/status/{jobId}` until `completed`.
 
-**Bankr** signs x402 to **`tokenmarketplace.shop`** directly — same as Cursor, MCP, or any bot. **Do not** use `x402.bankr.bot/…/token-marketplace-launch` (deprecated legacy cloud).
+Humans: form → wallet sign → UI polls.  
+Agents: JSON body → wallet sign via agent tools → **you poll** (same as `runConciergeLaunch.ts`).
 
-Skill: `tmp-launch-studio/launch-studio-agent-autopilot.md`  
+**Do not** use `x402.bankr.bot/…/token-marketplace-launch` (deprecated).  
+**Do not** send agents to `/launch` deep links when they can sign site x402.
+
+Skill: `tmp-launch-studio/launch-studio-agent-autopilot.md` · parity: `launch-studio-bankr-mirror-website.md`  
 CLI (Base): `bankr-app/scripts/launch-concierge-x402.mjs`
 
-### Recommended path by audience
+### Who uses what (same backend)
 
-| Who | Base | Solana |
-|-----|------|--------|
-| **Any agent including Bankr** | `POST /api/launch/concierge/run` + site x402 sign + poll | `POST /api/launch/concierge/solana/run` + poll |
-| **CLI with private key** | `node scripts/launch-concierge-x402.mjs` | Solana x402 client (see `solanaConciergeX402Pay.ts`) |
-| **Cannot sign x402 at all** | `/launch?platform=bankr&wallet=0x…` (**last resort**) | `/launch?platform=pump&solWallet=…` (**last resort**) |
-| **Human browser only** | `/launch` → Bankr tab | `/launch` → Pump.fun tab |
+| Who | How they input | How they pay | API |
+|-----|----------------|--------------|-----|
+| **Human** | `/launch` form | Connect wallet → site x402 | `POST /concierge/run` or `/solana/run` |
+| **Bankr / any agent** | Natural language → JSON | Agent signs site x402 | **Same POST** |
+| **Script / CLI** | Flags → JSON | Private key → site x402 | **Same POST** |
+| **Agent cannot sign x402** | Prefilled `/launch` URL | Human pays in browser | Last resort only |
 
-| Who | Best path | Why |
-|-----|-----------|-----|
-| **Bankr chat / any agent** | **Site x402** → `/concierge/run` or `/solana/run` | One rail; Bankr signs to tokenmarketplace.shop; no browser |
-| **Human browser only** | `/launch` UI | No agent signing |
-
-**Deprecated:** `x402.bankr.bot/…/token-marketplace-launch` — do not use for launches.
+**Deprecated:** separate Bankr x402 cloud path · deep links as agent default.
 
 **After Base launch:** units on `https://www.tokenmarketplace.shop/profile?tab=nfts` · `https://bankr.bot/launches/{tokenAddress}`  
 
 **After Solana launch:** units on `https://www.tokenmarketplace.shop/profile?tab=pump` · `result.links.token` → pump.fun
-
-**Do not use deep links as agent default.** Deep links are for humans or agents that cannot sign x402.
 
 ### Do not chain Bankr x402 → site x402
 
@@ -173,12 +201,12 @@ Use when the agent (or user EOA) can sign **~$1 USDC on Base** via standard x402
 | `walletList` | if `wallet_list` | multiline `0xAddress amount`, **sum = 1000** |
 | `imageUrl`, `websiteUrl`, `tweetUrl`, `telegramUrl` | no | https |
 
-3. **Pay** — x402 client flow (same as `/launch` UI):
+3. **Pay** — x402 client flow (**identical to `/launch` UI** — see `runConciergeLaunch.ts`):
    - POST without payment → **402** with requirements (`payTo` = site treasury, ~$1 USDC).
    - Sign USDC authorization with payer wallet on Base.
    - POST again with `payment-signature` / `PAYMENT-SIGNATURE` header + same JSON body.
 4. **Queue** — **202** with `jobId`, `statusUrl`.
-5. **Poll** — `GET statusUrl` every **15–30s** until `status` is `completed` or `failed` (1–3 min).
+5. **Poll** — `GET statusUrl` every **15–30s** until `status` is `completed` or `failed` (1–3 min). **Agents must poll like the UI** — do not stop after x402 pay.
 6. **Reply** — `result.tokenAddress`, `result.steps`, `result.links`, profile: `https://www.tokenmarketplace.shop/profile?tab=nfts`.
 
 **Libraries:** `@x402/core` + `@x402/evm` `ExactEvmScheme` on `eip155:8453` (see site `src/lib/runConciergeLaunch.ts`).  
@@ -290,4 +318,4 @@ Launch guide: `tmp-launch-studio/launch-studio-agent-autopilot.md` · `launch-st
 
 ---
 
-*Last updated: 2026-06-03. Launch Studio: site x402 in chat (Path A / A2) for Bankr and all agents; browser `/launch` last resort only.*
+*Last updated: 2026-06-03. Human vs agent: same APIs + site x402; only who fills fields and signs payment differs.*
