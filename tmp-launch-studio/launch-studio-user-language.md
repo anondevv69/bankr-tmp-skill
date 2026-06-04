@@ -37,7 +37,8 @@ This is **not** the same as splitting a token you **already** launched elsewhere
 - “Deploy **MOON** on Token Marketplace and give me all 1000 units.”
 - “Launch **Moon Token** / **$MOON** — keep everything in my Bankr wallet.”
 - “Launch on Token Marketplace and airdrop **100** to `0xabc…`, **400** to `0xdef…`, **500** to `0x123…`.”
-- “Use Launch Studio: name **Rocket**, ticker **RKT**, split units to my team list.”
+- “Launch **Rocket** on **Pump.fun** / **Solana** — 1000 units to my wallet.”
+- “Deploy on Token Marketplace **Solana** with name **MOON** / **$MOON**.”
 - “I want a new Bankr token with fee rights split — one USDC payment.”
 
 **Compound is fine:** name + ticker + keep-all or wallet list in one message.
@@ -79,7 +80,7 @@ For **wallet_list**, list each recipient and amount in plain English (short addr
 
 If user wants **Pump.fun / Solana** launch:
 
-> Solana Launch Studio is on the site — open https://www.tokenmarketplace.shop/launch, connect **Solana**, pick keep-all or your airdrop list, and pay on the **site** (not Bankr x402). Bankr x402 on chat is **Base only** today.
+> Solana Launch Studio is on the site — open the **Solana / Pump.fun** link from chat (`platform=pump`), connect your **Solana wallet** (same one Bankr uses for Solana sends), pay **~$1 USDC on Solana** via site x402, keep-all or wallet list. Units show on **profile → Pump**.
 
 Do **not** say “Bankr can’t launch” without pointing to the site.
 

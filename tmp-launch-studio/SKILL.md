@@ -78,9 +78,9 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 ## Platform notes
 
-| Chain | Bankr member (default) | Website |
-|-------|------------------------|---------|
-| **Base (Bankr deploy)** | **Site x402** — `/launch?surface=bankr&wallet=…` | https://www.tokenmarketplace.shop/launch |
-| **Solana (Pump.fun)** | Site `/launch` Solana tab | Same |
+| Chain | Bankr member (default) | Website / agents |
+|-------|------------------------|-------------------|
+| **Base (Bankr deploy)** | Site x402 · `/launch?platform=bankr&wallet=0x…` | `POST /api/launch/concierge/run` |
+| **Solana (Pump.fun)** | Site x402 · `/launch?platform=pump&solWallet=…` | `POST /api/launch/concierge/solana/run` |
 
 Do **not** refuse Solana launch — send user to **https://www.tokenmarketplace.shop/launch** with plain steps (connect Solana, choose wallet list or keep all).
