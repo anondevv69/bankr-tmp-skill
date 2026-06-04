@@ -26,7 +26,19 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 **Payment:** ~$1 USDC **site x402** — one rail for everyone.
 
-Mint / list / claim / send units on an **existing** launch still use the **main** TMP skill (`fractionalize-autopilot.md`, `sell-list-autopilot.md`, etc.). This companion is **only** for **new deploy + split + deliver** in one concierge job.
+---
+
+## MANDATORY — Bankr deploy (read before any reply)
+
+**Load:** **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**
+
+| Do | Don't |
+|----|-------|
+| `POST https://www.tokenmarketplace.shop/api/launch/concierge/run` + site x402 sign | `POST x402.bankr.bot/…/token-marketplace-launch` |
+| Poll `…/status/{jobId}` → completion links | “502” / “ops team” / “Bankr Club required” |
+| ~**$1 USDC** on Base | $5 USDC · bankr.bot status links |
+
+Mint / list / claim on an **existing** token → main TMP skill — **not** this folder.
 
 ---
 
@@ -49,11 +61,11 @@ Mint / list / claim / send units on an **existing** launch still use the **main*
 
 | User-facing (yes) | Agent-internal (never require from user) |
 |-------------------|------------------------------------------|
-| “Launch MOON on Token Marketplace” | Bankr x402 `token-marketplace-launch` + poll |
-| “All 1000 units to my wallet” | `splitPlan: keep_all`, `deliveryAddress` = linked Bankr wallet |
+| “Launch MOON on Token Marketplace” | `POST …/concierge/run` + **site x402** + poll |
+| “All 1000 units to my wallet” | `splitPlan: keep_all`, `deliveryAddress` = linked wallet |
 | “Airdrop 400 to 0xabc…, 600 to 0xdef…” | `splitPlan: wallet_list`, `walletList` sum 1000 |
-| “~$1 USDC one payment” | Bankr x402 in chat (Base) |
-| “Is it done yet?” | Poll `status/{jobId}` — agent owns the jobId from x402 response |
+| “~$1 USDC one payment” | Site x402 on **tokenmarketplace.shop** |
+| “Is it done yet?” | Poll `status/{jobId}` from **202** response |
 
 Full phrase table: **`launch-studio-user-language.md`**.
 
@@ -72,12 +84,12 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 ## Read first (this folder)
 
-1. **`launch-studio-agent-autopilot.md`** — **any agent** (site x402, CLI, no browser)
-2. **`launch-studio-bankr-chat-autopilot.md`** — Bankr x402.cloud when site signing unavailable
-3. **`launch-studio-payment-rails.md`** — rails + forbidden double-pay
-4. **`launch-studio-user-language.md`** — plain English
-5. **`launch-studio-completion-reply.md`** — mandatory Done reply
-6. **`launch-studio-autopilot.md`** — quick index + last-resort deep links
+1. **`launch-studio-bankr-forbidden.md`** — **hard fail** replies (502 ops, Club, bankr.bot URL)
+2. **`launch-studio-agent-autopilot.md`** — site x402 steps (all agents)
+3. **`launch-studio-bankr-chat-autopilot.md`** — Bankr chat = same site API
+4. **`launch-studio-payment-rails.md`** — one rail only
+5. **`launch-studio-user-language.md`** · **`launch-studio-completion-reply.md`**
+6. **`launch-studio-autopilot.md`** — index
 
 ---
 
