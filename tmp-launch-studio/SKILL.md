@@ -5,7 +5,7 @@ description: >-
   split into 1000 units, and deliver or airdrop in one paid x402 flow (~$1 USDC).
   Pairs with main TMP skills for list/claim/transfer after launch. Install alongside bankr-fee-rights.
 tags: [bankr, base, tmp, token-marketplace, launch-studio, x402, deploy, split, airdrop, fee-rights]
-version: 5
+version: 10
 tmp_skill_version: "1"
 homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio
 ---
@@ -34,7 +34,9 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 **Step 0:** Read **`tmp-site-agent/agent-guide.md`** — § Launch Studio (install TMP site agent skill).
 
-**Load:** **`launch-studio-website-parity.md`** + **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`** + **`launch-studio-bankr-mirror-website.md`**
+**Load:** **`../BANKR-LAUNCH-REQUIREMENTS.md`** + **`launch-studio-solana-job-verify.md`** + **`launch-studio-website-parity.md`** + **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`** + **`launch-studio-bankr-mirror-website.md`**
+
+**API gate:** `GET /api/launch/concierge/config` → `config.agent` · before “processing”, `GET …/status/{jobId}` must be **200** (`ok: true`), not **404**.
 
 | Do | Don't |
 |----|-------|

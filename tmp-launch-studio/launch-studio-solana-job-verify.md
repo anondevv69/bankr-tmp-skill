@@ -19,9 +19,11 @@
 GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}
 ```
 
+On **404**, the API returns **`jobExists: false`** and an **`agent`** block (`forbiddenReplies`, `requiredNextSteps`) — obey it.
+
 | Response | Meaning |
 |----------|---------|
-| `404` / `Job not found` | **Launch never queued** — user paid nothing useful or wrong jobId |
+| `404` / `jobExists: false` | **Launch never queued** — do not poll; re-POST `/solana/run` + x402 |
 | `queued` / `running` | **Real job** — keep polling (2–10 min on Solana) |
 | `completed` | **Done** — paste mint + Solscan links |
 | `failed` | Read `error` — do not ask blind retry (may double-charge) |

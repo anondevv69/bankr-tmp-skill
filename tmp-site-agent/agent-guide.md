@@ -354,6 +354,8 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 
 **Launch-only guards:**
 
+- **Machine rules:** `GET /api/launch/concierge/config` → `config.agent` (proof chain + forbidden replies). On **404** status, read JSON **`agent`** block — do not poll a missing job.
+- **Bankr:** [`BANKR-LAUNCH-REQUIREMENTS.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/BANKR-LAUNCH-REQUIREMENTS.md) (routing guard — same pattern as hybrid claim).
 - **Never** say “paid” or “deployed” without **`202` + real `jobId`** and poll until `status === "completed"`.
 - **Never** stop after “processing” — poll `GET /api/launch/concierge/status/{jobId}` until done or failed.
 - **Never** claim a `jobId` if `GET …/status/{jobId}` returns **404** — the job was never queued (common Bankr Solana failure).
