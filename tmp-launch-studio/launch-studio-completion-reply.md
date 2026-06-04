@@ -2,7 +2,9 @@
 
 **When:** `GET …/status/{jobId}` returns `"status": "completed"` · you polled after **Bankr x402** pay or site x402 pay · user pastes **Job ID** (Rail B only).
 
-**Forbidden:** “Launch started” / “check the site” without links · omitting BaseScan / Pump · skipping transaction log when user asks what happened.
+**Forbidden:** “Launch started” / “check the site” without links · “**I didn’t submit a transaction this turn**” · “**tell me to retry**” before poll · omitting BaseScan / Pump / tx links.
+
+**Mandatory:** After **202 + jobId**, poll until **`completed`** or **`failed`** — **`launch-studio-async-polling.md`**.
 
 ---
 

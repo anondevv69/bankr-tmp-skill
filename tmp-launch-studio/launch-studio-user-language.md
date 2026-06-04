@@ -54,7 +54,7 @@ This is **not** the same as splitting a token you **already** launched elsewhere
 | “Those amounts need to add to 1000 — you have 950, add 50 somewhere?” | “Confirm x402 endpoint URL” |
 | “Base launch via Bankr, or Solana on the website?” (only if they said Solana/Pump) | “Which marketplace?” |
 
-Default: **linked Bankr wallet** receives units for **keep_all**. Default chain for Bankr chat: **Base** via x402.
+Default: **linked wallet** receives units for **keep_all**. **Base** → EVM `0x…` · **Solana/Pump** → **Solana pubkey** (see **`launch-studio-solana-autopilot.md`**).
 
 ---
 
@@ -81,17 +81,23 @@ Job ID: …
 
 **Solana:** Pump.fun + shop listing + `profile?tab=pump` + Solscan tx links (see completion doc).
 
-Tell users before pay: *“When Done appears, paste the Job ID back in chat for your full receipt.”*
+Tell users after pay: *“Deploy runs ~1–3 min in the background — I’ll poll and send your full receipt with links.”*
+
+Do **not** say “tell me to retry” or “I didn’t submit a transaction this turn” after x402 pay — see **`launch-studio-async-polling.md`**.
 
 ---
 
-## Solana (website only for now)
+## Solana / Pump.fun (site x402 — same as Base)
 
-If user wants **Pump.fun / Solana** launch:
+User says **Pump.fun / Solana** → **`launch-studio-solana-autopilot.md`**.
 
-> Solana Launch Studio is on the site — open the **Solana / Pump.fun** link from chat (`platform=pump`), connect your **Solana wallet** (same one Bankr uses for Solana sends), pay **~$1 USDC on Solana** via site x402, keep-all or wallet list. Units show on **profile → Pump**.
+Example user message (sufficient):
 
-Do **not** say “Bankr can’t launch” without pointing to the site.
+> Deploy SKT on Token Marketplace — name Solana Keep Test, all 1000 units to my Bankr wallet. Deploy on Pump.fun / Solana.
+
+Agent: `POST …/solana/run` + **~$1 USDC on Solana** + poll + completion reply. **`deliveryAddress`** = **Solana pubkey**, not EVM.
+
+Do **not** say “Bankr can’t launch Solana” without running site x402.
 
 ---
 

@@ -30,12 +30,12 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 ## MANDATORY — Bankr deploy (read before any reply)
 
-**Load:** **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**
+**Load:** **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`**
 
 | Do | Don't |
 |----|-------|
 | `POST https://www.tokenmarketplace.shop/api/launch/concierge/run` + site x402 sign | `POST x402.bankr.bot/…/token-marketplace-launch` |
-| Poll `…/status/{jobId}` → completion links | “502” / “ops team” / “Bankr Club required” |
+| Poll `…/status/{jobId}` → completion links | “Didn’t submit this turn” / “tell me to retry” before poll |
 | ~**$1 USDC** on Base | $5 USDC · bankr.bot status links |
 
 Mint / list / claim on an **existing** token → main TMP skill — **not** this folder.
@@ -50,7 +50,7 @@ Mint / list / claim on an **existing** token → main TMP skill — **not** this
 | Deploy $MOON and give me all 1000 units | **`launch-studio-agent-autopilot.md`** · `splitPlan: keep_all` |
 | Launch and airdrop 100/400/500 to these wallets | **`launch-studio-agent-autopilot.md`** · `wallet_list` |
 | Launch Studio / pay once and you sign everything | **`launch-studio-agent-autopilot.md`** |
-| Bankr chat · only `bankr x402 call` available | **Still use site x402** if Bankr has tokenmarketplace.shop signing — **not** x402.bankr.bot |
+| Launch on **Solana** / **Pump.fun** | **`launch-studio-solana-autopilot.md`** |
 | Split **existing** $t7 into 1000 | **Main TMP** · **`fractionalize-autopilot.md`** — **NOT** Launch Studio |
 
 **User does not need:** “use Launch Studio skill”, “call x402”, “poll statusUrl”, or pasted API URLs.
@@ -84,12 +84,12 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 ## Read first (this folder)
 
-1. **`launch-studio-bankr-forbidden.md`** — **hard fail** replies (502 ops, Club, bankr.bot URL)
-2. **`launch-studio-agent-autopilot.md`** — site x402 steps (all agents)
-3. **`launch-studio-bankr-chat-autopilot.md`** — Bankr chat = same site API
-4. **`launch-studio-payment-rails.md`** — one rail only
-5. **`launch-studio-user-language.md`** · **`launch-studio-completion-reply.md`**
-6. **`launch-studio-autopilot.md`** — index
+1. **`launch-studio-async-polling.md`** — poll after 202; ban “didn’t submit this turn”
+2. **`launch-studio-bankr-forbidden.md`** — hard fail replies
+3. **`launch-studio-agent-autopilot.md`** — Base site x402
+4. **`launch-studio-solana-autopilot.md`** — Pump / Solana site x402
+5. **`launch-studio-bankr-chat-autopilot.md`** · **`launch-studio-payment-rails.md`**
+6. **`launch-studio-user-language.md`** · **`launch-studio-completion-reply.md`**
 
 ---
 
@@ -98,6 +98,6 @@ Full phrase table: **`launch-studio-user-language.md`**.
 | Chain | Any agent (default) | Browser last resort |
 |-------|---------------------|---------------------|
 | **Base** | Site x402 · `POST /concierge/run` · `scripts/launch-concierge-x402.mjs` | `/launch?platform=bankr&wallet=0x…` |
-| **Solana** | Site x402 · `POST /concierge/solana/run` | `/launch?platform=pump&solWallet=…` |
+| **Solana** | Site x402 · `POST /concierge/solana/run` · **`launch-studio-solana-autopilot.md`** | `/launch?platform=pump&solWallet=…` |
 
 Do **not** refuse Solana launch — send user to **https://www.tokenmarketplace.shop/launch** with plain steps (connect Solana, choose wallet list or keep all).

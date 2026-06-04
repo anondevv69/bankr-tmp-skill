@@ -172,10 +172,10 @@ Install: `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-s
 
 | # | Prompt | Expected outcome | Hard fail |
 |---|--------|------------------|-----------|
-| N1 | "Deploy MOON on Token Marketplace — all 1000 units to my wallet" | `POST tokenmarketplace.shop/…/concierge/run` + site x402 → poll → completion reply | **502** + Club + ops team · bankr.bot URL · $5 USDC · `x402.bankr.bot` |
+| N1 | "Deploy MOON… all 1000 units to my wallet" | site x402 → poll until completed → full receipt | “didn’t submit this turn” · “tell me to retry” · 502/Club/ops |
 | N2 | "Launch Moon Token / $MOON and airdrop 400 to 0xabc…, 350 to 0xdef…, 250 to 0x123…" | `wallet_list` · sum 1000 · poll until done · plain-English recipient summary | Asks user to paste walletList API format |
 | N3 | "Split my existing t7 into 1000" | **Flow C** fractionalize — **NOT** Launch Studio | Opens Launch Studio for existing ticker |
-| N4 | "Launch MOON on Pump / Solana" | Site https://www.tokenmarketplace.shop/launch + Connect Solana — no fake x402 success | "Bankr can't launch" with no site link |
+| N4 | "Deploy SKT… Solana Keep Test… Pump.fun / Solana" | `POST …/solana/run` + Solana site x402 + poll → completion reply | Base `/concierge/run` · EVM `deliveryAddress` · “Bankr can’t launch Solana” |
 
 ---
 

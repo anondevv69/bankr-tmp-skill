@@ -8,6 +8,8 @@
 
 **Completion reply:** **`launch-studio-completion-reply.md`**
 
+**Async (mandatory):** **`launch-studio-async-polling.md`** — poll after 202; never “didn’t submit this turn” / “tell me to retry” before poll.
+
 ---
 
 ## Site x402 — the only default (Base + Solana)
@@ -59,7 +61,7 @@ GET https://www.tokenmarketplace.shop/api/launch/concierge/config
 GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}
 ```
 
-Every **15–30s** until `completed` or `failed`.
+Every **15–30s** until `completed` or `failed`. **Do not** tell the user to retry or that you “didn’t submit a transaction this turn” while status is `queued` or `running`. See **`launch-studio-async-polling.md`**.
 
 ### 5. Reply
 
@@ -87,13 +89,21 @@ Use **`/launch?…`** only when the agent **cannot** sign x402 at all.
 
 ---
 
+## Solana / Pump.fun
+
+**Read:** **`launch-studio-solana-autopilot.md`**
+
+Same site x402 flow via `POST …/concierge/solana/run`. `deliveryAddress` = **Solana pubkey**, not `0x…`.
+
+---
+
 ## Deprecated — do not use
 
 ```text
 POST https://x402.bankr.bot/…/token-marketplace-launch   ❌
 ```
 
-Legacy Bankr x402 cloud — separate treasury, `async-start` bridge, 502-prone. **Not** the site x402 rail. Skills and agents must **not** call this for Token Marketplace launches.
+Legacy Bankr x402 cloud — separate treasury, `async-start` bridge, 502-prone. **Not** the site x402 rail.
 
 ---
 

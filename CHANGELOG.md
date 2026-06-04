@@ -2,12 +2,13 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 91 (current)
+## 92 (current)
 
-- **`launch-studio-bankr-forbidden.md`** — hard-fail Bankr hallucinations (502 bankr.cloud, Club gate, ops team, $5 USDC, bankr.bot links).
-- Fixed **contradictions** in `tmp-launch-studio/SKILL.md` (plain-English table still said `token-marketplace-launch` on bankr.bot).
+- **`launch-studio-async-polling.md`** — mandatory poll after 202; forbid “didn’t submit this turn” / “tell me to retry”.
+- **`launch-studio-solana-autopilot.md`** — Pump/Solana site x402; SKT example prompt.
+- Updated forbidden replies, completion reply, user language, test prompts **N1/N4**.
 
-## 90
+## 91
 
 - **`tmp-launch-studio/`** — companion skill: deploy new Bankr token + 1000 fee-right units via x402 (~$1 USDC Base); plain-English user guide + autopilot poll flow; pairs with list/claim/transfer after launch.
 - **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, **`normal-talk-only.md`**, **`skill-manifest.json`**, site **`agent.md`**.

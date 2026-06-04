@@ -38,8 +38,11 @@ Content-Type: application/json
 | “Check status at **bankr.bot**” instead of profile + status API | Wrong product. Use `tokenmarketplace.shop/profile?tab=nfts` + status JSON. |
 | “**$5 USDC**” for Launch Studio Base | Price is **~$1 USDC** (`GET …/concierge/config` → `config.x402.priceUsd`). |
 | Launch Studio **deep link** as primary path | Only if agent **cannot** sign site x402 at all. |
+| “I **wasn’t able to complete** that” | Poll **`status/{jobId}`** first — job may be running or done |
+| “I **didn’t actually submit a transaction this turn**” | Executor txs are **async** — not visible as “this turn” |
+| “**Tell me to retry** if you want me to execute it” | After **202** or x402 pay, **poll** — retry may **double-charge** |
 
----
+**Read:** **`launch-studio-async-polling.md`**
 
 ## If site x402 POST fails
 
@@ -56,3 +59,4 @@ Do **not** invent manual ops or Club requirements.
 - [ ] Did I poll until **`completed`**?  
 - [ ] Does my reply include **BaseScan + profile + tx links**?  
 - [ ] Did I avoid Club / ops / 502 bankr.cloud narrative?
+- [ ] Did I avoid “didn’t submit this turn” / “tell me to retry” before poll?
