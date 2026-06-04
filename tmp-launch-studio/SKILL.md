@@ -72,7 +72,8 @@ Full phrase table: **`launch-studio-user-language.md`**.
 
 1. **`launch-studio-payment-rails.md`** — site x402 (primary) vs legacy Bankr x402 cloud
 2. **`launch-studio-user-language.md`** — what users say; what you reply
-3. **`launch-studio-autopilot.md`** — Bankr handoff deep link + site x402 steps
+3. **`launch-studio-completion-reply.md`** — **mandatory Done reply** (BaseScan, OpenSea, Doppler, txs — match website)
+4. **`launch-studio-autopilot.md`** — handoff deep link + poll Job ID
 
 ---
 

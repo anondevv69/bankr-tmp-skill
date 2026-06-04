@@ -172,7 +172,7 @@ Install: `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-s
 
 | # | Prompt | Expected outcome | Hard fail |
 |---|--------|------------------|-----------|
-| N1 | "Deploy MOON on Token Marketplace — all 1000 units to my wallet" | Launch Studio deep link · site x402 · Bankr wallet · units on profile | Routes to Flow C fractionalize · stops after link without pay/wait instructions |
+| N1 | "Deploy MOON on Token Marketplace — all 1000 units to my wallet" | Deep link → user pays on site → paste Job ID → **completion reply** with BaseScan, OpenSea, Doppler, Bankr, profile, tx links | Stops after link only · no links on done |
 | N2 | "Launch Moon Token / $MOON and airdrop 400 to 0xabc…, 350 to 0xdef…, 250 to 0x123…" | `wallet_list` · sum 1000 · poll until done · plain-English recipient summary | Asks user to paste walletList API format |
 | N3 | "Split my existing t7 into 1000" | **Flow C** fractionalize — **NOT** Launch Studio | Opens Launch Studio for existing ticker |
 | N4 | "Launch MOON on Pump / Solana" | Site https://www.tokenmarketplace.shop/launch + Connect Solana — no fake x402 success | "Bankr can't launch" with no site link |

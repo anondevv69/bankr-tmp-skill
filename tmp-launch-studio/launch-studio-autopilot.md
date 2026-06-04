@@ -23,7 +23,8 @@ Bankr can **send SOL/USDC on Solana** in chat, but Launch Studio still needs the
 | 2 | Map plain English → `tokenName`, `tokenSymbol`, `splitPlan` (`keep_all` or `wallet_list`) |
 | 3 | **Open Launch Studio** (deep link below) — user connects **same wallet**, pays **site x402** |
 | 4 | Wait ~1–3 min; units land on profile |
-| 5 | Reply with token + profile / Bankr launches links |
+| 5 | User pastes **Job ID** from Done screen **or** you poll `status/{jobId}` |
+| 6 | Reply with **full deployment receipt** — **`launch-studio-completion-reply.md`** (BaseScan, OpenSea, Doppler, txs, profile) |
 
 **Do not** use Bankr x402 cloud (`x402.bankr.bot/…/token-marketplace-launch`) as the default — it is a separate rail and currently ops-blocked. **Do not** call `/concierge/run` yourself unless you implement site x402 signing with the user’s wallet.
 
@@ -63,22 +64,23 @@ https://www.tokenmarketplace.shop/launch?surface=bankr&platform=pump&solWallet={
 
 1. **Resolve** linked Bankr **EVM** wallet → `wallet=` query param.
 2. **Send Base Launch Studio link** (table above).
-3. **Tell user:** connect **Bankr wallet** on Base · pay ~$1 USDC (site x402) · keep all 1000 units · wait 1–3 min.
-4. **Success links:** `profile?tab=nfts` · `bankr.bot/launches/{token}`
+3. **Tell user:** connect wallet · pay ~$1 USDC · wait on site until **Done** · **paste Job ID back in chat** for full links.
+4. **On Job ID or “launch done”:** `GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}` → format reply per **`launch-studio-completion-reply.md`**.
 
 ### Solana (Pump.fun)
 
 1. **Resolve** user’s **Solana pubkey** (ask if not known — same wallet Bankr uses for Solana sends, or their Phantom address).
 2. **Send Solana Launch Studio link** with `platform=pump&solWallet=…`.
-3. **Tell user:** connect **same Solana wallet** on site · pay ~$1 **USDC on Solana** (site x402) · keep all 1000 SPL units · wait up to ~10 min.
-4. **Success links:** `profile?tab=pump` · pump.fun coin link from job `result.links.token`
+3. **Tell user:** connect Solana wallet · pay USDC · wait until **Done** · paste **Job ID** in chat.
+4. **On Job ID:** poll status → **`launch-studio-completion-reply.md`** (Pump, Solscan, profile?tab=pump).
 
 ### Both
 
-5. **Optional poll:** `GET …/api/launch/concierge/status/{jobId}` if user shares `jobId`.
-6. **Offer next TMP actions** (list / transfer / claim — chain-appropriate skills).
+5. **Poll** `GET status/{jobId}` every 15–30s if you have jobId from 202; otherwise wait for user to paste Job ID from Done screen.
+6. **Reply** using **`launch-studio-completion-reply.md`** — same links as website Done (BaseScan, OpenSea, Doppler, Bankr, txs).
+7. **Offer next TMP actions** (list / transfer / claim).
 
-**Forbidden:** stop after sending link without explaining pay + wait · claim Bankr x402 cloud works when it 502s · double-charge via Bankr x402 + site x402.
+**Forbidden:** stop after sending link without explaining pay + wait · stop after pay without **completion reply + links** · claim Bankr x402 cloud works when it 502s · double-charge via Bankr x402 + site x402.
 
 ---
 

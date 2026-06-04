@@ -58,21 +58,30 @@ Default: **linked Bankr wallet** receives units for **keep_all**. Default chain 
 
 ---
 
-## Success reply (template — no contract dump)
+## Success reply (mandatory — match website Done screen)
+
+**Read:** **`launch-studio-completion-reply.md`** — full templates with BaseScan, OpenSea, Doppler, Bankr launches, Solscan, tx log.
+
+After **`status: completed`**, reply with **all links** (not a one-liner). Minimum for **Base**:
 
 ```text
-Done — MOON is live on Token Marketplace.
+Done — Moon Token ($MOON) is live.
 
-Token: 0x… (Base)
-You received 1000 fee-right units in your wallet.
+Token: 0x… 
+1000 units → 0x374d91…
 
-View units: https://www.tokenmarketplace.shop/profile?tab=nfts
-Launch page: https://bankr.bot/launches/0x…
+• BaseScan: https://basescan.org/address/0x…
+• OpenSea: https://opensea.io/assets/base/…
+• Doppler: https://app.doppler.lol/tokens/base/0x…
+• Bankr: https://bankr.bot/launches/0x…
+• Profile: https://www.tokenmarketplace.shop/profile?tab=nfts
 
-Want to list some units or claim fees later? Just say “list MOON for 0.01 eth” or “claim fees for MOON”.
+Job ID: …
 ```
 
-For **wallet_list**, list each recipient and amount in plain English (short addresses ok).
+**Solana:** Pump.fun + shop listing + `profile?tab=pump` + Solscan tx links (see completion doc).
+
+Tell users before pay: *“When Done appears, paste the Job ID back in chat for your full receipt.”*
 
 ---
 

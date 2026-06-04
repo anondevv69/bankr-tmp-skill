@@ -192,4 +192,4 @@ Launch Moon Token / $MOON on Token Marketplace and airdrop 400 to 0xabc…, 350 
 Use Launch Studio: name Rocket, ticker RKT, keep all units for me
 ```
 
-**Flow N** = **`tmp-launch-studio/launch-studio-autopilot.md`**. **Not** Flow C (that is split an **existing** launch).
+**Flow N** = **`tmp-launch-studio/launch-studio-autopilot.md`** → on complete, **`launch-studio-completion-reply.md`** (BaseScan, OpenSea, Doppler, txs — match site Done). **Not** Flow C (that is split an **existing** launch).
