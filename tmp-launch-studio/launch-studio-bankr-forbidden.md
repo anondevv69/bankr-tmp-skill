@@ -43,8 +43,10 @@ Content-Type: application/json
 | “I **wasn’t able to complete** that” | Poll **`status/{jobId}`** first — job may be running or done |
 | “I **didn’t actually submit a transaction this turn**” | Executor txs are **async** — not visible as “this turn” |
 | “**Tell me to retry** if you want me to execute it” | After **202** or x402 pay, **poll** — retry may **double-charge** |
+| “Processing payment… I’ll poll automatically” then **stop** | **Hard fail** — run **`launch-studio-bankr-mirror-website.md`** poll loop |
+| “No further action needed” without **token + tx links** | Poll until **`completed`** first |
 
-**Read:** **`launch-studio-async-polling.md`**
+**Read:** **`launch-studio-async-polling.md`** · **`launch-studio-bankr-mirror-website.md`**
 
 ## If site x402 POST fails
 
