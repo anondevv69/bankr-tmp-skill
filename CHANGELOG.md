@@ -2,13 +2,11 @@
 
 Canonical version: **`VERSION`** file and `SKILL.md` frontmatter `version:`.
 
-## 92 (current)
+## 93 (current)
 
-- **`launch-studio-async-polling.md`** — mandatory poll after 202; forbid “didn’t submit this turn” / “tell me to retry”.
-- **`launch-studio-solana-autopilot.md`** — Pump/Solana site x402; SKT example prompt.
-- Updated forbidden replies, completion reply, user language, test prompts **N1/N4**.
+- **`launch-studio-completion-reply.md`** — mandatory **3-part** success reply: deployment info · all tx links · “list for sale?” next steps (BKT example).
 
-## 91
+## 92
 
 - **`tmp-launch-studio/`** — companion skill: deploy new Bankr token + 1000 fee-right units via x402 (~$1 USDC Base); plain-English user guide + autopilot poll flow; pairs with list/claim/transfer after launch.
 - **`ONE-LINE-INTENTS.md`**, **`user-language.md`**, **`normal-talk-only.md`**, **`skill-manifest.json`**, site **`agent.md`**.

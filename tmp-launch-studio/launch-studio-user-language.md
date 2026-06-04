@@ -58,32 +58,17 @@ Default: **linked wallet** receives units for **keep_all**. **Base** → EVM `0x
 
 ---
 
-## Success reply (mandatory — match website Done screen)
+## Success reply (mandatory — three parts)
 
-**Read:** **`launch-studio-completion-reply.md`** — full templates with BaseScan, OpenSea, Doppler, Bankr launches, Solscan, tx log.
+**Read:** **`launch-studio-completion-reply.md`**
 
-After **`status: completed`**, reply with **all links** (not a one-liner). Minimum for **Base**:
+After **`status: completed`**, every reply includes:
 
-```text
-Done — Moon Token ($MOON) is live.
+1. **Deployment** — token name, **$SYMBOL**, contract/mint, 1000 units → wallet, receipt id  
+2. **Transactions** — each pipeline step with BaseScan / Solscan link  
+3. **What next?** — offer to **list for sale**, **send units**, **claim fees** (plain English)
 
-Token: 0x… 
-1000 units → 0x374d91…
-
-• BaseScan: https://basescan.org/address/0x…
-• OpenSea: https://opensea.io/assets/base/…
-• Doppler: https://app.doppler.lol/tokens/base/0x…
-• Bankr: https://bankr.bot/launches/0x…
-• Profile: https://www.tokenmarketplace.shop/profile?tab=nfts
-
-Job ID: …
-```
-
-**Solana:** Pump.fun + shop listing + `profile?tab=pump` + Solscan tx links (see completion doc).
-
-Tell users after pay: *“Deploy runs ~1–3 min in the background — I’ll poll and send your full receipt with links.”*
-
-Do **not** say “tell me to retry” or “I didn’t submit a transaction this turn” after x402 pay — see **`launch-studio-async-polling.md`**.
+**Forbidden:** “Done” with no txs · no “want to list?” · “tell me to retry”
 
 ---
 

@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v92. Launch Studio: async poll, no premature failure replies, Solana Pump autopilot."
+description: "TMP skills v93. Launch completion: deploy info + tx links + list-for-sale next steps."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402]
-version: 92
+version: 93
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md

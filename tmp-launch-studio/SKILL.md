@@ -35,7 +35,7 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 | Do | Don't |
 |----|-------|
 | `POST https://www.tokenmarketplace.shop/api/launch/concierge/run` + site x402 sign | `POST x402.bankr.bot/…/token-marketplace-launch` |
-| Poll `…/status/{jobId}` → completion links | “Didn’t submit this turn” / “tell me to retry” before poll |
+| Poll → **3-part completion reply** (deploy + txs + “list for sale?”) | One-liner “it’s live” · no tx links · no next steps |
 | ~**$1 USDC** on Base | $5 USDC · bankr.bot status links |
 
 Mint / list / claim on an **existing** token → main TMP skill — **not** this folder.
