@@ -4,6 +4,8 @@
 
 **Site:** https://www.tokenmarketplace.shop · **Agent guide:** install **`tmp-site-agent`** skill · live mirror https://www.tokenmarketplace.shop/agent.md
 
+**Agent parity (2026-06-04):** [`AGENT-PARITY-AUDIT.md`](AGENT-PARITY-AUDIT.md) · [`AGENT-QUICK-REFERENCE.md`](AGENT-QUICK-REFERENCE.md) · [`BANKR-AGENT-INSTALL.md`](BANKR-AGENT-INSTALL.md) · [`DOCS-INDEX.md`](DOCS-INDEX.md)
+
 ---
 
 ## Install (pick what you need)

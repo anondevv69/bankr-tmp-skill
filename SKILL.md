@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v99. Same APIs/x402 as site; mandatory poll + 3-part launch reply."
+description: "TMP skills v100. Same APIs/x402 as site; mandatory replies for deploy, list, buy, claim, redeem, send."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402, site-agent]
-version: 99
+version: 100
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
@@ -37,6 +37,8 @@ install TMP site agent at https://github.com/anondevv69/bankr-tmp-skill/tree/mai
 **Same product as the website:** agents call the **same APIs** and **same site x402** as `/launch` — only input method differs. Read **`tmp-site-agent/agent-guide.md`** § *Human vs agent*.
 
 Then read **`agent-guide.md`** for contracts, APIs, Launch Studio. Pair with autopilot files for step-by-step execution.
+
+**Reply templates (every action):** [`AGENT-PARITY-AUDIT.md`](AGENT-PARITY-AUDIT.md) · [`AGENT-QUICK-REFERENCE.md`](AGENT-QUICK-REFERENCE.md) · site guide § *Agent replies (mandatory)*.
 
 **Launch deploy:** agent-guide § Launch Studio (site x402 on `/concierge/run` or `/solana/run` + poll) → **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**. **Never** default to “open Launch Studio” deep links when Bankr can sign site x402.
 

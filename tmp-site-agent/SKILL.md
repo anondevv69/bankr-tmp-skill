@@ -6,7 +6,7 @@ description: >-
   any list, buy, claim, launch, or split on tokenmarketplace.shop. Same content as
   https://www.tokenmarketplace.shop/agent.md
 tags: [bankr, base, solana, tmp, token-marketplace, agent-guide, apis, launch-studio, x402]
-version: 3
+version: 4
 tmp_skill_version: "1"
 homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 ---

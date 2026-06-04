@@ -65,6 +65,24 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 | What did I sell / purchase history | Past Sell 100% + group finalized sales | Profile → **Completed sales** (`?tab=completed`) |
 | Redeem fees / get fees back | Burn TMPR, restore beneficiary | Redeem on mint escrow (Bankr skill Flow H) |
 | Launch / deploy new token + 1000 units | **Same as `/launch` UI** — site x402 + poll | **`POST /concierge/run`** or **`/solana/run`** + poll · browser only if agent cannot sign x402 |
+| **Deploy X via Bankr** (nothing else) | Base launch · **all 1000 units** to linked EVM wallet | `splitPlan: keep_all` · `POST /concierge/run` |
+| **Deploy X via pumpfun** (nothing else) | Solana Pump · **all 1000 SPL units** | `splitPlan: keep_all` · `POST /concierge/solana/run` |
+| **Deploy … split: A gets 100, B gets 900** | Wallet list at launch (sum **1000**) | `splitPlan: wallet_list` · multiline `address amount` |
+| **Sell rights of X for 0.01 ETH** | 100% fixed sale (dual default) | `mint/status` → `list/dual` |
+| **Sell rights of X for 0.01 SOL** | Solana listing / CTO | Solana program + `buy-status` / listing UI parity · see Solana § |
+| **Buy X shares of this listing** | ERC-1155 share market | `share/list-status` · **not** `/listing/sale/` |
+| **Buy the rights of this token** | Whole TMPR (fixed sale) | `list/buy-status?url=` |
+| **Redeem this token** | Burn TMPR · fee beneficiary back to signer | `redeemRights(tokenId)` on correct escrow |
+| **Claim fees for X for all holders** | Hybrid claim · **every** unit holder paid | `claim/hybrid-status` → `claimFeesForToken` |
+
+**Defaults (do not ask unless ambiguous):**
+
+| Topic | Default |
+|-------|---------|
+| Launch units | **1000** delivered (`keep_all` or `wallet_list` summing 1000) |
+| Deploy chain | **“via Bankr”** → Base · **“via pumpfun”** → Solana |
+| Sell venue | **Dual** (site + OpenSea) unless password / shares / user said site only |
+| Claim scope | **All** unit holders (even if user omits “for all”) |
 
 **Wrong routing (common bugs):**
 
@@ -318,6 +336,35 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 
 ---
 
+## Agent replies (mandatory — mirror the website Done screen)
+
+**Every completed action** needs a user-facing reply in **plain English** (no `poolId`, `redeemRights`, `sellerKeepsBps`). Always include **full** `https://www.tokenmarketplace.shop/...` URLs and **explorer links** for every tx you submitted.
+
+| Action | Always tell the user |
+|--------|----------------------|
+| **Deploy** | Token name + **contract/mint** · **1000 units** delivered (and per-wallet split if `wallet_list`) · **every tx** (deploy, mint, split, deliver) · profile tab (`?tab=nfts` or `?tab=pump`) · **what next** (list, send units, claim) |
+| **List / sell 100%** | Price in ETH · **shop listing URL** (`/listing/sale/{id}`) · OpenSea link if dual · list txs · verify with `GET /api/list/status` before saying “listed” |
+| **Buy whole rights** | **Purchase tx** · price paid · you now hold the receipt · listing URL · what next (list, split, redeem, claim) |
+| **Buy shares** | Qty bought · price per unit · **holdings** on profile · purchase tx · what next |
+| **List shares** | Qty · price per unit · share market URL (`/listing/shares/t/…`) · tx |
+| **Redeem** | TMPR burned · **fees now go to your wallet** (not the launch token) · redeem tx · Doppler/Bankr fee link |
+| **Claim fees** | Distributed to **all holders** · claim tx · cap table / profile link |
+| **Send / airdrop units** | Qty · recipient(s) · transfer tx(s) · recipient balance |
+| **Wallet-list launch** | Same as deploy + **each delivery** (or link to profile showing airdrops / holdings per wallet) |
+
+**Launch-only guards:**
+
+- **Never** say “paid” or “deployed” without **`202` + real `jobId`** and poll until `status === "completed"`.
+- **Never** stop after “processing” — poll `GET /api/launch/concierge/status/{jobId}` until done or failed.
+
+**List-only guards:**
+
+- **Never** say “listed” without **`listedOnSite: true`** from `GET /api/list/status` (or equivalent on-chain check).
+
+Full templates: [bankr-tmp-skill `AGENT-PARITY-AUDIT.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/AGENT-PARITY-AUDIT.md) · quick lookup: [`AGENT-QUICK-REFERENCE.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/AGENT-QUICK-REFERENCE.md).
+
+---
+
 ## Bankr TMP skills (recommended)
 
 | Pack | Install | Scope |
@@ -327,6 +374,14 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 | **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List, dual OpenSea, CTO list, password |
 | **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 units |
 | **Launch Studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | Deploy + 1000 units · **poll + 3-part completion reply** (Base + Solana) |
+
+**Parity docs (repo root — routing + reply templates):**
+
+| Doc | Use |
+|-----|-----|
+| [`AGENT-PARITY-AUDIT.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/AGENT-PARITY-AUDIT.md) | Full human ↔ agent flows + response templates |
+| [`AGENT-QUICK-REFERENCE.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/AGENT-QUICK-REFERENCE.md) | One-line phrase → API → reply |
+| [`BANKR-AGENT-INSTALL.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/BANKR-AGENT-INSTALL.md) | Bankr setup + validation |
 
 **Bankr — paste all three after any TMP work:**
 
@@ -351,4 +406,4 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 ---
 
-*Last updated: 2026-06-04. Human vs agent: same APIs + site x402; mandatory poll + 3-part completion reply.*
+*Last updated: 2026-06-04. Human vs agent: same APIs + site x402; mandatory poll + replies for every action (deploy, list, buy, claim, redeem, send).*
