@@ -2,7 +2,9 @@
 
 **Same rail as Base:** site x402 on **`tokenmarketplace.shop`** — not `x402.bankr.bot`.
 
-**Read with:** **`launch-studio-agent-autopilot.md`** · **`launch-studio-async-polling.md`** · **`launch-studio-completion-reply.md`**
+**Same product as `/launch` Pump tab:** agent fills JSON + signs Solana x402 + **polls until completed** + **3-part reply** (see agent-guide § *After launch*).
+
+**Read with:** **`launch-studio-website-parity.md`** · **`launch-studio-agent-autopilot.md`** · **`launch-studio-async-polling.md`** · **`launch-studio-bankr-mirror-website.md`** · **`launch-studio-completion-reply.md`**
 
 ---
 

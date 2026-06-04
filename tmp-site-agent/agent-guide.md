@@ -272,9 +272,35 @@ https://www.tokenmarketplace.shop/launch?surface=bankr&platform=bankr&wallet=0xY
 https://www.tokenmarketplace.shop/launch?surface=bankr&platform=pump&solWallet=YourSolanaPubkey
 ```
 
-### After launch (any path)
+### After launch (any path) — mandatory poll + 3-part reply
 
-When `status === completed`, reply with **full links** like the website Done screen — see **`launch-studio-completion-reply.md`** in tmp-launch-studio (BaseScan, OpenSea, Doppler, Bankr launches, Solscan, tx log). User pastes **Job ID** from Done screen, or agent polls `GET /api/launch/concierge/status/{jobId}`.
+**Agents must mirror the website Done screen.** Do not end the turn after x402 pay or after saying “I’ll poll automatically.”
+
+#### Poll (required)
+
+```http
+GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}
+```
+
+- Poll every **15–30s** (site UI uses ~4s) until `status` is **`completed`** or **`failed`**
+- **Base:** up to **8 min** · **Solana:** up to **10 min**
+- While `queued` or `running`: short update with **jobId** — a 1–3 min wait is **normal**, not a failure
+- **Forbidden:** “processing payment… I’ll poll” then silence · “no further action needed” without token + tx links · “tell me to retry” before checking status (may double-charge)
+
+#### Success reply (always three parts)
+
+1. **Deployment info** — name, symbol, token/mint address, split (keep_all or wallet_list), delivery wallet(s), jobId  
+2. **Transactions** — every step with explorer link (`result.steps[]` or on-chain):  
+   - Base: `https://basescan.org/tx/{hash}`  
+   - Solana: `https://solscan.io/tx/{hash}`  
+   - Plus browse links: token/mint, `profile?tab=nfts` (Base) or `profile?tab=pump` (Solana), Pump.fun for Solana  
+3. **What next** — offer list for sale, list units, send units, claim fees (plain English)
+
+**Example opener:** *Done — Solana Keep Test ($SKT) is live on Pump.fun via Token Marketplace.*
+
+**Wallet list split:** state totals (e.g. 600 + 400 = 1000) and link each delivery tx.
+
+Full templates: **`launch-studio-completion-reply.md`** (Bankr skill). Poll spec: **`launch-studio-bankr-mirror-website.md`**.
 
 Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, claim fees — hub skills in [bankr-tmp-skill](https://github.com/anondevv69/bankr-tmp-skill).
 
@@ -300,10 +326,17 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 | **Full hub** | `@bankrbot install TMP skills at https://github.com/anondevv69/bankr-tmp-skill` | Buy, claim, APIs, Solana path |
 | **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List, dual OpenSea, CTO list, password |
 | **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 units |
-| **Launch Studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | New deploy + 1000 units (x402 Base) |
+| **Launch Studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | Deploy + 1000 units · **poll + 3-part completion reply** (Base + Solana) |
 
-Hub buy guide: `buy-marketplace-autopilot.md` in [bankr-tmp-skill](https://github.com/anondevv69/bankr-tmp-skill).  
-Launch guide: `tmp-launch-studio/launch-studio-agent-autopilot.md` · `launch-studio-payment-rails.md` · **this file § Launch Studio**.
+**Bankr — paste all three after any TMP work:**
+
+```text
+install TMP site agent at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
+install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
+install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio
+```
+
+**Launch rule:** same API + site x402 as `/launch` → poll `status/{jobId}` until done → 3-part reply (never stop after “processing”).
 
 ---
 
@@ -318,4 +351,4 @@ Launch guide: `tmp-launch-studio/launch-studio-agent-autopilot.md` · `launch-st
 
 ---
 
-*Last updated: 2026-06-03. Human vs agent: same APIs + site x402; only who fills fields and signs payment differs.*
+*Last updated: 2026-06-04. Human vs agent: same APIs + site x402; mandatory poll + 3-part completion reply.*

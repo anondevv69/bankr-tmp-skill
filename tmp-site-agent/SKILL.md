@@ -6,7 +6,7 @@ description: >-
   any list, buy, claim, launch, or split on tokenmarketplace.shop. Same content as
   https://www.tokenmarketplace.shop/agent.md
 tags: [bankr, base, solana, tmp, token-marketplace, agent-guide, apis, launch-studio, x402]
-version: 2
+version: 3
 tmp_skill_version: "1"
 homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 ---
@@ -43,7 +43,7 @@ Then use hub autopilot files for step-by-step execution:
 | Launch new token + 1000 units | `tmp-launch-studio/launch-studio-agent-autopilot.md` |
 | Claim fees | `hybrid-claim-autopilot.md` |
 
-Launch deploy: **same as `/launch` UI** — site x402 on `POST /api/launch/concierge/run` (Base) or `/solana/run` (Solana) → poll → completion reply. See **`launch-studio-website-parity.md`**. No browser handoff when agent can sign x402.
+Launch deploy: **same as `/launch` UI** — site x402 → poll `status/{jobId}` until done → **3-part reply** (deploy info · all txs · what next). See agent-guide § *After launch*. Never stop after “processing payment”.
 
 ---
 

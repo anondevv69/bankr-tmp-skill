@@ -2,7 +2,7 @@
 
 **When:** Any AI agent — **Bankr**, Cursor, MCP bot, custom script — deploys a **new** token + **1000 units**.
 
-**Parity rule:** Same as a human on **`/launch`** — only **who fills JSON** and **who signs x402** differs. Read **`launch-studio-website-parity.md`** and **`tmp-site-agent/agent-guide.md`** § *Human vs agent*.
+**Parity rule:** Same as a human on **`/launch`** — only **who fills JSON** and **who signs x402** differs. Read **`launch-studio-website-parity.md`** and **`tmp-site-agent/agent-guide.md`** § *Human vs agent* and § *After launch* (inline poll + 3-part reply).
 
 **Read first:** **`tmp-site-agent/agent-guide.md`** — § Launch Studio Path A (Base) / A2 (Solana).
 

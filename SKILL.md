@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v98. Same APIs/x402 as website; agents poll like Launch Studio UI."
+description: "TMP skills v99. Same APIs/x402 as site; mandatory poll + 3-part launch reply."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402, site-agent]
-version: 98
+version: 99
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md

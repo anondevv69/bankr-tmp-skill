@@ -5,7 +5,7 @@ description: >-
   split into 1000 units, and deliver or airdrop in one paid x402 flow (~$1 USDC).
   Pairs with main TMP skills for list/claim/transfer after launch. Install alongside bankr-fee-rights.
 tags: [bankr, base, tmp, token-marketplace, launch-studio, x402, deploy, split, airdrop, fee-rights]
-version: 1
+version: 5
 tmp_skill_version: "1"
 homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio
 ---
