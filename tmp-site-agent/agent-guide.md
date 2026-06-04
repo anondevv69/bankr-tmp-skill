@@ -356,6 +356,8 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 
 - **Never** say “paid” or “deployed” without **`202` + real `jobId`** and poll until `status === "completed"`.
 - **Never** stop after “processing” — poll `GET /api/launch/concierge/status/{jobId}` until done or failed.
+- **Never** claim a `jobId` if `GET …/status/{jobId}` returns **404** — the job was never queued (common Bankr Solana failure).
+- **Solana CLI (no browser):** `bankr-app/scripts/launch-concierge-solana-x402.mjs` with `SOLANA_SECRET_KEY` — same rail as `/launch` Pump tab.
 
 **List-only guards:**
 

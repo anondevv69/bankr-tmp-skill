@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v100. Same APIs/x402 as site; mandatory replies for deploy, list, buy, claim, redeem, send."
+description: "TMP skills v101. Solana launch job-verify gate; no fake jobId before status 202."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402, site-agent]
-version: 100
+version: 101
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
@@ -40,7 +40,7 @@ Then read **`agent-guide.md`** for contracts, APIs, Launch Studio. Pair with aut
 
 **Reply templates (every action):** [`AGENT-PARITY-AUDIT.md`](AGENT-PARITY-AUDIT.md) · [`AGENT-QUICK-REFERENCE.md`](AGENT-QUICK-REFERENCE.md) · site guide § *Agent replies (mandatory)*.
 
-**Launch deploy:** agent-guide § Launch Studio (site x402 on `/concierge/run` or `/solana/run` + poll) → **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**. **Never** default to “open Launch Studio” deep links when Bankr can sign site x402.
+**Launch deploy:** agent-guide § Launch Studio (site x402 on `/concierge/run` or `/solana/run` + poll) → **`launch-studio-agent-autopilot.md`** + **`launch-studio-solana-job-verify.md`** + **`launch-studio-bankr-forbidden.md`**. **Never** default to “open Launch Studio” deep links when Bankr can sign site x402. **Never** claim `jobId` if status API returns **404**.
 
 ## Skill packs (install one or all — same behavior)
 

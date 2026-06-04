@@ -56,11 +56,30 @@ Do **not** invent manual ops or Club requirements.
 
 ---
 
+## Solana (Pump) — mandatory
+
+```http
+POST https://www.tokenmarketplace.shop/api/launch/concierge/solana/run
+```
+
+`deliveryAddress` = **base58 Solana pubkey** (not `0x…`).
+
+**Hard gate:** `GET …/status/{jobId}` must **not** return 404 before you say “paid” or “processing”. See **`launch-studio-solana-job-verify.md`**.
+
+| Forbidden on Solana | Use instead |
+|-------------------|-------------|
+| `Job ID: pending` | Real UUID from **202** only |
+| Status 404 but “polling” | Job never queued — retry API or browser `/launch` |
+| Base `/concierge/run` for Pump deploy | **`/solana/run`** |
+
+---
+
 ## Self-check before sending reply
 
-- [ ] Did I POST to **`tokenmarketplace.shop/api/launch/concierge/run`** (not bankr.bot)?  
+- [ ] Did I POST to **`tokenmarketplace.shop/api/launch/concierge/run`** (Base) or **`…/solana/run`** (Pump)?  
 - [ ] Do I have a **`jobId`** from **202**?  
+- [ ] Did **`GET …/status/{jobId}`** return a real job (not 404)?  
 - [ ] Did I poll until **`completed`**?  
-- [ ] Does my reply include **BaseScan + profile + tx links**?  
+- [ ] Does my reply include **explorer + profile + tx links**?  
 - [ ] Did I avoid Club / ops / 502 bankr.cloud narrative?
 - [ ] Did I avoid “didn’t submit this turn” / “tell me to retry” before poll?

@@ -4,7 +4,7 @@
 
 **Same product as `/launch` Pump tab:** agent fills JSON + signs Solana x402 + **polls until completed** + **3-part reply** (see agent-guide § *After launch*).
 
-**Read with:** **`launch-studio-website-parity.md`** · **`launch-studio-agent-autopilot.md`** · **`launch-studio-async-polling.md`** · **`launch-studio-bankr-mirror-website.md`** · **`launch-studio-completion-reply.md`**
+**Read with:** **`launch-studio-website-parity.md`** · **`launch-studio-agent-autopilot.md`** · **`launch-studio-async-polling.md`** · **`launch-studio-solana-job-verify.md`** (hard gate — no fake jobId) · **`launch-studio-bankr-mirror-website.md`** · **`launch-studio-completion-reply.md`**
 
 ---
 
