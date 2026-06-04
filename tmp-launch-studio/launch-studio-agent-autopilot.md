@@ -2,6 +2,8 @@
 
 **When:** Any AI agent — **Bankr**, Cursor, MCP bot, custom script — deploys a **new** token + **1000 units**.
 
+**Read first:** **https://www.tokenmarketplace.shop/agent.md** — § Launch Studio Path A (Base) / A2 (Solana).
+
 **One payment rail:** **site x402** on `tokenmarketplace.shop`. Bankr signs the same x402 as every other agent.
 
 **Rule:** Pay and deploy **programmatically**. **Never** default to Launch Studio in a browser.

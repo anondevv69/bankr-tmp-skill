@@ -19,8 +19,10 @@ install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio
 ```
 
+**Read first:** **https://www.tokenmarketplace.shop/agent.md** (§ Launch Studio) — **`references/read-site-agent-md.md`** in main TMP skill.
+
 **Human UI (any chain):** https://www.tokenmarketplace.shop/launch  
-**Any agent (Bankr, Cursor, bots):** **`launch-studio-agent-autopilot.md`** — **site x402 only** on `/api/launch/concierge/run`.  
+**Any agent (Bankr, Cursor, bots):** agent.md Path A / A2 → **`launch-studio-agent-autopilot.md`** — site x402 on `/api/launch/concierge/run`.  
 **Bankr chat:** same rail — Bankr signs x402 to **`tokenmarketplace.shop`** (see **`launch-studio-bankr-chat-autopilot.md`**).  
 **Do not use:** `x402.bankr.bot/…/token-marketplace-launch` (deprecated).
 
@@ -29,6 +31,8 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 ---
 
 ## MANDATORY — Bankr deploy (read before any reply)
+
+**Step 0:** `GET https://www.tokenmarketplace.shop/agent.md` — § Launch Studio.
 
 **Load:** **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`**
 

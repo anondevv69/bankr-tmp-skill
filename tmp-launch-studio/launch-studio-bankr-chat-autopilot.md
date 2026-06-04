@@ -1,5 +1,7 @@
 # Launch Studio — Bankr chat (same as any agent)
 
+**Step 0:** Read **https://www.tokenmarketplace.shop/agent.md** (§ Launch Studio). See **`references/read-site-agent-md.md`**.
+
 **Bankr has tools to sign x402 payments to `tokenmarketplace.shop` directly.**
 
 Use **`launch-studio-agent-autopilot.md`** — **one rail for everyone** (Bankr, Cursor, MCP, bots):

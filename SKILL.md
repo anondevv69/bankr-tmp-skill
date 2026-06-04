@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v93. Launch completion: deploy info + tx links + list-for-sale next steps."
+description: "TMP skills v95. Read tokenmarketplace.shop/agent.md first; launch via site x402 + poll."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402]
-version: 94
+version: 95
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
@@ -26,9 +26,15 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
-**Public agent guide:** https://www.tokenmarketplace.shop/agent.md  
+## MANDATORY — read live site guide first
 
-**Launch deploy override:** For **new token + 1000 units**, **`tmp-launch-studio/` skills win** over stale `agent.md` copy. **Never** send “open Launch Studio” / “connect wallet on the site” when Bankr can sign site x402 — **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**.
+**Before any TMP intent**, fetch and read:
+
+**https://www.tokenmarketplace.shop/agent.md**
+
+Use it for contracts, APIs, shop URLs, and **Launch Studio** rails. Pair with autopilot files in this repo for step-by-step execution. Full instruction: **`references/read-site-agent-md.md`**.
+
+**Launch deploy:** follow agent.md **§ Launch Studio** (site x402 on `/concierge/run` or `/solana/run` + poll). Then **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**. **Never** default to “open Launch Studio” deep links when Bankr can sign site x402.
 
 ## Skill packs (install one or all — same behavior)
 
