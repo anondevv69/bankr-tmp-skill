@@ -83,6 +83,23 @@ GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}
 
 ---
 
+## Orphan USDC transfer (402 after “payment succeeded”)
+
+**Symptom:** Agent says “paid $1 USDC” (Solscan tx to treasury) but `POST …/solana/run` still returns **402** and **no jobId**.
+
+**Cause:** A **plain SPL USDC transfer** to `config.solana.treasury` is **not** site x402. The launch fee must be a **signed x402 payment attached to the same POST** (`PAYMENT-SIGNATURE` / `x-payment` from the 402 challenge).
+
+| Wrong (orphan payment) | Right (site x402) |
+|------------------------|-------------------|
+| `send USDC` / transfer to treasury, then POST without payment header | `POST` → **402** → build **ExactSvm** payment from 402 body → `POST` again **with** payment header → **202** |
+| Solscan shows only `Tokenkeg` transfer (~76 CU) | x402 verify accepts payload; job enqueues |
+
+**If orphan payment happened:** do **not** pay again. Contact support with Solscan tx + launch params (name/symbol/delivery). Treasury received funds but **no job** was created.
+
+**Bankr implementation:** use `@x402/fetch` `wrapFetchWithPaymentFromConfig` + `ExactSvmScheme` (see `bankr-app/scripts/launch-concierge-solana-x402.mjs`) — **not** a generic “send 1 USDC” wallet tool.
+
+---
+
 ## Forbidden replies (hard fail)
 
 | Forbidden | Why |

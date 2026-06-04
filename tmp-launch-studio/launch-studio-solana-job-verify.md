@@ -35,6 +35,7 @@ On **404**, the API returns **`jobExists: false`** and an **`agent`** block (`fo
 | Say this | Reality |
 |----------|---------|
 | “Paid ~$1 USDC” without **202 + jobId** | Payment may not have reached site |
+| Solscan USDC → treasury but POST still **402** | **Orphan transfer** — not x402 on POST; do not retry pay |
 | `Job ID: 1174f34f-…` then status **404** | **Hallucinated or stale** jobId |
 | “I’ll poll” then end turn | **Poll in same thread** until done/failed |
 | “No further action needed” | Only after **completed** + links |
