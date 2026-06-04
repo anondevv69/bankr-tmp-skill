@@ -2,9 +2,12 @@
 
 **Step 0:** Read **`tmp-site-agent/agent-guide.md`** (§ Launch Studio). Install: `install TMP site agent at …/tmp-site-agent`.
 
-**Bankr has tools to sign x402 payments to `tokenmarketplace.shop` directly.**
+**Bankr Base — read first:** **`launch-studio-bankr-base-x402-rails.md`** (Option A vs Option B).
 
-Use **`launch-studio-agent-autopilot.md`** — **one rail for everyone** (Bankr, Cursor, MCP, bots):
+**Option A (default in chat):** sign **site** x402 to `tokenmarketplace.shop`.  
+**Option B:** only if Bankr **already** charged `x402.bankr.bot` — then Bankr server calls **`async-start`**, not `/concierge/run`.
+
+Use **`launch-studio-agent-autopilot.md`** for step-by-step (Option A):
 
 ```http
 POST https://www.tokenmarketplace.shop/api/launch/concierge/run

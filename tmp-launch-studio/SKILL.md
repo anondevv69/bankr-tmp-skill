@@ -34,7 +34,7 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 **Step 0:** Read **`tmp-site-agent/agent-guide.md`** — § Launch Studio (install TMP site agent skill).
 
-**Load:** **`../BANKR-LAUNCH-REQUIREMENTS.md`** + **`launch-studio-solana-job-verify.md`** + **`launch-studio-website-parity.md`** + **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`** + **`launch-studio-bankr-mirror-website.md`**
+**Load:** **`../BANKR-LAUNCH-REQUIREMENTS.md`** + **`launch-studio-bankr-base-x402-rails.md`** + **`launch-studio-solana-job-verify.md`** + **`launch-studio-website-parity.md`** + **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`** + **`launch-studio-async-polling.md`** + **`launch-studio-bankr-mirror-website.md`**
 
 **API gate:** `GET /api/launch/concierge/config` → `config.agent` · before “processing”, `GET …/status/{jobId}` must be **200** (`ok: true`), not **404**.
 

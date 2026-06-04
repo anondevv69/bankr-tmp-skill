@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v102. Site config.agent + BANKR-LAUNCH-REQUIREMENTS; no fake deploy progress."
+description: "TMP skills v103. Bankr Base Option A/B rails (site x402 vs async-start); B2 wallet_list."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402, site-agent]
-version: 102
+version: 103
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
@@ -40,7 +40,7 @@ Then read **`agent-guide.md`** for contracts, APIs, Launch Studio. Pair with aut
 
 **Reply templates (every action):** [`AGENT-PARITY-AUDIT.md`](AGENT-PARITY-AUDIT.md) · [`AGENT-QUICK-REFERENCE.md`](AGENT-QUICK-REFERENCE.md) · site guide § *Agent replies (mandatory)*.
 
-**Launch deploy:** **`BANKR-LAUNCH-REQUIREMENTS.md`** (routing guard — load before any deploy reply) → agent-guide § Launch Studio → **`launch-studio-solana-job-verify.md`** + **`launch-studio-bankr-forbidden.md`**. **Call** `GET /api/launch/concierge/config` → obey `config.agent`. **Never** claim `jobId` if status **404** (`jobExists: false`). **Never** default to deep links when Bankr can sign site x402.
+**Launch deploy:** **`BANKR-LAUNCH-REQUIREMENTS.md`** + **`launch-studio-bankr-base-x402-rails.md`** (Base: Option A site x402 vs Option B async-start after bankr.bot pay) → agent-guide § *Bankr on Base*. **Never** `POST /concierge/run` after bankr.bot pay. **Never** orphan USDC without x402 on POST. Poll until **202** + status **completed**.
 
 ## Skill packs (install one or all — same behavior)
 

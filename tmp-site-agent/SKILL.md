@@ -43,7 +43,7 @@ Then use hub autopilot files for step-by-step execution:
 | Launch new token + 1000 units | `tmp-launch-studio/launch-studio-agent-autopilot.md` |
 | Claim fees | `hybrid-claim-autopilot.md` |
 
-Launch deploy: **same as `/launch` UI** — site x402 → poll `status/{jobId}` until done → **3-part reply** (deploy info · all txs · what next). See agent-guide § *After launch*. Never stop after “processing payment”.
+Launch deploy: agent-guide § *Bankr on Base — Option A vs Option B* + **`../tmp-launch-studio/launch-studio-bankr-base-x402-rails.md`**. Poll `status/{jobId}` until done → **3-part reply**. Never `POST /concierge/run` after bankr.bot pay.
 
 ---
 

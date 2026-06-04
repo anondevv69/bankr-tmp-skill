@@ -14,10 +14,11 @@
 
 **Load (in order):**
 
-1. **`tmp-site-agent/agent-guide.md`** — § Launch Studio  
-2. **`launch-studio-solana-job-verify.md`** (Solana) or **`launch-studio-agent-autopilot.md`** (Base)  
-3. **`launch-studio-bankr-forbidden.md`**  
-4. **`launch-studio-async-polling.md`**
+1. **`tmp-site-agent/agent-guide.md`** — § Launch Studio · § *Bankr on Base — Option A vs Option B*  
+2. **`launch-studio-bankr-base-x402-rails.md`** (Base / Bankr — **mandatory**)  
+3. **`launch-studio-solana-job-verify.md`** (Solana) or **`launch-studio-agent-autopilot.md`** (Base steps)  
+4. **`launch-studio-bankr-forbidden.md`**  
+5. **`launch-studio-async-polling.md`**
 
 **Before any “paid” or `jobId` reply:** call **`GET /api/launch/concierge/config`** → read `config.agent` (site-enforced rules).
 
@@ -25,23 +26,41 @@
 
 ## ROUTING GUARD (mandatory — do not skip)
 
+### Base (Bankr) — Option A vs Option B
+
 ```
-if user asks deploy / launch (Base or Solana):
-  1. Choose rail:
-     Base  → POST https://www.tokenmarketplace.shop/api/launch/concierge/run
-     Solana → POST …/api/launch/concierge/solana/run
-  2. POST → 402 → sign SITE x402 (~$1 USDC) with correct chain wallet
-  3. POST + payment → must be HTTP 202 with jobId + statusUrl
-     if not 202 → STOP; report real status; do NOT invent jobId
-  4. GET statusUrl (or …/status/{jobId})
-     if 404 / jobExists false → STOP; job never queued; do NOT say polling
-  5. Poll every 15–30s until status completed or failed (same turn if possible)
-  6. Reply per launch-studio-completion-reply.md → STOP
+if deploy on Base and Bankr already charged x402.bankr.bot/…/token-marketplace-launch this session:
+  → Option B ONLY: Bankr server POST …/async-start (source: bankr-x402, same JSON body)
+  → Do NOT POST …/concierge/run (402 / double pay)
+elif deploy on Base and Bankr can sign site x402 to tokenmarketplace.shop:
+  → Option A: POST …/concierge/run → 402 → ExactEvm sign → POST + PAYMENT-SIGNATURE → 202
+else:
+  → say limitation; browser /launch last resort; do NOT orphan-send USDC to site treasury
 ```
 
-**FORBIDDEN:** skip steps 3–4 and say “paid”, “processing”, or reuse an old `jobId` from a prior chat.
+Full spec: **`launch-studio-bankr-base-x402-rails.md`** (includes **B2** `wallet_list` example).
 
-**FORBIDDEN:** `POST x402.bankr.bot/…/token-marketplace-launch` as default (deprecated; 502-prone).
+### All chains — after enqueue
+
+```
+  1. Must get HTTP 202 with jobId + statusUrl (Option A or B)
+  2. GET status/{jobId} — if 404 / jobExists false → STOP; do NOT say polling
+  3. Poll every 15–30s until completed or failed
+  4. Reply per launch-studio-completion-reply.md → STOP
+```
+
+### Solana (Pump)
+
+```
+  → POST …/api/launch/concierge/solana/run + site Solana x402 (Option A style)
+  → No bankr.bot receipt replay on site POST
+```
+
+**FORBIDDEN:** skip 202/status proof and say “paid”, “processing”, or reuse an old `jobId`.
+
+**FORBIDDEN:** bankr.bot pay then **`/concierge/run`** (use **async-start** / Option B).
+
+**FORBIDDEN:** plain USDC transfer without x402 on POST (orphan payment).
 
 ---
 

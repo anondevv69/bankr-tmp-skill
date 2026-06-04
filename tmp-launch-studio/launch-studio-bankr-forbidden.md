@@ -23,7 +23,11 @@ Content-Type: application/json
 3. Poll `GET https://www.tokenmarketplace.shop/api/launch/concierge/status/{jobId}`.  
 4. Reply per **`launch-studio-completion-reply.md`**.
 
-**Never call:** `https://x402.bankr.bot/…/token-marketplace-launch`
+**After `x402.bankr.bot/…/token-marketplace-launch` pay:** use **`async-start`** (Option B) — **never** `POST …/concierge/run` again.
+
+**Default in chat:** **Option A** — `POST …/concierge/run` + **site x402** (not bankr.bot unless Bankr product chains Option B).
+
+**Read:** **`launch-studio-bankr-base-x402-rails.md`**
 
 ---
 
@@ -31,7 +35,7 @@ Content-Type: application/json
 
 | Forbidden | Why |
 |-----------|-----|
-| “x402 Launch Studio service is experiencing a **502**” as reason to stop | 502 is **Bankr cloud** (`x402.bankr.bot`) — **wrong rail**. Use **site** `/concierge/run`. |
+| “x402 Launch Studio service is experiencing a **502**” on **bankr.bot** as reason to stop | Fix bankr.bot or use **Option A** site `/concierge/run`; if bankr.bot already paid use **Option B** `async-start` — not a second `/concierge/run` |
 | “Your wallet is **not a Bankr Club member**” blocking deploy | **False.** Launch is not Club-gated on Token Marketplace. |
 | “Logged with **ops team** to manually trigger deployment” | **False.** No ops queue. You must call site API + poll. |
 | “Join **Bankr Club** to bypass Launch Studio” | **False** upsell. |

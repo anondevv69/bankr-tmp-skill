@@ -31,6 +31,7 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 - `launch-studio-async-polling.md` — Mandatory poll loop
 - `launch-studio-bankr-mirror-website.md` — Human ↔ agent parity
 - **`BANKR-LAUNCH-REQUIREMENTS.md`** — Routing guard (no fake jobId / no poll on 404)
+- **`tmp-launch-studio/launch-studio-bankr-base-x402-rails.md`** — Base Option A (site x402) vs Option B (`async-start` after bankr.bot pay); includes B2 `wallet_list`
 - **`AGENT-LAUNCH-VERIFICATION.md`** — Pass/fail test for deploy in chat
 
 ---

@@ -4,9 +4,11 @@
 
 **Parity rule:** Same as a human on **`/launch`** — only **who fills JSON** and **who signs x402** differs. Read **`launch-studio-website-parity.md`** and **`tmp-site-agent/agent-guide.md`** § *Human vs agent* and § *After launch* (inline poll + 3-part reply).
 
-**Read first:** **`tmp-site-agent/agent-guide.md`** — § Launch Studio Path A (Base) / A2 (Solana).
+**Read first:** **`tmp-site-agent/agent-guide.md`** — § Launch Studio · § *Bankr on Base — Option A vs Option B*.
 
-**One payment rail:** **site x402** on `tokenmarketplace.shop`. Bankr signs the same x402 as every other agent.
+**Bankr on Base:** **`launch-studio-bankr-base-x402-rails.md`** — Option A (site x402) vs Option B (`async-start` after bankr.bot pay).
+
+**One payment rail per launch:** either **site x402** (Option A) or **Bankr prepaid + async-start** (Option B) — never both.
 
 **Rule:** Pay and deploy **programmatically**. **Never** default to Launch Studio in a browser.
 
@@ -43,17 +45,19 @@ GET https://www.tokenmarketplace.shop/api/launch/concierge/config
 | `deliveryAddress` | EVM `0x…` (Base) or base58 (Solana) |
 | `walletList` | if `wallet_list` — sum = **1000** |
 
-**Example — 600 + 400 split (BKT2):**
+**Example — 600 + 400 split (B2 / Base Test2):**
 
 ```json
 {
-  "tokenName": "Base Keep Test2",
-  "tokenSymbol": "BKT2",
+  "tokenName": "Base Test2",
+  "tokenSymbol": "B2",
   "splitPlan": "wallet_list",
   "deliveryAddress": "0x374d91a5674fa7cf86e725093b5848b97e1e13b4",
   "walletList": "0x374d91a5674fa7cf86e725093b5848b97e1e13b4 600\n0x20Fd91a1949B2731C09BCc6587faB5C89d750E9c 400"
 }
 ```
+
+Same JSON for **Option B** `async-start` plus `"source": "bankr-x402"`, `"chain": "base"`, `"payer": "0x374d…"`.
 
 ### 3. Pay + enqueue
 
@@ -113,13 +117,10 @@ Same site x402 flow via `POST …/concierge/solana/run`. `deliveryAddress` = **S
 
 ---
 
-## Deprecated — do not use
+## Bankr cloud (`x402.bankr.bot`)
 
-```text
-POST https://x402.bankr.bot/…/token-marketplace-launch   ❌
-```
-
-Legacy Bankr x402 cloud — separate treasury, `async-start` bridge, 502-prone. **Not** the site x402 rail.
+If Bankr charged **`x402.bankr.bot/…/token-marketplace-launch`**, use **Option B** (`async-start`) — see **`launch-studio-bankr-base-x402-rails.md`**.  
+**Do not** follow bankr.bot with **`/concierge/run`** (second pay / 402).
 
 ---
 

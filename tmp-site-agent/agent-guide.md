@@ -89,9 +89,9 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 - `/listing/sale/{id}` → **FeeRightsFixedSale** `0xe2A134…` — **not** HybridShareMarketplace `0x9023…`
 - `/listing/shares/t/{tokenId}` → share book — **not** fixed sale id `N` on `0xe2A1…`
 - Listing **#28** on a card may be **TMPR serial #28** while the buy URL uses **sale id** (e.g. `/listing/sale/25`) — use `buy-status` or on-chain `getListing`.
-- Calling **`/concierge/run` after Bankr x402 pay** — double rail; Bankr pay already covers launch via `async-start`
-- Calling **`async-start` from an agent** — internal secret only; use site x402 or Bankr x402 instead
-- Using **`bankr x402 call` on `x402.bankr.bot/…/token-marketplace-launch`** — **deprecated**; use **site x402** on `/concierge/run` instead (Bankr can sign to tokenmarketplace.shop)
+- Calling **`/concierge/run` after Bankr x402 pay on `x402.bankr.bot`** — double rail / **402**; use **`async-start`** (Option B) instead
+- Calling **`async-start` from a chat agent** — internal secret only; Bankr **product** calls it after bankr.bot pay
+- **Orphan USDC** — sending $1 to site treasury without **site x402** on the POST (use Option A correctly or Option B, not a plain transfer)
 
 ---
 
@@ -190,19 +190,30 @@ CLI (Base): `bankr-app/scripts/launch-concierge-x402.mjs`
 
 **After Solana launch:** units on `https://www.tokenmarketplace.shop/profile?tab=pump` · `result.links.token` → pump.fun
 
+### Bankr on Base — Option A vs Option B (pick one)
+
+Bankr must use **exactly one** payment rail per launch. Skills: [`launch-studio-bankr-base-x402-rails.md`](https://github.com/anondevv69/bankr-tmp-skill/blob/main/tmp-launch-studio/launch-studio-bankr-base-x402-rails.md).
+
+| Option | When | Action | Stop when |
+|--------|------|--------|-----------|
+| **A — site x402** | Bankr can sign **site** x402 with linked **Base** wallet | `POST …/concierge/run` → 402 → sign → POST + payment header → **202** | **202** + real `jobId`; poll status |
+| **B — Bankr prepaid** | Bankr **already** charged **`x402.bankr.bot/…/token-marketplace-launch`** this session | Bankr server: `POST …/async-start` with `source: "bankr-x402"` — **not** `/concierge/run` again | **202** + real `jobId`; poll status |
+
+**Never:** pay on bankr.bot then `POST /concierge/run` (402 / orphan USDC). **Never:** plain USDC transfer to site treasury without x402 on the POST.
+
+`GET …/config` → `config.bankrX402.asyncStartUrl` for Option B.
+
 ### Do not chain Bankr x402 → site x402
 
-These are **separate USDC payments** to **different treasuries** with **different facilitators**. A Bankr x402 receipt cannot be replayed as site x402 `PAYMENT-SIGNATURE` headers.
+These are **separate USDC payments** to **different treasuries** with **different facilitators**. A Bankr x402 receipt **cannot** be replayed as site x402 `PAYMENT-SIGNATURE` headers.
 
 | Approach | Verdict |
 |----------|---------|
-| Bankr x402 handler calls site **`/concierge/run`** with a second x402 pay | **No** — would require paying site treasury again (or a server wallet relay — ops nightmare) |
-| Bankr x402 handler calls **`async-start`** + `bankrX402Prepaid: true` | **Yes** — this is the designed bridge: Bankr collected USDC, site skips its own x402 verify |
-| Agent pays **site x402** directly on **`/concierge/run`** | **Yes** — simplest for agents that can sign Base USDC x402 |
+| Bankr x402 handler calls site **`/concierge/run`** with a second x402 pay | **No** — double pay / 402 |
+| Bankr x402 handler calls **`async-start`** with `source: "bankr-x402"` | **Yes** — Option B |
+| Bankr/agent pays **site x402** on **`/concierge/run`** only (no prior bankr.bot pay) | **Yes** — Option A |
 
-**Easier ops:** fix `async-start` secret sync for Bankr chat **or** have agents use **site x402** when they control a Base wallet. Do not build a third “relay x402” layer.
-
-### Path A — Site x402 (preferred for agents with a Base wallet)
+### Path A — Site x402 (Option A — agents with a Base wallet)
 
 Use when the agent (or user EOA) can sign **~$1 USDC on Base** via standard x402 (`exact` scheme, network `eip155:8453`).
 
@@ -219,6 +230,20 @@ Use when the agent (or user EOA) can sign **~$1 USDC on Base** via standard x402
 | `walletList` | if `wallet_list` | multiline `0xAddress amount`, **sum = 1000** |
 | `imageUrl`, `websiteUrl`, `tweetUrl`, `telegramUrl` | no | https |
 
+**Example — B2 / Base Test2 (600 + 400 units):**
+
+```json
+{
+  "tokenName": "Base Test2",
+  "tokenSymbol": "B2",
+  "splitPlan": "wallet_list",
+  "deliveryAddress": "0x374d91a5674fa7cf86e725093b5848b97e1e13b4",
+  "walletList": "0x374d91a5674fa7cf86e725093b5848b97e1e13b4 600\n0x20Fd91a1949B2731C09BCc6587faB5C89d750E9c 400"
+}
+```
+
+`deliveryAddress` = payer wallet that signs x402 (often Bankr linked Base wallet).
+
 3. **Pay** — x402 client flow (**identical to `/launch` UI** — see `runConciergeLaunch.ts`):
    - POST without payment → **402** with requirements (`payTo` = site treasury, ~$1 USDC).
    - Sign USDC authorization with payer wallet on Base.
@@ -227,10 +252,39 @@ Use when the agent (or user EOA) can sign **~$1 USDC on Base** via standard x402
 5. **Poll** — `GET statusUrl` every **15–30s** until `status` is `completed` or `failed` (1–3 min). **Agents must poll like the UI** — do not stop after x402 pay.
 6. **Reply** — `result.tokenAddress`, `result.steps`, `result.links`, profile: `https://www.tokenmarketplace.shop/profile?tab=nfts`.
 
-**Libraries:** `@x402/core` + `@x402/evm` `ExactEvmScheme` on `eip155:8453` (see site `src/lib/runConciergeLaunch.ts`).  
-**Bankr CLI:** `bankr x402 call` works only on **`x402.bankr.bot`** — not on `tokenmarketplace.shop` URLs.
+**Libraries:** `@x402/fetch` + `@x402/evm` `ExactEvmScheme` on `eip155:8453` (see `scripts/launch-concierge-x402.mjs`, `src/lib/runConciergeLaunch.ts`).  
+**Bankr CLI:** `bankr x402 call` on **`x402.bankr.bot`** → then Bankr must use **Option B** (`async-start`), not site `/concierge/run`.
 
 **Settlement:** site x402 settles **after** pipeline success (payment held until job completes).
+
+### Path B — Bankr cloud prepaid (Option B — Bankr product only)
+
+**When:** Bankr already collected ~$1 USDC on **`x402.bankr.bot/…/token-marketplace-launch`** in this session.
+
+**Do not** `POST /api/launch/concierge/run` again. **Do not** ask the user to pay site treasury a second time.
+
+**Enqueue (Bankr server with internal secret):**
+
+```http
+POST https://www.tokenmarketplace.shop/api/launch/concierge/async-start
+Authorization: Bearer <LAUNCH_CONCIERGE_INTERNAL_SECRET>
+Content-Type: application/json
+```
+
+Use the **same JSON** as Path A (`tokenName`, `tokenSymbol`, `splitPlan`, `walletList`, etc.) plus:
+
+| Field | Value |
+|-------|--------|
+| `source` | `"bankr-x402"` |
+| `chain` | `"base"` (or `"solana"` for Pump after Bankr Solana cloud pay) |
+| `payer` | Wallet that paid Bankr x402 (EVM `0x…` or Solana pubkey) |
+| `deliveryAddress` | For `keep_all`: recipient of 1000 units; for `wallet_list`: **payer** wallet |
+
+**202** + `jobId` → poll `GET …/status/{jobId}` like Path A.
+
+**Chat agents:** cannot call `async-start` (no secret). If Bankr only paid bankr.bot and chat cannot trigger Option B, say so and use browser `/launch` — do not orphan-pay site treasury.
+
+**Config:** `GET …/config` → `config.bankrX402.asyncStartUrl`, `jobsConfigured`.
 
 ### Path A2 — Site Solana x402 (Pump.fun — agents with Solana wallet)
 
@@ -269,10 +323,6 @@ https://www.tokenmarketplace.shop/launch?surface=bankr&platform=pump&solWallet={
 ```
 
 User connects **same Solana address** (often the wallet Bankr uses for Solana sends), pays ~$1 USDC on Solana, waits for completion.
-
-### Path B — Deprecated Bankr x402 cloud
-
-**Do not use** `x402.bankr.bot/…/token-marketplace-launch`. Use **site x402** Path A only.
 
 ### Path C — Human browser (last resort)
 
