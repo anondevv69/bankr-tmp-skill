@@ -1,8 +1,8 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v95. Read tokenmarketplace.shop/agent.md first; launch via site x402 + poll."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402]
-version: 95
+description: "TMP skills v96. Install tmp-site-agent skill first; launch via site x402 + poll."
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402, site-agent]
+version: 96
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
@@ -26,20 +26,23 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
-## MANDATORY — read live site guide first
+## MANDATORY — site agent guide (Bankr)
 
-**Before any TMP intent**, fetch and read:
+**Bankr learns from installed skills, not live URL fetches.** Install the site guide skill first:
 
-**https://www.tokenmarketplace.shop/agent.md**
+```text
+install TMP site agent at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
+```
 
-Use it for contracts, APIs, shop URLs, and **Launch Studio** rails. Pair with autopilot files in this repo for step-by-step execution. Full instruction: **`references/read-site-agent-md.md`**.
+Then read **`tmp-site-agent/agent-guide.md`** (same content as https://www.tokenmarketplace.shop/agent.md). Pair with autopilot files in this repo for step-by-step execution.
 
-**Launch deploy:** follow agent.md **§ Launch Studio** (site x402 on `/concierge/run` or `/solana/run` + poll). Then **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**. **Never** default to “open Launch Studio” deep links when Bankr can sign site x402.
+**Launch deploy:** agent-guide § Launch Studio (site x402 on `/concierge/run` or `/solana/run` + poll) → **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**. **Never** default to “open Launch Studio” deep links when Bankr can sign site x402.
 
 ## Skill packs (install one or all — same behavior)
 
 | Pack | Install line | Scope |
 |------|--------------|--------|
+| **Site agent guide** | `install TMP site agent at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent` | Contracts, APIs, Launch Studio rails — **install first for Bankr** |
 | **Hub (this repo)** | `install TMP skills at https://github.com/anondevv69/bankr-tmp-skill` | **Buy** · claim · APIs · Solana companion path · everything on site |
 | **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List / sell · dual OpenSea · CTO list · password · list shares |
 | **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 ERC-1155 units |

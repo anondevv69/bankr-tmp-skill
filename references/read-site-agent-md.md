@@ -1,21 +1,16 @@
-# MANDATORY — read live Token Marketplace agent guide
+# MANDATORY — Token Marketplace site agent guide (Bankr)
 
-**Before any Token Marketplace work** (list, buy, claim, launch, split, transfer, Solana CTO):
+Bankr agents **learn from installed skills**, not from “fetch this URL at runtime.” The site guide must be **installed as a skill pack**.
 
-## Step 0 — fetch the canonical guide
+## Step 0 — install site agent skill
 
-```http
-GET https://www.tokenmarketplace.shop/agent.md
+```text
+install TMP site agent at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 ```
 
-**Read the full document.** It is the live source of truth for:
+**Read:** **`tmp-site-agent/agent-guide.md`** (full contracts, APIs, Launch Studio §).
 
-- Golden rules and intent → API routing
-- Canonical contract addresses (Base + Solana)
-- Public HTTP APIs and shop URL patterns
-- **Launch Studio** — Path A (Base site x402), Path A2 (Solana), polling, completion reply
-
-**Do not** rely on memory, old chat copies, or skill snippets alone. Always **GET this URL** at the start of a TMP session or when the user mentions Token Marketplace, Pump.fun launch, or fee rights on the shop.
+Live mirror for humans and other bots: **https://www.tokenmarketplace.shop/agent.md**
 
 ---
 
@@ -23,30 +18,24 @@ GET https://www.tokenmarketplace.shop/agent.md
 
 | Source | Role |
 |--------|------|
-| **`https://www.tokenmarketplace.shop/agent.md`** | Contracts, endpoints, rails, URL patterns — **read first** |
-| **This repo** (`SKILL.md`, autopilot `*.md`) | Step-by-step execution, forbidden replies, polling, completion format |
+| **`tmp-site-agent/agent-guide.md`** | **Bankr:** install skill → read this file first |
+| **`https://www.tokenmarketplace.shop/agent.md`** | Humans, Cursor, bots that can fetch URLs |
+| **Hub autopilot `*.md`** | Step-by-step execution, forbidden replies, polling |
 
-If agent.md and a skill file disagree on **Launch Studio**, follow agent.md **§ Launch Studio** (site x402 on `/concierge/run` or `/solana/run` + poll). Deep links are **last resort** only when the agent cannot sign x402.
+When editing the guide, update **`fee-rights-exchange/bankr-app/public/agent.md`** then run:
 
----
-
-## Launch deploy (Bankr chat)
-
-From agent.md **Launch Studio**:
-
-1. `GET /api/launch/concierge/config`
-2. `POST /api/launch/concierge/run` (Base) or `/solana/run` (Pump) + **site x402** (~$1 USDC)
-3. Poll `GET /api/launch/concierge/status/{jobId}` until `completed`
-4. Reply per **`launch-studio-completion-reply.md`** (token + all txs + offer to list)
-
-Then load **`tmp-launch-studio/launch-studio-agent-autopilot.md`** (Base) or **`launch-studio-solana-autopilot.md`** (Solana) for field mapping and forbidden replies.
+```bash
+bankr-tmp-skill/scripts/sync-site-agent-guide.sh
+```
 
 ---
 
-## Install reminder (for Bankr)
+## Full Bankr install stack
 
 ```text
-Read https://www.tokenmarketplace.shop/agent.md
+install TMP site agent at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 install TMP skills at https://github.com/anondevv69/bankr-tmp-skill
 install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio
 ```
+
+Launch deploy: agent-guide § Launch Studio → **`launch-studio-agent-autopilot.md`** (Base) or **`launch-studio-solana-autopilot.md`** (Solana).

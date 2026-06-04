@@ -2,7 +2,7 @@
 
 [BankrBot/skills](https://github.com/BankrBot/skills)-style layout: **one folder = one installable skill**, plus **focused repos** for listing and split.
 
-**Site:** https://www.tokenmarketplace.shop · **Agent guide (read first):** https://www.tokenmarketplace.shop/agent.md · **`references/read-site-agent-md.md`**
+**Site:** https://www.tokenmarketplace.shop · **Agent guide:** install **`tmp-site-agent`** skill · live mirror https://www.tokenmarketplace.shop/agent.md
 
 ---
 

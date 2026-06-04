@@ -1,6 +1,6 @@
 # Launch Studio — Bankr chat (same as any agent)
 
-**Step 0:** Read **https://www.tokenmarketplace.shop/agent.md** (§ Launch Studio). See **`references/read-site-agent-md.md`**.
+**Step 0:** Read **`tmp-site-agent/agent-guide.md`** (§ Launch Studio). Install: `install TMP site agent at …/tmp-site-agent`.
 
 **Bankr has tools to sign x402 payments to `tokenmarketplace.shop` directly.**
 
