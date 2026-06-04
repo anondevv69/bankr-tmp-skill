@@ -39,6 +39,18 @@ GET https://www.tokenmarketplace.shop/api/launch/concierge/config
 | `deliveryAddress` | EVM `0x…` (Base) or base58 (Solana) |
 | `walletList` | if `wallet_list` — sum = **1000** |
 
+**Example — 600 + 400 split (BKT2):**
+
+```json
+{
+  "tokenName": "Base Keep Test2",
+  "tokenSymbol": "BKT2",
+  "splitPlan": "wallet_list",
+  "deliveryAddress": "0x374d91a5674fa7cf86e725093b5848b97e1e13b4",
+  "walletList": "0x374d91a5674fa7cf86e725093b5848b97e1e13b4 600\n0x20Fd91a1949B2731C09BCc6587faB5C89d750E9c 400"
+}
+```
+
 ### 3. Pay + enqueue
 
 | Chain | Endpoint |

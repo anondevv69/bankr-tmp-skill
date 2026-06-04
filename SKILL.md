@@ -2,7 +2,7 @@
 name: bankr-fee-rights
 description: "TMP skills v93. Launch completion: deploy info + tx links + list-for-sale next steps."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402]
-version: 93
+version: 94
 tmp_skill_version: "88"
 mandatory_listing_files:
   - LISTING-VENUES.md
@@ -26,7 +26,9 @@ metadata:
 
 # TMP skills — Token Marketplace fee rights (Base)
 
-**Public agent guide:** https://www.tokenmarketplace.shop/agent.md
+**Public agent guide:** https://www.tokenmarketplace.shop/agent.md  
+
+**Launch deploy override:** For **new token + 1000 units**, **`tmp-launch-studio/` skills win** over stale `agent.md` copy. **Never** send “open Launch Studio” / “connect wallet on the site” when Bankr can sign site x402 — **`launch-studio-agent-autopilot.md`** + **`launch-studio-bankr-forbidden.md`**.
 
 ## Skill packs (install one or all — same behavior)
 
@@ -55,7 +57,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Buy 1 share / cheapest unit** | Flow **I**: **`share-market-buy.md`** |
 | **Buy / participate in CTO** | Flow **D**: **`flows-reference.md`** — `contribute` on group escrow |
 | **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
-| **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`launch-studio-bankr-forbidden.md`** then **`launch-studio-agent-autopilot.md`** — **POST tokenmarketplace.shop/concierge/run** only |
+| **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`launch-studio-bankr-forbidden.md`** → **`launch-studio-agent-autopilot.md`** or **`launch-studio-solana-autopilot.md`** — **POST site API + poll** — **never** “open Launch Studio” deep link |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.

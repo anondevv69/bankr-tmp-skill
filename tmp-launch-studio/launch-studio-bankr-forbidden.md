@@ -37,7 +37,9 @@ Content-Type: application/json
 | “Join **Bankr Club** to bypass Launch Studio” | **False** upsell. |
 | “Check status at **bankr.bot**” instead of profile + status API | Wrong product. Use `tokenmarketplace.shop/profile?tab=nfts` + status JSON. |
 | “**$5 USDC**” for Launch Studio Base | Price is **~$1 USDC** (`GET …/concierge/config` → `config.x402.priceUsd`). |
-| Launch Studio **deep link** as primary path | Only if agent **cannot** sign site x402 at all. |
+| “we'll use Launch Studio” + “open Launch Studio using this deep link” | Browser handoff — **execute API in chat** |
+| “connect your wallet on the site” / “pay on the site” | Bankr signs **site x402** — user stays in chat |
+| “let me know when it's live” | **Poll** `status/{jobId}` → **3-part completion reply** now |
 | “I **wasn’t able to complete** that” | Poll **`status/{jobId}`** first — job may be running or done |
 | “I **didn’t actually submit a transaction this turn**” | Executor txs are **async** — not visible as “this turn” |
 | “**Tell me to retry** if you want me to execute it” | After **202** or x402 pay, **poll** — retry may **double-charge** |
