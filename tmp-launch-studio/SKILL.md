@@ -20,11 +20,11 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 ```
 
 **Human UI (any chain):** https://www.tokenmarketplace.shop/launch  
-**Any agent (Cursor, MCP, Bankr, bots):** **`launch-studio-agent-autopilot.md`** — site x402 API or CLI, poll, full receipt. **No browser.**  
-**Bankr chat (x402.cloud only):** **`launch-studio-bankr-chat-autopilot.md`** when site x402 signing unavailable.  
-**Payment rails:** **`launch-studio-payment-rails.md`**.
+**Any agent (Bankr, Cursor, bots):** **`launch-studio-agent-autopilot.md`** — **site x402 only** on `/api/launch/concierge/run`.  
+**Bankr chat:** same rail — Bankr signs x402 to **`tokenmarketplace.shop`** (see **`launch-studio-bankr-chat-autopilot.md`**).  
+**Do not use:** `x402.bankr.bot/…/token-marketplace-launch` (deprecated).
 
-**Payment:** Capable agents pay **site x402** (~$1 USDC) programmatically. Bankr cloud x402 is an alternate Base rail when site signing is unavailable.
+**Payment:** ~$1 USDC **site x402** — one rail for everyone.
 
 Mint / list / claim / send units on an **existing** launch still use the **main** TMP skill (`fractionalize-autopilot.md`, `sell-list-autopilot.md`, etc.). This companion is **only** for **new deploy + split + deliver** in one concierge job.
 
@@ -38,7 +38,7 @@ Mint / list / claim / send units on an **existing** launch still use the **main*
 | Deploy $MOON and give me all 1000 units | **`launch-studio-agent-autopilot.md`** · `splitPlan: keep_all` |
 | Launch and airdrop 100/400/500 to these wallets | **`launch-studio-agent-autopilot.md`** · `wallet_list` |
 | Launch Studio / pay once and you sign everything | **`launch-studio-agent-autopilot.md`** |
-| Bankr chat · only `bankr x402 call` available | **`launch-studio-bankr-chat-autopilot.md`** |
+| Bankr chat · only `bankr x402 call` available | **Still use site x402** if Bankr has tokenmarketplace.shop signing — **not** x402.bankr.bot |
 | Split **existing** $t7 into 1000 | **Main TMP** · **`fractionalize-autopilot.md`** — **NOT** Launch Studio |
 
 **User does not need:** “use Launch Studio skill”, “call x402”, “poll statusUrl”, or pasted API URLs.
