@@ -2,11 +2,10 @@
 name: tmp-site-agent
 description: >-
   Token Marketplace site agent guide — golden rules, contract addresses, public APIs,
-  shop URL patterns, Launch Studio site x402 (Base + Solana). Install for Bankr before
-  any list, buy, claim, launch, or split on tokenmarketplace.shop. Same content as
-  https://www.tokenmarketplace.shop/agent.md
-tags: [bankr, base, solana, tmp, token-marketplace, agent-guide, apis, launch-studio, x402]
-version: 4
+  shop URL patterns, Launch Studio site x402 (Base + Solana), petitions (pre-sale).
+  Install for Bankr before any list, buy, claim, launch, petition, or split on tokenmarketplace.shop.
+tags: [bankr, base, solana, tmp, token-marketplace, agent-guide, apis, launch-studio, petition, x402]
+version: 5
 tmp_skill_version: "1"
 homepage: https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-site-agent
 ---
@@ -41,6 +40,7 @@ Then use hub autopilot files for step-by-step execution:
 | Buy | `buy-marketplace-autopilot.md` |
 | Split existing token | `fractionalize-autopilot.md` |
 | Launch new token + 1000 units | `tmp-launch-studio/launch-studio-agent-autopilot.md` |
+| Create / back / refund petition | `references/petition-autopilot.md` |
 | Claim fees | `hybrid-claim-autopilot.md` |
 
 Launch deploy: agent-guide § *Bankr on Base — Option A vs Option B* + **`../tmp-launch-studio/launch-studio-bankr-base-x402-rails.md`**. Poll `status/{jobId}` until done → **3-part reply**. Never `POST /concierge/run` after bankr.bot pay.

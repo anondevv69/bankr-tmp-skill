@@ -51,6 +51,10 @@
 | **What did I sell** / **purchases on shop** | Completed sales history | **M** | `profile-completed-sales.md` | Tokens tab only |
 | **Launch / deploy new $MOON on Token Marketplace** / **all 1000 units to me** | **New** token + mint + split + deliver (one x402 pay, **no browser**) | **N** | **`tmp-launch-studio/launch-studio-agent-autopilot.md`** | Launch Studio link · Flow C |
 | **Launch and airdrop 100/400/500 to wallets** | Same — custom unit split | **N** | **`tmp-launch-studio/launch-studio-agent-autopilot.md`** · `wallet_list` | Manual site · stop after pay |
+| **Create a petition for $TEST** / **start pre-sale** | 24h community pre-sale → auto launch at sold out | **O** | **`references/petition-autopilot.md`** | Launch Studio x402 |
+| **Buy 10 units + 0.1 ETH launch buy** (petition) | Pre-order fee-right units + escrowed curve buy | **P** | **`references/petition-autopilot.md`** | Immediate token buy |
+| **Back petition #12** / **join pre-sale** | Same as P — existing petition | **P** | **`references/petition-autopilot.md`** | `/concierge/run` |
+| **Refund my petition** | While open or expired | **Q** | **`references/petition-autopilot.md`** | After locked |
 
 ---
 
@@ -112,6 +116,30 @@ Listed t7 fee rights at 0.01 ETH on Token Marketplace. [full shop URL]
 **Forbidden:** “Listing inactive on HybridShareMarketplace 0x9023…” when URL contains **`/listing/sale/`**.
 
 Full spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-regression.md`**
+
+---
+
+## Flow O — “Create a petition for $TEST” (pre-sale)
+
+**User:** `Create a petition for $TEST` · `Max 10 per wallet` · `Start with 10 units + 0.1 ETH launch buy`
+
+**You interpret:** **24h pre-sale** on Token Marketplace — **not** Launch Studio. Native **ETH** to petition escrow (not x402).
+
+**You run (same thread):**
+
+1. `GET /api/petition/config` — confirm `base.enabled`, read `priceEth`, `escrowWallet`.
+2. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`.
+3. Transfer **0.1001 ETH** (`10 × 0.00001 + 0.1`) to `escrowWallet` from linked wallet.
+4. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature: txHash, launchBuyWei: "100000000000000000" }`.
+5. Reply with petition URL, deposit tx, order summary.
+
+**To back an existing petition:** skip step 2 — `GET /api/petition/status?id=` or `/list` → steps 3–4 only.
+
+**Sold out:** poll `GET /api/petition/status?id=` until `finalized` — reply with token + all launch txs.
+
+Full spec: **`references/petition-autopilot.md`**
+
+**Forbidden:** `POST /concierge/run` x402 · “launched” before `status === finalized` · second order without refund
 
 ---
 
@@ -182,6 +210,14 @@ Bankr should execute each without a questionnaire.
 
 ```text
 Deploy MOON on Token Marketplace — all 1000 units to my wallet
+```
+
+```text
+Create a petition for $TEST — max 10 per wallet — 10 units to my wallet plus 0.1 ETH launch buy
+```
+
+```text
+Back petition #12 with 5 units and 0.05 ETH launch buy
 ```
 
 ```text

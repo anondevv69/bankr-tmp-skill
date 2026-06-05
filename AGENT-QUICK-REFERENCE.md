@@ -9,6 +9,9 @@
 | **User says** | **Action** | **First API** | **Response template file** |
 |---|---|---|---|
 | **Deploy X on Bankr / pumpfun** | Launch new token + 1000 units | `POST /api/launch/concierge/run` or `/solana/run` | `launch-studio-completion-reply.md` |
+| **Create petition for $TEST** | 24h pre-sale → community launch | `GET /api/petition/config` → `POST /create` → deposit → `POST /confirm` | `petition-autopilot.md` |
+| **Buy N units in petition** | Pre-order + optional launch buy | `GET /api/petition/status` → native transfer → `POST /confirm` | `petition-autopilot.md` |
+| **Refund petition units** | While open/expired | `POST /api/petition/refund` | `petition-autopilot.md` |
 | **Sell X for 0.01 ETH** | List 100% fixed sale (default dual) | `GET /api/mint/status` → `POST /api/list/dual` | `sell-list-autopilot.md` |
 | **List X on site only** (no venue) | List 100% site-only | Same | `sell-list-autopilot.md` |
 | **Buy listing/sale/27** | Buy whole fee-rights TMPR | `GET /api/list/buy-status?listingId=27` | `buy-fixed-sale-autopilot.md` |

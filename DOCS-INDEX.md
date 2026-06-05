@@ -22,6 +22,7 @@
 |---|---|---|---|---|
 | **tmp-launch-studio/launch-studio-agent-autopilot.md** | "Deploy X on Bankr / Pump" | Deploy + x402 + poll | `POST /api/launch/concierge/run` or `/solana/run` → poll | AGENT-PARITY-AUDIT § Launch |
 | **tmp-launch-studio/launch-studio-solana-autopilot.md** | "Deploy X via pumpfun" | Same (Solana variant) | Same + Solana keys | AGENT-PARITY-AUDIT § Launch |
+| **references/petition-autopilot.md** | "Create petition for $TEST" / back pre-sale | Create + deposit + confirm + poll | `GET/POST /api/petition/*` | agent-guide § Petitions |
 | **sell-list-autopilot.md** | "Sell X for 0.01 ETH" | List 100% (dual default) | `GET /api/mint/status` + `POST /api/list/dual` | AGENT-PARITY-AUDIT § Sell |
 | **buy-fixed-sale-autopilot.md** | "Buy listing [URL]" | Buy whole TMPR | `GET /api/list/buy-status` | AGENT-PARITY-AUDIT § Buy |
 | **share-market-buy.md** | "Buy cheapest share of $X" | Buy 1/1000 unit | `GET /api/share/list-status` | AGENT-PARITY-AUDIT § Buy shares |

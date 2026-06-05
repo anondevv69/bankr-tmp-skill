@@ -1,7 +1,7 @@
 ---
 name: bankr-fee-rights
 description: "TMP skills v103. Bankr Base Option A/B rails (site x402 vs async-start); B2 wallet_list."
-tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, x402, site-agent]
+tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, petition, x402, site-agent]
 version: 103
 tmp_skill_version: "88"
 mandatory_listing_files:
@@ -15,7 +15,7 @@ mandatory_listing_files:
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
   - buy-url-routing-regression.md
-reference_file_count: 47
+reference_file_count: 48
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -71,6 +71,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Buy / participate in CTO** | Flow **D**: **`flows-reference.md`** — `contribute` on group escrow |
 | **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
 | **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`launch-studio-bankr-forbidden.md`** → **`launch-studio-agent-autopilot.md`** or **`launch-studio-solana-autopilot.md`** — **POST site API + poll** — **never** “open Launch Studio” deep link |
+| **Create / start / back a petition** ($TICKER, max per wallet, launch buy) | Flow **O**: **`petition-autopilot.md`** — **`POST /api/petition/create`** + native ETH/SOL to escrow — **not** Launch Studio x402 |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.

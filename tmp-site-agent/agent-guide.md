@@ -74,6 +74,10 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 | **Buy the rights of this token** | Whole TMPR (fixed sale) | `list/buy-status?url=` |
 | **Redeem this token** | Burn TMPR · fee beneficiary back to signer | `redeemRights(tokenId)` on correct escrow |
 | **Claim fees for X for all holders** | Hybrid claim · **every** unit holder paid | `claim/hybrid-status` → `claimFeesForToken` |
+| **Create a petition for $TEST** / **start a pre-sale** | 24h community pre-sale → launch at sold out | `GET /api/petition/config` → `POST /api/petition/create` → deposit → `POST /api/petition/confirm` |
+| **Buy N units in petition #12** / **back petition $TEST** | Pre-order fee-right units (+ optional launch buy) | `GET /api/petition/status?id=` → native ETH/SOL transfer → `POST /api/petition/confirm` |
+| **Refund my petition units** | While petition `open` or `expired` | `POST /api/petition/refund` |
+| **Check petition progress** | Sold units, status, launch job | `GET /api/petition/status?id=` · catalog: `GET /api/petition/list` |
 
 **Defaults (do not ask unless ambiguous):**
 
@@ -83,6 +87,8 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 | Deploy chain | **“via Bankr”** → Base · **“via pumpfun”** → Solana |
 | Sell venue | **Dual** (site + OpenSea) unless password / shares / user said site only |
 | Claim scope | **All** unit holders (even if user omits “for all”) |
+| Petition chain | **“via Bankr” / Base wallet** → Base petition · **“pumpfun” / Solana** → Solana petition |
+| Petition vs Launch Studio | **Petition** = micro unit fees in ETH/SOL escrow, community fills 1000, executor deploys at sold out · **Launch Studio** = ~$1 USDC x402, deploy immediately |
 
 **Wrong routing (common bugs):**
 
@@ -127,6 +133,12 @@ Base URL: `https://www.tokenmarketplace.shop`
 | `POST /api/launch/concierge/run` | **Base Launch Studio** — x402 USDC → deploy + mint + split + deliver (agents) |
 | `POST /api/launch/concierge/solana/run` | **Solana Launch Studio** — x402 USDC → Pump deploy + split + deliver |
 | `GET /api/launch/concierge/status/{jobId}` | Launch Studio job poll (`queued` → `running` → `completed`) |
+| `GET /api/petition/config` | Petition rails: unit price, escrow, goal units, launch-buy caps, TMK claim opt-in |
+| `GET /api/petition/list` | Open petitions catalog (sold-out / finalized omitted) |
+| `GET /api/petition/status?id={id}` | Full petition + orders; syncs finalization job when `finalizing` |
+| `POST /api/petition/create` | Create 24h pre-sale petition |
+| `POST /api/petition/confirm` | After on-chain deposit tx — records units + optional launch buy; auto-starts launch if sold out |
+| `POST /api/petition/refund` | Refund active units (and optional launch buy) while `open` or `expired` |
 | `POST /api/listings/notify` | After listing tx (Bearer `LISTING_PUBLISH_SECRET`) — X/Telegram alert |
 | `POST /api/alerts/from-tx` | Replay alert from tx hash (ops; same secret) |
 
@@ -150,6 +162,159 @@ Solana (when enabled):
 | `/profile` | Wallet NFTs, units, list flows |
 | `/profile?tab=nfts` | Wallet NFTs, units, listings, send shares (`tab=listed` still works) |
 | `/profile?tab=completed` | **Sell 100%** sold/bought history + completed group sales |
+| `/petition` | Create petition · back open petitions · track status (`?id=`) |
+| `/petition?create=1` | New petition form (human) |
+| `/petition?id={id}` | Petition detail + pre-order (human) |
+
+---
+
+## Petitions — 24h pre-sale → community launch
+
+**Different from Launch Studio:** no x402 USDC. Backers pay **micro unit fees** (+ optional **launch buy** in native ETH or SOL) into a petition escrow. When sold out, the **launch executor** deploys the token, mints 1000 BFRR/SPL units, and **airdrops pro-rata to every backer wallet**. Petitions stay open up to **24 hours**; refundable while `open` or `expired` (not after `locked` / launch started).
+
+**Human UI:** https://www.tokenmarketplace.shop/petition  
+**Agent autopilot:** `petition-autopilot.md` (Bankr skill pack)
+
+### Human vs agent (petitions)
+
+| Step | Human on `/petition` | Agent (Bankr) |
+|------|---------------------|---------------|
+| Config | UI loads | `GET /api/petition/config` |
+| Create | Form submit | `POST /api/petition/create` |
+| Pre-order | Connect wallet → send ETH/SOL | **`prepare:transaction`** or `bankr.tx` — native transfer to `escrowWallet` |
+| Confirm | UI calls confirm after tx | `POST /api/petition/confirm` with `signature` = tx hash |
+| Sold out | UI shows “launch starting” | Same confirm response may include `finalization.jobId` — **poll status** |
+| Done | Token + BFRR links | `GET /api/petition/status?id=` until `finalized`; reply with token, receipt, all txs |
+
+**Not x402.** Do **not** use `POST /api/launch/concierge/run` for petitions unless user explicitly wants **immediate** Launch Studio instead.
+
+### Pricing (read from config — do not hardcode)
+
+| Chain | Unit fee | Launch buy (optional) | Escrow |
+|-------|----------|----------------------|--------|
+| **Base** | `config.base.priceEth` (default **0.00001 ETH**/unit) | `launchBuyWei` — max `config.base.maxLaunchBuyEth` (default **5 ETH**) | `config.base.escrowWallet` (launch executor) |
+| **Solana** | `config.solana.priceSol` (default **0.00015 SOL**/unit) | `launchBuyLamports` — max 5 SOL | `config.solana.escrowWallet` (executor pubkey) |
+
+**Deposit formula:**
+
+```text
+total = (units × unitPrice) + launchBuy
+```
+
+Example (Base): **10 units + 0.1 ETH launch buy** → `10 × 0.00001 + 0.1 = 0.1001 ETH` to escrow (+ wallet gas).
+
+**Launch buy rules:** requires **≥1 unit** in the same order; escrowed until sold out; swapped on the Bankr pool / Pump curve **at deploy** (pro-rata to all backers who opted in).
+
+### Create petition — `POST /api/petition/create`
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `chain` | yes | `"base"` or `"solana"` — default **base** when user says Bankr |
+| `tokenName` | yes | min 2 chars — e.g. `"test"` from “$TEST” |
+| `tokenSymbol` | yes | no `$`, max 10 — e.g. `"TEST"` |
+| `maxUnitsPerWallet` | no | default **10** — user: “10 per wallet max” → `10` |
+| `starterWallet` | no | linked EVM/Solana wallet (proposer metadata) |
+| `description`, `imageUrl`, `websiteUrl`, `tweetUrl`, `telegramUrl` | no | https URLs where applicable |
+| `tmkClaimOptIn` | no | Base only — reserve **1** unit for @TokenMkp fee-claim service → public cap **999** units |
+
+**Example — “create petition for $TEST, 10 max per wallet”:**
+
+```json
+{
+  "chain": "base",
+  "tokenName": "test",
+  "tokenSymbol": "TEST",
+  "maxUnitsPerWallet": 10,
+  "starterWallet": "0xYourLinkedBankrWallet"
+}
+```
+
+Response: `{ ok: true, petition: { id, status: "open", goalUnits: 1000, ... } }`  
+Share URL: `https://www.tokenmarketplace.shop/petition?id={id}`
+
+### Pre-order (create + participate) — `POST /api/petition/confirm`
+
+After the user’s wallet sends the deposit tx:
+
+1. **To:** `petition.escrowWallet` from config/status  
+2. **Value:** `(units × unitPrice) + launchBuy` (see formula)  
+3. **From:** buyer wallet (must match `wallet` in confirm body)
+
+```json
+{
+  "id": "12",
+  "wallet": "0xYourLinkedBankrWallet",
+  "units": 10,
+  "signature": "0xDepositTxHash",
+  "launchBuyWei": "100000000000000000"
+}
+```
+
+Solana: use `launchBuyLamports` instead of `launchBuyWei`; `signature` = Solana tx sig.
+
+**One active order per wallet** — refund before changing units. `units` must be ≤ `maxUnitsPerWallet` and ≤ remaining public units.
+
+**Example — full user sentence in one thread:**
+
+> “Create a petition for $TEST. Max 10 per wallet. Start it with 10 units to my wallet plus 0.1 ETH launch buy.”
+
+Agent steps:
+
+1. `GET /api/petition/config` — verify `base.enabled`  
+2. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`  
+3. Build transfer: **0.1001 ETH** → `config.base.escrowWallet`  
+4. User/Bankr signs send tx  
+5. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature, launchBuyWei: "100000000000000000" }`  
+6. Reply with petition URL, deposit tx, units recorded, time remaining
+
+### Refund — `POST /api/petition/refund`
+
+While `status` is `open` or `expired`:
+
+```json
+{ "id": "12", "wallet": "0x…", "scope": "all" }
+```
+
+`scope`: `"units"` (unit fees only) or `"all"` (units + launch buy). Executor wallet signs refund from escrow.
+
+### Poll until launch completes
+
+```http
+GET /api/petition/status?id={id}
+```
+
+| `status` | Meaning |
+|----------|---------|
+| `open` | Accepting pre-orders |
+| `locked` | Sold out — finalization queued/running |
+| `finalizing` | Deploy pipeline in progress |
+| `finalized` | Token live — `finalResult.tokenAddress`, `receiptTokenId`, `txs` |
+| `failed` | Launch error — `finalError`; recovery APIs exist |
+| `expired` | 24h ended before sold out — refunds only |
+
+When `finalJobId` is set, optional cross-check: `GET /api/launch/concierge/status/{finalJobId}` (same job store as Launch Studio).
+
+**Success reply (petition finalized):**
+
+1. Petition `#id` · `$SYMBOL` · [Bankr token](https://basescan.org/address/0x…)  
+2. Every pipeline tx (deploy, launch buy, mint, split, airdrops) with BaseScan links  
+3. BFRR receipt link · profile `?tab=nfts` · **claim fees** when pool has volume ([Bankr token-fees API](https://docs.bankr.bot/token-launching/reading-fees/))
+
+### Base TMK claim opt-in (`tmkClaimOptIn: true`)
+
+- Public pre-sale cap: **999** units (+ **1** reserved for @TokenMkp)  
+- Enables tweet/agent hybrid fee claims once TMK holds a unit  
+- Disclose in reply when enabled
+
+### Petition vs Launch Studio (routing)
+
+| User wants | Route |
+|------------|-------|
+| Community pre-sale, 24h window, backers fill 1000 | **Petition** |
+| Deploy **now**, I pay ~$1 USDC, all units to me | **Launch Studio** (`/launch`) |
+| “Create petition” + “launch buy 0.1 ETH” | **Petition** (launch buy is escrow, not immediate buy) |
+
+**Wrong routing:** Using x402 `/concierge/run` for a petition · Using petition APIs for immediate solo launch · Stopping after create without deposit when user asked to **fund** their own order
 
 ---
 
@@ -401,6 +566,9 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 | **Claim fees** | Distributed to **all holders** · claim tx · cap table / profile link |
 | **Send / airdrop units** | Qty · recipient(s) · transfer tx(s) · recipient balance |
 | **Wallet-list launch** | Same as deploy + **each delivery** (or link to profile showing airdrops / holdings per wallet) |
+| **Create petition** | Petition `#id` · chain · max/wallet · **share URL** · if creator funded: deposit tx · units + launch buy recorded |
+| **Back petition** | Units bought · ETH/SOL sent · deposit tx · remaining until sold out · refund policy while open |
+| **Petition finalized** | Token contract · every launch tx · BFRR receipt · airdrop delivery per backer · Bankr launch page · claim fees when pool earns |
 
 **Launch-only guards:**
 
@@ -428,6 +596,7 @@ Full templates: [bankr-tmp-skill `AGENT-PARITY-AUDIT.md`](https://github.com/ano
 | **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List, dual OpenSea, CTO list, password |
 | **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 units |
 | **Launch Studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | Deploy + 1000 units · **poll + 3-part completion reply** (Base + Solana) |
+| **Petitions** | `references/petition-autopilot.md` in hub repo | Create · pre-order · refund · poll until finalized (Base + Solana) |
 
 **Parity docs (repo root — routing + reply templates):**
 
@@ -457,7 +626,8 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 - **Completed sales (Sell 100% + group):** https://www.tokenmarketplace.shop/profile?tab=completed  
 - **Help / flows:** https://www.tokenmarketplace.shop/help  
 - **Launch Studio:** https://www.tokenmarketplace.shop/launch  
+- **Petitions (pre-sale):** https://www.tokenmarketplace.shop/petition  
 
 ---
 
-*Last updated: 2026-06-04. Human vs agent: same APIs + site x402; mandatory poll + replies for every action (deploy, list, buy, claim, redeem, send).*
+*Last updated: 2026-06-06. Human vs agent: same APIs (+ petitions use native ETH/SOL escrow, not x402); mandatory poll + replies for every action (deploy, list, buy, claim, redeem, send, petition).*
