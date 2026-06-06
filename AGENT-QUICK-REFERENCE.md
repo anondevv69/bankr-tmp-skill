@@ -10,7 +10,9 @@
 |---|---|---|---|
 | **Deploy X on Bankr / pumpfun** | Launch new token + 1000 units | `POST /api/launch/concierge/run` or `/solana/run` | `launch-studio-completion-reply.md` |
 | **Create petition for $TEST** | 24h pre-sale → community launch | `GET /config` → `GET /prepare-deposit` → **`bankr.tx.prepare`** → `POST /confirm` | `petition-autopilot.md` |
+| **Share link / participate / get N units** | Back existing petition from URL | `GET /status?url=` → `GET /prepare-deposit?url=` → **`bankr.tx.prepare`** → `POST /confirm` | `petition-autopilot.md` § P-back |
 | **Buy N units in petition** | Pre-order + optional launch buy | `GET /prepare-deposit` → **`bankr.tx.prepare`** → `POST /confirm` | `petition-autopilot.md` |
+| **Cancel empty duplicate petition** | Creator closes zero-sale petition | `POST /api/petition/cancel` | `petition-autopilot.md` § P-cancel |
 | **Refund petition units** | While open/expired | `POST /api/petition/refund` | `petition-autopilot.md` |
 | **Sell X for 0.01 ETH** | List 100% fixed sale (default dual) | `GET /api/mint/status` → `POST /api/list/dual` | `sell-list-autopilot.md` |
 | **List X on site only** (no venue) | List 100% site-only | Same | `sell-list-autopilot.md` |

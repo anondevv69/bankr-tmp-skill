@@ -225,7 +225,72 @@ Open petitions only:
 GET https://www.tokenmarketplace.shop/api/petition/list
 ```
 
-To back an existing petition: `GET …/status?id=` → P2 (skip P1).
+To back an existing petition: parse share URL → **Flow P-back** (skip P1).
+
+---
+
+## Flow P-back — Shared link / “participate in this petition”
+
+**User pastes link or tags Bankr with a petition URL:**
+
+`https://www.tokenmarketplace.shop/petition?id=15`
+
+**User says (examples):**
+
+- “Get me **400 units** and **0.01 ETH** launch buy”
+- “Can I participate in this petition with **400 units**?”
+- “Back petition #15 — **10 units** + **0.05 ETH** launch buy”
+
+### Step 1 — Parse + status
+
+Extract id from:
+
+- Full URL (`?id=15`)
+- Bare id (`15`, `#15`)
+- Pass-through: `GET …/status?url={encodedShareUrl}`
+
+Read `agentParticipation`:
+
+- `canParticipate`, `maxUnitsPerWallet`, `remainingUnits`
+- If user only asked “can I participate?” → answer with limits + unit price formula; offer to deposit on confirm
+
+### Step 2 — Preflight deposit
+
+```http
+GET https://www.tokenmarketplace.shop/api/petition/prepare-deposit?url=https://www.tokenmarketplace.shop/petition?id=15&wallet=0x…&units=400&launchBuyWei=100000000000000000
+```
+
+**400 units + 0.01 ETH launch buy** → `deposit.totalEth` = **0.014 ETH**
+
+### Step 3 — Execute (mandatory)
+
+User **confirm** / **send** → **`bankr.tx.prepare(nextStep)`** → `POST …/confirm` with tx hash.
+
+### Step 4 — Reply
+
+```text
+You're in on petition #15 ($TEST).
+
+• 400 units + 0.01 ETH launch buy (escrowed until sold out)
+• Deposit: https://basescan.org/tx/0x…
+• Progress: 400/1000 units reserved
+• Share: https://www.tokenmarketplace.shop/petition?id=15
+```
+
+---
+
+## Flow P-cancel — Close empty duplicate
+
+When create was called multiple times with zero deposits:
+
+```http
+POST https://www.tokenmarketplace.shop/api/petition/cancel
+Content-Type: application/json
+
+{ "id": "14", "wallet": "0xCreatorStarterWallet", "reason": "duplicate" }
+```
+
+Requires **soldUnits = 0**. Keep the one petition users should use (e.g. #15).
 
 ---
 

@@ -72,6 +72,7 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
 | **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`launch-studio-bankr-forbidden.md`** → **`launch-studio-agent-autopilot.md`** or **`launch-studio-solana-autopilot.md`** — **POST site API + poll** — **never** “open Launch Studio” deep link |
 | **Create / start / back a petition** ($TICKER, max per wallet, launch buy) | Flow **O**: **`petition-autopilot.md`** — **`POST /api/petition/create`** + native ETH/SOL to escrow — **not** Launch Studio x402 |
+| **Share petition link / participate / get N units** | Flow **P**: parse URL → **`GET /prepare-deposit?url=`** → **`bankr.tx.prepare`** → **`POST /confirm`** |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
 **Forbidden:** interview questions · `0x935e…` for user launches · stop after scanner block without retry/transfer · “list manually at .” without URL.

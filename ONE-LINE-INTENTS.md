@@ -145,6 +145,29 @@ Full spec: **`references/petition-autopilot.md`**
 
 ---
 
+## Flow P — Shared petition link / “participate” / “get me N units”
+
+**User:** pastes `https://www.tokenmarketplace.shop/petition?id=15` + `Get me 400 units and 0.01 ETH launch buy`
+
+**Or:** `Can I participate in this petition with 400 units?`
+
+**You interpret:** **Back existing petition** — no create. Parse **`id` from URL**.
+
+**You run:**
+
+1. `GET /api/petition/status?url={shareUrl}` — `agentParticipation.maxUnitsPerWallet`, `remainingUnits`
+2. Eligibility-only question → answer yes/no + limits; else continue
+3. `GET /api/petition/prepare-deposit?url={shareUrl}&wallet=&units=400&launchBuyWei=100000000000000000`
+4. Quote `deposit.totalEth` — user confirms → **`bankr.tx.prepare(nextStep)`**
+5. `POST /api/petition/confirm` with deposit tx hash
+6. Reply: units, deposit tx, progress, share link
+
+Full spec: **`references/petition-autopilot.md`** § Flow P-back
+
+**Forbidden:** Creating a new petition when user pasted a share link · `useskill` without tx
+
+---
+
 ## Flow B — “Sell 5%, keep 95%”
 
 **User:** `Sell 5% of t7 fees for 0.01 eth, keep the rest`
@@ -219,7 +242,15 @@ Create a petition for $TEST — max 10 per wallet — 10 units to my wallet plus
 ```
 
 ```text
-Back petition #12 with 5 units and 0.05 ETH launch buy
+Back petition #15 with 5 units and 0.05 ETH launch buy
+```
+
+```text
+https://www.tokenmarketplace.shop/petition?id=15 — get me 400 units and 0.01 ETH launch buy
+```
+
+```text
+Can I participate in this petition with 400 units and 0.01 eth launch buy?
 ```
 
 ```text

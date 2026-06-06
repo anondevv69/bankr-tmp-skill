@@ -75,8 +75,11 @@ This document is for **any AI agent** (Bankr, Cursor, custom bots) that should l
 | **Redeem this token** | Burn TMPR · fee beneficiary back to signer | `redeemRights(tokenId)` on correct escrow |
 | **Claim fees for X for all holders** | Hybrid claim · **every** unit holder paid | `claim/hybrid-status` → `claimFeesForToken` |
 | **Create a petition for $TEST** / **start a pre-sale** | 24h community pre-sale → launch at sold out | `GET /api/petition/config` → `POST /api/petition/create` → deposit → `POST /api/petition/confirm` |
-| **Buy N units in petition #12** / **back petition $TEST** | Pre-order fee-right units (+ optional launch buy) | `GET /api/petition/status?id=` → native ETH/SOL transfer → `POST /api/petition/confirm` |
+| **Buy N units in petition #12** / **back petition $TEST** | Pre-order fee-right units (+ optional launch buy) | `GET /api/petition/prepare-deposit` → **`bankr.tx.prepare`** → `POST /confirm` |
+| **Share petition link + “get me 400 units”** | Participate in existing petition from URL | Parse `id` from URL → `GET /prepare-deposit?url=` → **`bankr.tx.prepare`** → `POST /confirm` |
+| **Can I participate in this petition with 400 units?** | Eligibility + quote | `GET /api/petition/status?url=` → `GET /prepare-deposit` → quote `deposit.totalEth` |
 | **Refund my petition units** | While petition `open` or `expired` | `POST /api/petition/refund` |
+| **Cancel empty duplicate petition** | Creator closes zero-sale petition | `POST /api/petition/cancel` |
 | **Check petition progress** | Sold units, status, launch job | `GET /api/petition/status?id=` · catalog: `GET /api/petition/list` |
 
 **Defaults (do not ask unless ambiguous):**
@@ -136,9 +139,10 @@ Base URL: `https://www.tokenmarketplace.shop`
 | `GET /api/petition/config` | Petition rails: unit price, escrow, goal units, launch-buy caps, TMK claim opt-in |
 | `GET /api/petition/list` | Open petitions catalog (sold-out / finalized omitted) |
 | `GET /api/petition/status?id={id}` | Full petition + orders; syncs finalization job when `finalizing` |
-| `GET /api/petition/prepare-deposit?id=&wallet=&units=&launchBuyWei=` | **Agent deposit preflight** — returns `nextStep` for `bankr.tx.prepare` + `afterDeposit` confirm body |
+| `GET /api/petition/prepare-deposit?id=&wallet=&units=&launchBuyWei=` | **Agent deposit preflight** — accepts **`url=`** share link; returns `nextStep` for `bankr.tx.prepare` + `afterDeposit` confirm body |
 | `POST /api/petition/create` | Create 24h pre-sale petition |
 | `POST /api/petition/confirm` | After on-chain deposit tx — records units + optional launch buy; auto-starts launch if sold out |
+| `POST /api/petition/cancel` | Cancel **empty** open petition (creator wallet or admin Bearer) |
 | `POST /api/petition/refund` | Refund active units (and optional launch buy) while `open` or `expired` |
 | `POST /api/listings/notify` | After listing tx (Bearer `LISTING_PUBLISH_SECRET`) — X/Telegram alert |
 | `POST /api/alerts/from-tx` | Replay alert from tx hash (ops; same secret) |
@@ -203,7 +207,39 @@ Creating a petition (`POST /create`) only registers metadata. **Units are not re
 
 **Forbidden:** Stopping after `useskill` / reading the skill pack — that is **READ-ONLY** and does **not** submit transactions. When the user says **confirm** / **send**, you **must** call `bankr.tx.prepare` with `prepare-deposit` output.
 
-**Before create:** `GET /api/petition/list` — if the user already has an open petition for the same ticker, **reuse that id** instead of creating #13, #14, #15 duplicates.
+**Before create:** `GET /api/petition/list` — if the user already has an open petition for the same ticker, **reuse that id** instead of creating duplicates.
+
+### Participate from a shared link (most common for backers)
+
+User pastes **`https://www.tokenmarketplace.shop/petition?id=15`** and says:
+
+- “Get me **400 units** and **0.01 ETH** launch buy”
+- “Can I participate in this petition with **400 units**?”
+- “Back this petition — **50 units**, no launch buy”
+
+**Parse id from URL** (query `id=`, or bare `#15` / `petition/15`). Then:
+
+1. `GET /api/petition/status?url={fullShareUrl}` — read `agentParticipation.maxUnitsPerWallet`, `remainingUnits`, `$SYMBOL`  
+2. If user only asked eligibility → answer yes/no + max + remaining + price formula  
+3. `GET /api/petition/prepare-deposit?url={shareUrl}&wallet={linked}&units=400&launchBuyWei=100000000000000000`  
+4. Quote **`deposit.totalEth`** — on user **confirm** → **`bankr.tx.prepare(nextStep)`**  
+5. `POST /api/petition/confirm` with deposit tx hash  
+6. Reply with units recorded, deposit tx, progress `{sold}/{goal}`, share link
+
+**No create step** — shared link means an existing petition.
+
+### Cancel empty duplicate petition
+
+When multiple `$TEST` petitions were created by mistake (zero sales):
+
+```http
+POST /api/petition/cancel
+Content-Type: application/json
+
+{ "id": "14", "wallet": "0xCreatorWallet", "reason": "duplicate" }
+```
+
+Only works when **`soldUnits === 0`** and no active orders. Cancelled petitions drop from `/list` but status URL still works.
 
 ### Pricing (read from config — do not hardcode)
 
@@ -309,6 +345,7 @@ GET /api/petition/status?id={id}
 | `finalized` | Token live — `finalResult.tokenAddress`, `receiptTokenId`, `txs` |
 | `failed` | Launch error — `finalError`; recovery APIs exist |
 | `expired` | 24h ended before sold out — refunds only |
+| `cancelled` | Creator cancelled empty petition — no deposits accepted |
 
 When `finalJobId` is set, optional cross-check: `GET /api/launch/concierge/status/{finalJobId}` (same job store as Launch Studio).
 
