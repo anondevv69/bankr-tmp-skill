@@ -258,6 +258,8 @@ Example (Base): **10 units + 0.1 ETH launch buy** → `10 × 0.00001 + 0.1 = 0.1
 
 **Launch buy rules:** requires **≥1 unit** in the same order; escrowed until sold out; swapped on the Bankr pool / Pump curve **at deploy** (pro-rata to all backers who opted in).
 
+**Launch buy wei:** `0.01 ETH` = `10000000000000000` · `0.1 ETH` = `100000000000000000`
+
 ### Create petition — `POST /api/petition/create`
 
 | Field | Required | Notes |
