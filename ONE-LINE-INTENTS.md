@@ -128,18 +128,20 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-r
 **You run (same thread):**
 
 1. `GET /api/petition/config` — confirm `base.enabled`, read `priceEth`, `escrowWallet`.
-2. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`.
-3. Transfer **0.1001 ETH** (`10 × 0.00001 + 0.1`) to `escrowWallet` from linked wallet.
-4. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature: txHash, launchBuyWei: "100000000000000000" }`.
-5. Reply with petition URL, deposit tx, order summary.
+2. `GET /api/petition/list` — reuse open petition id if same ticker/creator (avoid duplicates).
+3. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`.
+4. `GET /api/petition/prepare-deposit?id=&wallet=&units=10&launchBuyWei=100000000000000000` — read `deposit.totalEth`.
+5. User confirms → **`bankr.tx.prepare(nextStep)`** — NOT `useskill` alone.
+6. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature: txHash, launchBuyWei: "100000000000000000" }`.
+7. Reply with petition URL (`/petition?id=`), deposit tx, order summary.
 
-**To back an existing petition:** skip step 2 — `GET /api/petition/status?id=` or `/list` → steps 3–4 only.
+**To back an existing petition:** skip steps 2–3 — `GET /api/petition/status?id=` or `/list` → steps 4–6 only.
 
 **Sold out:** poll `GET /api/petition/status?id=` until `finalized` — reply with token + all launch txs.
 
 Full spec: **`references/petition-autopilot.md`**
 
-**Forbidden:** `POST /concierge/run` x402 · “launched” before `status === finalized` · second order without refund
+**Forbidden:** `POST /concierge/run` x402 · **`useskill` without `bankr.tx.prepare`** · `/launch` URL for petitions · “launched” before `status === finalized` · second order without refund
 
 ---
 

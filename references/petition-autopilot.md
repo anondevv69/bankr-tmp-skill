@@ -72,6 +72,23 @@ Save `petition.id`. Share: `https://www.tokenmarketplace.shop/petition?id={id}`
 
 ## Flow P2 — Pre-order (deposit + confirm)
 
+### Step 2a — Preflight (agents)
+
+```http
+GET https://www.tokenmarketplace.shop/api/petition/prepare-deposit?id={id}&wallet={wallet}&units={units}&launchBuyWei={wei}
+```
+
+Solana: `launchBuyLamports` instead of `launchBuyWei`.
+
+Response includes:
+
+- `deposit.totalEth` / `deposit.totalSol` — quote for user confirmation  
+- `nextStep` — pass to **`bankr.tx.prepare`** (`to`, `data: "0x"`, `value` on Base)  
+- `afterDeposit` — `POST /api/petition/confirm` body template  
+- `doNotUse.useskill` — **READ-ONLY**, never substitutes for a tx
+
+When user says **confirm** / **send** → execute `nextStep` via **`bankr.tx.prepare`**, then confirm with the returned tx hash.
+
 ### Deposit math
 
 ```text
@@ -80,14 +97,22 @@ total = units × unitPrice + launchBuy
 
 Base default unit price: **0.00001 ETH** per unit.
 
-**Example:** 10 units + 0.1 ETH launch buy → **0.1001 ETH** total.
+**Example:** 400 units + 0.01 ETH launch buy → **0.014 ETH** total (`400 × 0.00001 + 0.01`).
 
 ### On-chain transfer (Bankr)
+
+**Prefer `prepare-deposit` → `bankr.tx.prepare` → `confirm`.** Do not hand-build amounts if the API is available.
+
+1. `GET …/prepare-deposit` with `id`, `wallet`, `units`, `launchBuyWei`  
+2. **`bankr.tx.prepare(nextStep)`** — native ETH to escrow  
+3. `POST …/confirm` with deposit tx hash  
+
+Manual fallback (only if prepare-deposit unavailable):
 
 1. **To:** `escrowWallet` from config  
 2. **Value:** total wei/lamports  
 3. **From:** buyer wallet (must match confirm `wallet`)  
-4. Sign with linked Bankr Base wallet (`prepare:transaction` / `bankr.tx`)
+4. Sign with linked Bankr Base wallet (`bankr.tx.prepare`)
 
 Add small extra ETH for gas beyond escrow amount.
 
@@ -207,6 +232,9 @@ To back an existing petition: `GET …/status?id=` → P2 (skip P1).
 ## Forbidden
 
 - Using **Launch Studio x402** for petition create/back  
+- **`useskill` only** — reading skills does not deposit; user **confirm** requires **`bankr.tx.prepare`**  
+- Linking **`/launch`** for petitions — use **`/petition?id=`**  
+- Creating duplicate open petitions — **`GET /list`** first, reuse existing id  
 - Confirm without a real deposit tx hash  
 - Second order from same wallet without refund  
 - Saying “launched” when `status` is still `open` / `finalizing`  

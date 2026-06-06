@@ -136,6 +136,7 @@ Base URL: `https://www.tokenmarketplace.shop`
 | `GET /api/petition/config` | Petition rails: unit price, escrow, goal units, launch-buy caps, TMK claim opt-in |
 | `GET /api/petition/list` | Open petitions catalog (sold-out / finalized omitted) |
 | `GET /api/petition/status?id={id}` | Full petition + orders; syncs finalization job when `finalizing` |
+| `GET /api/petition/prepare-deposit?id=&wallet=&units=&launchBuyWei=` | **Agent deposit preflight** — returns `nextStep` for `bankr.tx.prepare` + `afterDeposit` confirm body |
 | `POST /api/petition/create` | Create 24h pre-sale petition |
 | `POST /api/petition/confirm` | After on-chain deposit tx — records units + optional launch buy; auto-starts launch if sold out |
 | `POST /api/petition/refund` | Refund active units (and optional launch buy) while `open` or `expired` |
@@ -187,6 +188,22 @@ Solana (when enabled):
 | Done | Token + BFRR links | `GET /api/petition/status?id=` until `finalized`; reply with token, receipt, all txs |
 
 **Not x402.** Do **not** use `POST /api/launch/concierge/run` for petitions unless user explicitly wants **immediate** Launch Studio instead.
+
+**Wrong page:** Petitions live at **`/petition`** — not [Launch Studio `/launch`](https://www.tokenmarketplace.shop/launch) (that is immediate ~$1 USDC deploy).
+
+### Agent execution (Bankr) — deposit is mandatory
+
+Creating a petition (`POST /create`) only registers metadata. **Units are not recorded until a real on-chain deposit + confirm.**
+
+| Step | Tool | Notes |
+|------|------|-------|
+| Preflight deposit | `GET /api/petition/prepare-deposit` | Returns `nextStep.to`, `nextStep.value`, `deposit.totalEth` |
+| Sign & send | **`bankr.tx.prepare`** | Native ETH transfer — `data: "0x"`, `value` from `nextStep` |
+| Record order | `POST /api/petition/confirm` | `signature` = deposit tx hash from step above |
+
+**Forbidden:** Stopping after `useskill` / reading the skill pack — that is **READ-ONLY** and does **not** submit transactions. When the user says **confirm** / **send**, you **must** call `bankr.tx.prepare` with `prepare-deposit` output.
+
+**Before create:** `GET /api/petition/list` — if the user already has an open petition for the same ticker, **reuse that id** instead of creating #13, #14, #15 duplicates.
 
 ### Pricing (read from config — do not hardcode)
 
@@ -261,11 +278,12 @@ Solana: use `launchBuyLamports` instead of `launchBuyWei`; `signature` = Solana 
 Agent steps:
 
 1. `GET /api/petition/config` — verify `base.enabled`  
-2. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`  
-3. Build transfer: **0.1001 ETH** → `config.base.escrowWallet`  
-4. User/Bankr signs send tx  
-5. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature, launchBuyWei: "100000000000000000" }`  
-6. Reply with petition URL, deposit tx, units recorded, time remaining
+2. `GET /api/petition/list` — reuse existing open petition if same ticker/creator  
+3. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }` (skip if reusing id)  
+4. `GET /api/petition/prepare-deposit?id={id}&wallet={wallet}&units=10&launchBuyWei=100000000000000000`  
+5. **`bankr.tx.prepare`** — submit `nextStep` (native ETH to escrow)  
+6. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature: <txHash>, launchBuyWei: "100000000000000000" }`  
+7. Reply with petition URL, deposit tx, units recorded, time remaining
 
 ### Refund — `POST /api/petition/refund`
 
