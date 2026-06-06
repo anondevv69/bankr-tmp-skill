@@ -221,7 +221,7 @@ User pastes **`https://www.tokenmarketplace.shop/petition?id=15`** and says:
 
 1. `GET /api/petition/status?url={fullShareUrl}` — read `agentParticipation.maxUnitsPerWallet`, `remainingUnits`, `$SYMBOL`  
 2. If user only asked eligibility → answer yes/no + max + remaining + price formula  
-3. `GET /api/petition/prepare-deposit?url={shareUrl}&wallet={linked}&units=400&launchBuyWei=100000000000000000`  
+3. `GET /api/petition/prepare-deposit?url={shareUrl}&wallet={linked}&units=400&launchBuyWei=10000000000000000`  
 4. Quote **`deposit.totalEth`** — on user **confirm** → **`bankr.tx.prepare(nextStep)`**  
 5. `POST /api/petition/confirm` with deposit tx hash  
 6. Reply with units recorded, deposit tx, progress `{sold}/{goal}`, share link

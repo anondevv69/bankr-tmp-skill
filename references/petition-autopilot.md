@@ -133,6 +133,8 @@ Content-Type: application/json
 }
 ```
 
+**Wei cheat sheet:** `0.01 ETH` = `10000000000000000` · `0.1 ETH` = `100000000000000000`
+
 Solana: `launchBuyLamports` instead of `launchBuyWei`.
 
 **Rules:**
@@ -257,7 +259,7 @@ Read `agentParticipation`:
 ### Step 2 — Preflight deposit
 
 ```http
-GET https://www.tokenmarketplace.shop/api/petition/prepare-deposit?url=https://www.tokenmarketplace.shop/petition?id=15&wallet=0x…&units=400&launchBuyWei=100000000000000000
+GET https://www.tokenmarketplace.shop/api/petition/prepare-deposit?url=https://www.tokenmarketplace.shop/petition?id=15&wallet=0x…&units=400&launchBuyWei=10000000000000000
 ```
 
 **400 units + 0.01 ETH launch buy** → `deposit.totalEth` = **0.014 ETH**

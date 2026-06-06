@@ -130,7 +130,7 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-r
 1. `GET /api/petition/config` — confirm `base.enabled`, read `priceEth`, `escrowWallet`.
 2. `GET /api/petition/list` — reuse open petition id if same ticker/creator (avoid duplicates).
 3. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`.
-4. `GET /api/petition/prepare-deposit?id=&wallet=&units=10&launchBuyWei=100000000000000000` — read `deposit.totalEth`.
+4. `GET /api/petition/prepare-deposit?id=&wallet=&units=10&launchBuyWei=100000000000000000` — read `deposit.totalEth` (0.1 ETH launch buy).
 5. User confirms → **`bankr.tx.prepare(nextStep)`** — NOT `useskill` alone.
 6. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature: txHash, launchBuyWei: "100000000000000000" }`.
 7. Reply with petition URL (`/petition?id=`), deposit tx, order summary.
@@ -157,7 +157,7 @@ Full spec: **`references/petition-autopilot.md`**
 
 1. `GET /api/petition/status?url={shareUrl}` — `agentParticipation.maxUnitsPerWallet`, `remainingUnits`
 2. Eligibility-only question → answer yes/no + limits; else continue
-3. `GET /api/petition/prepare-deposit?url={shareUrl}&wallet=&units=400&launchBuyWei=100000000000000000`
+3. `GET /api/petition/prepare-deposit?url={shareUrl}&wallet=&units=400&launchBuyWei=10000000000000000` (`0.01 ETH`; `100000000000000000` = `0.1 ETH`)
 4. Quote `deposit.totalEth` — user confirms → **`bankr.tx.prepare(nextStep)`**
 5. `POST /api/petition/confirm` with deposit tx hash
 6. Reply: units, deposit tx, progress, share link
