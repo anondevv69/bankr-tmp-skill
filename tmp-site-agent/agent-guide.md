@@ -195,6 +195,16 @@ Solana (when enabled):
 
 **Wrong page:** Petitions live at **`/petition`** — not [Launch Studio `/launch`](https://www.tokenmarketplace.shop/launch) (that is immediate ~$1 USDC deploy).
 
+### Explain vs execute (Bankr)
+
+| User says | Action |
+|-----------|--------|
+| “Explain petition” / “how does it work” | **Read-only** prose — no API tx, no `useskill` as final step for deposits |
+| “Create petition for $KNICKS” | `POST /create` only — petition is **not funded** yet |
+| “Get me 100 units” / “0.05 ETH launch buy” / “back this” | **`prepare-deposit` → `bankr.tx.prepare` → `confirm`** — turn **fails** without deposit tx hash |
+
+Multi-tweet pattern: create in tweet 1 → **deposit in tweet 2** when user names units/ETH (do not re-read skill only).
+
 ### Agent execution (Bankr) — deposit is mandatory
 
 Creating a petition (`POST /create`) only registers metadata. **Units are not recorded until a real on-chain deposit + confirm.**

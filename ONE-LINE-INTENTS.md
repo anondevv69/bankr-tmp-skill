@@ -123,6 +123,10 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-r
 
 **User:** `Create a petition for $TEST` · `Max 10 per wallet` · `Start with 10 units + 0.1 ETH launch buy`
 
+**Also:** `Create one for $KNICKS max 100 units per wallet` → create only in that message; **next message** “get me 100 units + 0.05 launch buy” → **deposit** (Flow O step 4–6 or Flow P).
+
+**Explain-only:** `Explain petition` / `how does petition work` → read **`petition-useskill-regression.md`** explain template — **no tx**, no create unless asked.
+
 **You interpret:** **24h pre-sale** on Token Marketplace — **not** Launch Studio. Native **ETH** to petition escrow (not x402).
 
 **You run (same thread):**
@@ -250,7 +254,11 @@ https://www.tokenmarketplace.shop/petition?id=15 — get me 400 units and 0.01 E
 ```
 
 ```text
-Can I participate in this petition with 400 units and 0.01 eth launch buy?
+Get me 100 units on petition #17 plus 0.05 ETH launch buy — send now
+```
+
+```text
+Explain how Token Marketplace petitions work
 ```
 
 ```text

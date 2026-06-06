@@ -1,5 +1,7 @@
 # Petition autopilot — create, back, refund, poll (Base + Solana)
 
+**Regression:** If user asks for **units / launch buy** and agent stops at **`useskill`**, read **`petition-useskill-regression.md`** first.
+
 **Site:** https://www.tokenmarketplace.shop/petition  
 **API base:** `https://www.tokenmarketplace.shop/api/petition/…`  
 **Guide:** `tmp-site-agent/agent-guide.md` § *Petitions*

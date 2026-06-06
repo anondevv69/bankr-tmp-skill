@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v103. Bankr Base Option A/B rails (site x402 vs async-start); B2 wallet_list."
+description: "TMP skills v104. Petition deposit guard (no useskill-only); Bankr Base Option A/B rails."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, petition, x402, site-agent]
-version: 103
-tmp_skill_version: "88"
+version: 104
+tmp_skill_version: "89"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -15,7 +15,8 @@ mandatory_listing_files:
   - t7-wrong-token-935e-trap.md
   - custodial-approve-block-retry.md
   - buy-url-routing-regression.md
-reference_file_count: 48
+  - references/petition-useskill-regression.md
+reference_file_count: 49
 install_manifest: skill-manifest.json
 metadata:
   clawdbot:
@@ -41,6 +42,18 @@ Then read **`agent-guide.md`** for contracts, APIs, Launch Studio. Pair with aut
 **Reply templates (every action):** [`AGENT-PARITY-AUDIT.md`](AGENT-PARITY-AUDIT.md) · [`AGENT-QUICK-REFERENCE.md`](AGENT-QUICK-REFERENCE.md) · site guide § *Agent replies (mandatory)*.
 
 **Launch deploy:** **`BANKR-LAUNCH-REQUIREMENTS.md`** + **`launch-studio-bankr-base-x402-rails.md`** (Base: Option A site x402 vs Option B async-start after bankr.bot pay) → agent-guide § *Bankr on Base*. **Never** `POST /concierge/run` after bankr.bot pay. **Never** orphan USDC without x402 on POST. Poll until **202** + status **completed**.
+
+## MANDATORY — petition explain vs deposit (Bankr)
+
+**Load when user mentions petition:** **`references/petition-useskill-regression.md`** + **`petition-autopilot.md`**.
+
+| User says | Action |
+|-----------|--------|
+| “Explain petition” / “how does it work” | **Read-only** — explain template, **no tx** |
+| “Create petition for $TICKER” | `POST /api/petition/create` — metadata only until someone deposits |
+| “Get me N units” / “0.05 ETH launch buy” / “back this petition” | **`GET /prepare-deposit` → `bankr.tx.prepare` → `POST /confirm`** — **never stop at `useskill`** |
+
+**If user names units or launch-buy ETH, the turn fails unless a deposit tx hash is returned.**
 
 ## Skill packs (install one or all — same behavior)
 
@@ -71,7 +84,8 @@ User gives **one sentence** → you run the **full flow** without asking “whic
 | **Buy / participate in CTO** | Flow **D**: **`flows-reference.md`** — `contribute` on group escrow |
 | **Buy Solana listing** | **`tmp-solana-cto/solana-buy-autopilot.md`** — `GET /api/solana/buy-status` |
 | **Launch / deploy new token + 1000 units on Token Marketplace** | Flow **N**: **`launch-studio-bankr-forbidden.md`** → **`launch-studio-agent-autopilot.md`** or **`launch-studio-solana-autopilot.md`** — **POST site API + poll** — **never** “open Launch Studio” deep link |
-| **Create / start / back a petition** ($TICKER, max per wallet, launch buy) | Flow **O**: **`petition-autopilot.md`** — **`POST /api/petition/create`** + native ETH/SOL to escrow — **not** Launch Studio x402 |
+| **Explain petition / how it works** | Read-only prose | **`petition-useskill-regression.md`** explain template — **no tx** |
+| **Create / start / back a petition** ($TICKER, max per wallet, launch buy) | Flow **O**: **`petition-autopilot.md`** — create + **`bankr.tx.prepare`** deposit |
 | **Share petition link / participate / get N units** | Flow **P**: parse URL → **`GET /prepare-deposit?url=`** → **`bankr.tx.prepare`** → **`POST /confirm`** |
 | **Create NFT and list 0.01** | Flow **1→A** in one thread |
 
