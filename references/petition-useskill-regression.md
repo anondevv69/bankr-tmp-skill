@@ -27,7 +27,8 @@ if user mentions petition + (units OR launch buy OR "get me" OR "back" OR "parti
     reply with explain template → STOP (no tx)
   else:
     1. resolve petition id (from URL, "#17", or latest create in thread)
-    2. GET /api/petition/prepare-deposit?id=&wallet=<linked>&units=&launchBuyWei=
+    2. GET /api/petition/prepare-deposit?id=&wallet=<linked>&units=<N>|yes&launchBuyWei=
+       OR pass replyText=<tweet> for YES / $TICKER / ! → auto defaultReplyUnits from status
     3. quote deposit.totalEth to user
     4. bankr.tx.prepare(nextStep)  — REQUIRED; useskill does NOT substitute
     5. POST /api/petition/confirm { signature: txHash, ... }
@@ -70,7 +71,7 @@ A Token Marketplace petition is a 24-hour community pre-sale for a new Bankr tok
 4. Holders can list units and claim trading fees later.
 
 Not Launch Studio (/launch) — petitions live at /petition?id=.
-To join: share the link and say how many units + launch buy; Bankr sends the ETH deposit for you.
+To join: reply **YES** or **$TICKER** on the petition thread (@bankrbot) — max units auto-quoted; or share the link with unit count + launch buy.
 ```
 
 ---

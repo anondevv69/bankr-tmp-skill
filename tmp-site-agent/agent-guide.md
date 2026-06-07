@@ -308,8 +308,8 @@ https://www.tokenmarketplace.shop/petition?id=19
 
 • Goal: 1,000 units in 24h → token auto-deploys + fee-right airdrop
 • Max 100 units/wallet · 0.00001 ETH/unit
-• Join: reply @bankrbot — "back petition #19 with 100 units"
-• Or back on site ↑
+• Join: reply @bankrbot **YES** or **$UP** — auto **100 units** (max/wallet)
+• Or: "back petition #19 with N units" · or back on site ↑
 
 When the goal sells out, the marketplace deploys the token and airdrops BFRR fee-right units to every backer.
 ```

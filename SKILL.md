@@ -1,9 +1,9 @@
 ---
 name: bankr-fee-rights
-description: "TMP skills v105. Petition create reply + @bankrbot X CTA; deposit guard (no useskill-only)."
+description: "TMP skills v106. Petition YES/$TICKER simple reply → max units via prepare-deposit."
 tags: [bankr, base, solana, tmp, tmp-skills, token-marketplace, cfr, escrow, doppler, fee-rights, tmpre, nft, marketplace, group-buy, partial-sale, employee-grant, loan, bundle-rebirth, hybrid-claim, share-market, custodial, approve-block, one-line-intents, opensea, buy-fixed-sale, buy-marketplace, fractionalize, split-1000, transfer-units, airdrop, cto, solana-buy, launch-studio, petition, x402, site-agent]
-version: 105
-tmp_skill_version: "105"
+version: 106
+tmp_skill_version: "106"
 mandatory_listing_files:
   - LISTING-VENUES.md
   - ONE-LINE-INTENTS.md
@@ -53,6 +53,7 @@ Then read **`agent-guide.md`** for contracts, APIs, Launch Studio. Pair with aut
 | “Explain petition” / “how does it work” | **Read-only** — explain template, **no tx** |
 | “Create petition for $TICKER” | `POST /api/petition/create` — then **mandatory reply** with petition URL + @bankrbot join CTA + 1,000-unit deploy goal |
 | “Get me N units” / “0.05 ETH launch buy” / “back this petition” | **`GET /prepare-deposit` → `bankr.tx.prepare` → `POST /confirm`** — **never stop at `useskill`** |
+| Reply **`yes`** / **`$TICKER`** / **`!`** on petition thread | Same — `prepare-deposit?replyText=` or `units=yes` → **defaultReplyUnits** from status |
 
 **If user names units or launch-buy ETH, the turn fails unless a deposit tx hash is returned.**
 

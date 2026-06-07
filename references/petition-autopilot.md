@@ -82,6 +82,7 @@ https://www.tokenmarketplace.shop/petition?id={id}
 • Goal: 1,000 units in 24h → token auto-deploys + fee-right airdrop
 • Max {maxUnitsPerWallet} units/wallet · 0.00001 ETH/unit
 • Join: reply @bankrbot — "back petition #{id} with {units} units"
+• Or: reply **YES** or **$SYMBOL** for auto max units
 • Or back on site ↑
 ```
 
@@ -263,6 +264,7 @@ To back an existing petition: parse share URL → **Flow P-back** (skip P1).
 - “Get me **400 units** and **0.01 ETH** launch buy”
 - “Can I participate in this petition with **400 units**?”
 - “Back petition #15 — **10 units** + **0.05 ETH** launch buy”
+- Reply **`yes`** · **`yes!`** · **`!`** · **`$TEST`** on petition thread (@bankrbot)
 
 ### Step 1 — Parse + status
 
@@ -270,18 +272,32 @@ Extract id from:
 
 - Full URL (`?id=15`)
 - Bare id (`15`, `#15`)
+- Parent tweet context (reply to creator or site announcement)
 - Pass-through: `GET …/status?url={encodedShareUrl}`
 
 Read `agentParticipation`:
 
 - `canParticipate`, `maxUnitsPerWallet`, `remainingUnits`
+- **`defaultReplyUnits`**, **`acceptedReplyPhrases`**, **`simpleReplyEnabled`** — for YES / $TICKER replies
 - If user only asked “can I participate?” → answer with limits + unit price formula; offer to deposit on confirm
 
 ### Step 2 — Preflight deposit
 
+**Explicit units:**
+
 ```http
-GET https://www.tokenmarketplace.shop/api/petition/prepare-deposit?url=https://www.tokenmarketplace.shop/petition?id=15&wallet=0x…&units=400&launchBuyWei=10000000000000000
+GET https://www.tokenmarketplace.shop/api/petition/prepare-deposit?url=…&wallet=0x…&units=400&launchBuyWei=10000000000000000
 ```
+
+**Simple reply (YES / $TICKER / !):**
+
+```http
+GET …/prepare-deposit?id=15&wallet=0x…&replyText=yes
+GET …/prepare-deposit?id=15&wallet=0x…&units=yes
+GET …/prepare-deposit?id=15&wallet=0x…&intent=yes
+```
+
+Uses `defaultReplyUnits` from status (usually **max/wallet**). Response includes `unitsResolvedFrom`.
 
 **400 units + 0.01 ETH launch buy** → `deposit.totalEth` = **0.014 ETH**
 

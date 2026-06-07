@@ -27,7 +27,37 @@ Site sets `bankrReplyThreadEnabled: true` when both `promoTweetUrl` and `bankrRe
 
 ---
 
-## Replier (reply to creator's tweet)
+## Replier — one-word replies (YES / $TICKER / !)
+
+Users do **not** need to say “back petition #19 with 100 units”. Short replies count:
+
+| User replies | Maps to |
+|--------------|---------|
+| `yes` · `yes!` · `!` · `join` · `in` | **defaultReplyUnits** (usually max/wallet) |
+| `$UP` · `UP` | same — ticker match |
+| `@bankrbot yes` | same |
+
+**Bankr on tweet reply:**
+
+1. Resolve petition id from parent tweet / thread context (creator promo or site announcement).
+2. `GET /api/petition/status?id=19` → read `agentParticipation.defaultReplyUnits`, `acceptedReplyPhrases`.
+3. `GET /api/petition/prepare-deposit?id=19&wallet=<linked>&replyText=<user tweet>`  
+   Or `units=yes` / `intent=yes` if text already parsed.
+4. **`bankr.tx.prepare(nextStep)`** → `POST /confirm`.
+
+Example:
+
+```http
+GET …/prepare-deposit?id=19&wallet=0x…&replyText=yes!
+```
+
+Response includes `unitsResolvedFrom: "reply_text"` and `deposit.totalEth`.
+
+**Still requires:** linked Bankr wallet + user confirms the micro ETH send (0.00001 × units). Not free — auto-**entry** at max units, not auto-pay without wallet.
+
+---
+
+## Replier (long form)
 
 > @bankrbot back petition #19 with 100 units
 
@@ -52,9 +82,11 @@ https://www.tokenmarketplace.shop/petition?id=19
 
 1,000 units in 24h → token auto-deploys + fee-right airdrop
 100/wallet max · 0.00001 ETH/unit
-Reply @bankrbot: back petition #19 with 100 units
+Reply @bankrbot YES or $UP — 100 units (auto)
 ~10 backers at 100/each fills the goal
 ```
+
+One-word replies (`yes`, `!`, `$UP`) map to **100 units** via `prepare-deposit?replyText=…` or `units=yes`.
 
 Creator-thread mode adds: *Reply on creator thread @bankrbot — N units/backer.*
 
