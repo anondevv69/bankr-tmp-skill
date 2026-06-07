@@ -9,7 +9,7 @@
 | **User says** | **Action** | **First API** | **Response template file** |
 |---|---|---|---|
 | **Deploy X on Bankr / pumpfun** | Launch new token + 1000 units | `POST /api/launch/concierge/run` or `/solana/run` | `launch-studio-completion-reply.md` |
-| **Create petition for $TEST** | 24h pre-sale → community launch | `GET /config` → `GET /prepare-deposit` → **`bankr.tx.prepare`** → `POST /confirm` | `petition-autopilot.md` |
+| **Create petition for $TEST** | 24h pre-sale → community launch | `POST /create` then URL + @bankrbot CTA reply | `petition-autopilot.md` · `petition-reply-thread.md` |
 | **Share link / participate / get N units** | Back existing petition from URL | `GET /status?url=` → `GET /prepare-deposit?url=` → **`bankr.tx.prepare`** → `POST /confirm` | `petition-autopilot.md` § P-back |
 | **Buy N units in petition** | Pre-order + optional launch buy | `GET /prepare-deposit` → **`bankr.tx.prepare`** → `POST /confirm` | `petition-autopilot.md` |
 | **Cancel empty duplicate petition** | Creator closes zero-sale petition | `POST /api/petition/cancel` | `petition-autopilot.md` § P-cancel |

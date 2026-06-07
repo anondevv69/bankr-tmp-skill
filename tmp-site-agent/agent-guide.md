@@ -280,6 +280,8 @@ Example (Base): **10 units + 0.1 ETH launch buy** → `10 × 0.00001 + 0.1 = 0.1
 | `maxUnitsPerWallet` | no | default **10** — user: “10 per wallet max” → `10` |
 | `starterWallet` | no | linked EVM/Solana wallet (proposer metadata) |
 | `description`, `imageUrl`, `websiteUrl`, `tweetUrl`, `telegramUrl` | no | https URLs where applicable |
+| `promoTweetUrl` / `sourceTweetUrl` | no | Creator X thread — enables reply-to-tweet backing |
+| `bankrReplyUnitsPerBacker` / `replyUnitsPerBacker` | no | Units per @bankrbot reply (defaults to `maxUnitsPerWallet` on Base) |
 | `tmkClaimOptIn` | no | Base only — reserve **1** unit for @TokenMkp fee-claim service → public cap **999** units |
 
 **Example — “create petition for $TEST, 10 max per wallet”:**
@@ -296,6 +298,23 @@ Example (Base): **10 units + 0.1 ETH launch buy** → `10 × 0.00001 + 0.1 = 0.1
 
 Response: `{ ok: true, petition: { id, status: "open", goalUnits: 1000, ... } }`  
 Share URL: `https://www.tokenmarketplace.shop/petition?id={id}`
+
+**After create — mandatory Bankr reply (Base):** Always include the **full petition URL**, goal (**1,000 units** in 24h → auto-deploy), and how to join via **@bankrbot**:
+
+```text
+Petition created for $UP (goupplease) on Base.
+
+https://www.tokenmarketplace.shop/petition?id=19
+
+• Goal: 1,000 units in 24h → token auto-deploys + fee-right airdrop
+• Max 100 units/wallet · 0.00001 ETH/unit
+• Join: reply @bankrbot — "back petition #19 with 100 units"
+• Or back on site ↑
+
+When the goal sells out, the marketplace deploys the token and airdrops BFRR fee-right units to every backer.
+```
+
+If creator tied a **promo tweet** (`promoTweetUrl` + `bankrReplyUnitsPerBacker`), say repliers should **reply on that thread** with @bankrbot for the preset unit count. Site bot posts the same CTA to X/Telegram/Farcaster on create.
 
 ### Pre-order (create + participate) — `POST /api/petition/confirm`
 
@@ -633,7 +652,7 @@ Offer TMP follow-ups: list 100%, split existing token (Flow C), transfer units, 
 | **Claim fees** | Distributed to **all holders** · claim tx · cap table / profile link |
 | **Send / airdrop units** | Qty · recipient(s) · transfer tx(s) · recipient balance |
 | **Wallet-list launch** | Same as deploy + **each delivery** (or link to profile showing airdrops / holdings per wallet) |
-| **Create petition** | Petition `#id` · chain · max/wallet · **share URL** · if creator funded: deposit tx · units + launch buy recorded |
+| **Create petition** | Petition `#id` · chain · max/wallet · **share URL** · **@bankrbot reply CTA** (Base) · goal/deploy rule · if creator funded: deposit tx · units + launch buy recorded |
 | **Back petition** | Units bought · ETH/SOL sent · deposit tx · remaining until sold out · refund policy while open |
 | **Petition finalized** | Token contract · every launch tx · BFRR receipt · airdrop delivery per backer · Bankr launch page · claim fees when pool earns |
 
@@ -663,7 +682,7 @@ Full templates: [bankr-tmp-skill `AGENT-PARITY-AUDIT.md`](https://github.com/ano
 | **Listing** | `install TMP listing at https://github.com/anondevv69/TMP-Skill-Listing` | List, dual OpenSea, CTO list, password |
 | **Split 1000** | `install TMP split 1000 at https://github.com/anondevv69/TMP-Skill-Split-1000` | Fractionalize → 1000 units |
 | **Launch Studio** | `install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/main/tmp-launch-studio` | Deploy + 1000 units · **poll + 3-part completion reply** (Base + Solana) |
-| **Petitions** | `references/petition-autopilot.md` in hub repo | Create · pre-order · refund · poll until finalized (Base + Solana) |
+| **Petitions** | `references/petition-autopilot.md` · `references/petition-reply-thread.md` | Create · pre-order · reply-thread · refund · poll until finalized (Base + Solana) |
 
 **Parity docs (repo root — routing + reply templates):**
 
@@ -697,4 +716,4 @@ install TMP Launch Studio at https://github.com/anondevv69/bankr-tmp-skill/tree/
 
 ---
 
-*Last updated: 2026-06-06. Human vs agent: same APIs (+ petitions use native ETH/SOL escrow, not x402); mandatory poll + replies for every action (deploy, list, buy, claim, redeem, send, petition).*
+*Last updated: 2026-06-04. Human vs agent: same APIs (+ petitions use native ETH/SOL escrow, not x402); mandatory poll + replies for every action (deploy, list, buy, claim, redeem, send, petition).*

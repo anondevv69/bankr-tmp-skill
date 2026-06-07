@@ -1,7 +1,7 @@
 {
   "name": "bankr-fee-rights",
   "displayName": "TMP skills",
-  "skillVersion": 88,
+  "skillVersion": 105,
   "companionSkills": [
     {
       "id": "tmp-listing",
@@ -37,7 +37,7 @@
   "versionFile": "VERSION",
   "installUrl": "https://github.com/anondevv69/bankr-tmp-skill",
   "installCommand": "install TMP skills at https://github.com/anondevv69/bankr-tmp-skill",
-  "referenceFileCount": 49,
+  "referenceFileCount": 50,
   "mandatoryBuyFilesAtRepoRoot": [
     "buy-marketplace-autopilot.md",
     "buy-fixed-sale-autopilot.md",
@@ -87,6 +87,7 @@
     "references/normal-talk-only.md",
     "references/partial-sale-resolve-token.md",
     "references/petition-autopilot.md",
+    "references/petition-reply-thread.md",
     "references/petition-useskill-regression.md",
     "references/product-rules.md",
     "references/redeem-rights-playbook.md",

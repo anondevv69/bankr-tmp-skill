@@ -43,12 +43,20 @@ Bankr reads `GET /api/petition/status?id=19` → `agentParticipation.replyHint` 
 
 ## Announcement tweet (site bot)
 
-When `POST /api/petition/create` succeeds, the marketplace bot posts to **X / Telegram / Farcaster** (if webhooks configured):
+When `POST /api/petition/create` succeeds, the marketplace bot posts to **X / Telegram / Farcaster**:
 
-- Token name + `$TICKER`
-- Chain
-- Max units/wallet
-- Link: `https://www.tokenmarketplace.shop/petition?id=`
+```
+📋 New Base petition · $UP · goupplease
+
+https://www.tokenmarketplace.shop/petition?id=19
+
+1,000 units in 24h → token auto-deploys + fee-right airdrop
+100/wallet max · 0.00001 ETH/unit
+Reply @bankrbot: back petition #19 with 100 units
+~10 backers at 100/each fills the goal
+```
+
+Creator-thread mode adds: *Reply on creator thread @bankrbot — N units/backer.*
 
 Replay missed alert (ops): `POST /api/petition/notify` with `{ "id": "19" }` and `LISTING_PUBLISH_SECRET`.
 

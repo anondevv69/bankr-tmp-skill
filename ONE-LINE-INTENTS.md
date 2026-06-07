@@ -134,12 +134,12 @@ Full spec: **`buy-fixed-sale-autopilot.md`** · Regression: **`buy-url-routing-r
 1. `GET /api/petition/config` — confirm `base.enabled`, read `priceEth`, `escrowWallet`.
 2. `GET /api/petition/list` — reuse open petition id if same ticker/creator (avoid duplicates).
 3. `POST /api/petition/create` — `{ chain: "base", tokenName: "test", tokenSymbol: "TEST", maxUnitsPerWallet: 10, starterWallet }`.
-4. `GET /api/petition/prepare-deposit?id=&wallet=&units=10&launchBuyWei=100000000000000000` — read `deposit.totalEth` (0.1 ETH launch buy).
-5. User confirms → **`bankr.tx.prepare(nextStep)`** — NOT `useskill` alone.
-6. `POST /api/petition/confirm` — `{ id, wallet, units: 10, signature: txHash, launchBuyWei: "100000000000000000" }`.
-7. Reply with petition URL (`/petition?id=`), deposit tx, order summary.
+4. **Reply** with full petition URL + @bankrbot join CTA + goal (1,000 units → auto-deploy). See **`petition-autopilot.md`** create template.
+5. If user also asked to fund: `GET /api/petition/prepare-deposit?...` → **`bankr.tx.prepare`** → `POST /confirm`.
 
-**To back an existing petition:** skip steps 2–3 — `GET /api/petition/status?id=` or `/list` → steps 4–6 only.
+**Create + fund in one thread:** steps 4–6 become prepare-deposit → tx → confirm after step 3.
+
+**To back an existing petition:** skip create — `GET /status?url=` → prepare-deposit → tx → confirm.
 
 **Sold out:** poll `GET /api/petition/status?id=` until `finalized` — reply with token + all launch txs.
 

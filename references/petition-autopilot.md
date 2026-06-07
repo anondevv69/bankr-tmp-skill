@@ -54,6 +54,8 @@ Content-Type: application/json
 | `tokenSymbol` | no `$`, max 10 |
 | `maxUnitsPerWallet` | e.g. `10` for “10 per wallet max” |
 | `starterWallet` | linked wallet (optional metadata) |
+| `promoTweetUrl` / `tweetUrl` | Creator X status URL — reply-thread backing |
+| `bankrReplyUnitsPerBacker` | Units per @bankrbot reply (defaults to `maxUnitsPerWallet` on Base) |
 | `tmkClaimOptIn` | Base only — `true` for @TokenMkp 1-unit claim service |
 
 **Example:**
@@ -69,6 +71,23 @@ Content-Type: application/json
 ```
 
 Save `petition.id`. Share: `https://www.tokenmarketplace.shop/petition?id={id}`
+
+**Mandatory create reply (Base — do not stop at metadata only):**
+
+```text
+Petition created for $SYMBOL (name) on Base.
+
+https://www.tokenmarketplace.shop/petition?id={id}
+
+• Goal: 1,000 units in 24h → token auto-deploys + fee-right airdrop
+• Max {maxUnitsPerWallet} units/wallet · 0.00001 ETH/unit
+• Join: reply @bankrbot — "back petition #{id} with {units} units"
+• Or back on site ↑
+```
+
+If user gave a **promo tweet** + reply units, add: *Reply on your thread with @bankrbot for {N} units/backer.*
+
+Site bot posts the same link + @bankrbot CTA to X when create succeeds. See **`petition-reply-thread.md`**.
 
 ---
 
